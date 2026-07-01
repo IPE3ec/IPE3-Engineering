@@ -1,1 +1,530 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPE3 Engineering - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#e6edff",
+                        "primary-fixed-dim": "#00daf3",
+                        "on-error": "#690005",
+                        "tertiary-container": "#c6d1e9",
+                        "secondary": "#c1c6db",
+                        "on-secondary-container": "#afb4c9",
+                        "on-surface": "#d4e4fa",
+                        "error": "#ffb4ab",
+                        "surface-container-highest": "#273647",
+                        "secondary-container": "#414658",
+                        "surface-container-high": "#1c2b3c",
+                        "surface-container-low": "#0d1c2d",
+                        "on-surface-variant": "#bac9cc",
+                        "background": "#051424",
+                        "on-tertiary": "#263143",
+                        "surface-dim": "#051424",
+                        "primary-container": "#00e5ff",
+                        "on-primary-fixed-variant": "#004f58",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#051424",
+                        "on-secondary": "#2a3040",
+                        "on-tertiary-fixed": "#111c2d",
+                        "tertiary-fixed-dim": "#bcc7de",
+                        "on-secondary-fixed": "#151b2b",
+                        "on-tertiary-fixed-variant": "#3c475a",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#d8e3fb",
+                        "on-tertiary-container": "#4f5a6e",
+                        "secondary-fixed-dim": "#c1c6db",
+                        "on-primary-container": "#00626e",
+                        "surface-container-lowest": "#010f1f",
+                        "surface-tint": "#00daf3",
+                        "inverse-primary": "#006875",
+                        "primary": "#c3f5ff",
+                        "outline": "#849396",
+                        "surface-bright": "#2c3a4c",
+                        "on-background": "#d4e4fa",
+                        "inverse-on-surface": "#233143",
+                        "surface-container": "#122131",
+                        "on-primary": "#00363d",
+                        "inverse-surface": "#d4e4fa",
+                        "outline-variant": "#3b494c",
+                        "surface-variant": "#273647",
+                        "primary-fixed": "#9cf0ff",
+                        "on-secondary-fixed-variant": "#414658",
+                        "secondary-fixed": "#dde2f8",
+                        "on-primary-fixed": "#001f24"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    spacing: {
+                        sm: "8px",
+                        lg: "24px",
+                        xl: "32px",
+                        xs: "4px",
+                        md: "16px",
+                        gutter: "16px",
+                        "margin-mobile": "20px",
+                        base: "4px"
+                    },
+                    fontFamily: {
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-display": ["JetBrains Mono"]
+                    },
+                    fontSize: {
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "data-display": ["18px", {"lineHeight": "24px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #051424;
+            color: #d4e4fa;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 229, 255, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-running { border-left: 4px solid #00e5ff; }
+        .status-critical { border-left: 4px solid #ffb4ab; }
+        .status-warning { border-left: 4px solid #ffde59; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #051424; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+        /* Animación de entrada */
+        .animate-enter {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-enter:nth-child(1) { animation-delay: 0.1s; }
+        .animate-enter:nth-child(2) { animation-delay: 0.2s; }
+        .animate-enter:nth-child(3) { animation-delay: 0.3s; }
+        .animate-enter:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Avatar en header */
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00e5ff, #00daf3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00363d;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Badge de usuario */
+        .user-badge {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #00e5ff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Logout button */
+        .logout-btn {
+            color: rgba(180, 200, 220, 0.4);
+            transition: all 0.3s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        .logout-btn:hover {
+            color: #ffb4ab;
+        }
+
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #1c2b3c 25%, #273647 50%, #1c2b3c 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Modal de usuario */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: #122131;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    MODAL DE USUARIO
+    ============================================ -->
+    <div class="modal-overlay" id="userModal">
+        <div class="modal-content">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #00e5ff, #00daf3); display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 36px; color: #00363d; font-weight: 700;">
+                    <span id="modalAvatar">A</span>
+                </div>
+                <h3 style="color: #d4e4fa; font-size: 1.3rem; margin-top: 12px;" id="modalName">Usuario</h3>
+                <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace;" id="modalRole">Rol</p>
+                <p style="color: rgba(180,200,220,0.2); font-size: 0.7rem; margin-top: 4px;" id="modalMode">Modo: Admin</p>
+            </div>
+            <button onclick="cerrarModal()" style="width: 100%; padding: 12px; border: 1px solid rgba(255,180,171,0.2); background: rgba(147,0,10,0.1); color: #ffb4ab; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                CERRAR SESIÓN
+            </button>
+            <button onclick="cerrarModal()" style="width: 100%; margin-top: 8px; padding: 12px; border: 1px solid rgba(0,229,255,0.1); background: transparent; color: rgba(180,200,220,0.4); border-radius: 10px; cursor: pointer; transition: all 0.3s;">
+                CANCELAR
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================
+    TOP APP BAR
+    ============================================ -->
+    <header class="fixed top-0 w-full z-50 bg-background border-b border-outline-variant flex items-center justify-between px-margin-mobile h-16">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary-container">precision_manufacturing</span>
+            <h1 class="font-headline-md text-headline-md font-bold text-primary-container">IPE3 Engineering</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 duration-150">
+                <span class="material-symbols-outlined text-on-surface-variant">search</span>
+            </button>
+            <button onclick="mostrarModal()" class="flex items-center gap-2 hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 duration-150">
+                <div class="user-avatar" id="headerAvatar">A</div>
+                <span class="text-on-surface-variant text-sm hidden sm:inline" id="headerName">Usuario</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================
+    MAIN CONTENT
+    ============================================ -->
+    <main class="pt-20 pb-28 px-margin-mobile max-w-7xl mx-auto">
+
+        <!-- ============================================
+        BIENVENIDA PERSONALIZADA
+        ============================================ -->
+        <section class="mb-lg animate-enter">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface" id="welcomeText">
+                        👋 Bienvenido, <span id="userNameDisplay">Usuario</span>
+                    </h2>
+                    <p class="text-on-surface-variant text-sm" id="userRoleDisplay">Rol: Administrador</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="user-badge" id="userModeBadge">🔐 ADMIN</span>
+                    <span class="text-on-surface-variant text-xs font-mono" id="currentTime"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+        SEARCH & QUICK ACTION
+        ============================================ -->
+        <section class="mb-lg animate-enter">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="relative flex-grow">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-3 pl-12 pr-4 text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all font-body-sm text-body-sm" placeholder="Buscar equipos, tareas o registros..." type="text" id="searchInput">
+                </div>
+                <button class="bg-primary-container text-on-primary flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-label-caps text-label-caps active:scale-95 transition-transform shadow-[0_0_20px_rgba(0,229,255,0.3)]" id="scanBtn">
+                    <span class="material-symbols-outlined">qr_code_scanner</span>
+                    ESCANEAR
+                </button>
+            </div>
+        </section>
+
+        <!-- ============================================
+        BENTO GRID STATS (CARGADOS DESDE API)
+        ============================================ -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-lg" id="statsGrid">
+            <!-- Las stats se cargan dinámicamente -->
+            <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
+            <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
+            <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
+            <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
+        </section>
+
+        <!-- ============================================
+        ALERTAS Y MANTENIMIENTOS
+        ============================================ -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+            
+            <!-- Alertas -->
+            <section class="lg:col-span-1 animate-enter">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-headline-md text-headline-md text-on-surface">🚨 Alertas de Equipos</h2>
+                    <span class="text-error font-label-caps text-[10px] bg-error-container px-2 py-0.5 rounded-full" id="alertCount">0</span>
+                </div>
+                <div class="space-y-4" id="alertsContainer">
+                    <!-- Alertas cargadas dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Mantenimientos -->
+            <section class="lg:col-span-2 animate-enter">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-headline-md text-headline-md text-on-surface">🔧 Mantenimientos Próximos</h2>
+                    <button class="text-primary-container font-label-caps text-label-caps flex items-center gap-1 hover:underline" id="refreshBtn">
+                        ACTUALIZAR <span class="material-symbols-outlined text-sm">refresh</span>
+                    </button>
+                </div>
+                <div class="glass-card rounded-2xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-surface-container-high">
+                                <tr>
+                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">EQUIPO</th>
+                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">TAREA</th>
+                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">FECHA</th>
+                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">ASIGNADO</th>
+                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">ESTADO</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant/30" id="maintenanceTable">
+                                <!-- Filas cargadas dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ============================================
+        FOOTER
+        ============================================ -->
+        <div class="mt-lg text-center text-on-surface-variant text-xs font-mono opacity-30">
+            ⚙️ IPE3 Engineering v3.0 · Datos en tiempo real · Sistema Industrial
+        </div>
+
+    </main>
+
+    <!-- ============================================
+    BOTTOM NAV BAR
+    ============================================ -->
+    <nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-low border-t border-outline-variant shadow-lg flex justify-around items-center h-20 px-4">
+        <a class="flex flex-col items-center justify-center bg-secondary-container text-primary-container rounded-full px-4 py-1 hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+            <span class="font-label-caps text-[10px] mt-0.5">Dashboard</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+            <span class="material-symbols-outlined">settings_input_component</span>
+            <span class="font-label-caps text-[10px] mt-0.5">Equipos</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+            <span class="material-symbols-outlined">build</span>
+            <span class="font-label-caps text-[10px] mt-0.5">Solicitudes</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="#" onclick="mostrarModal()">
+            <span class="material-symbols-outlined">person</span>
+            <span class="font-label-caps text-[10px] mt-0.5">Perfil</span>
+        </a>
+    </nav>
+
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
+    <script>
+        // ============================================
+        // CONFIGURACIÓN DE LA API (Google Sheets)
+        // ============================================
+        const API_CONFIG = {
+            // 🔴 ¡IMPORTANTE! Reemplazar con tu URL de Google Apps Script
+            URL_BASE: 'https://script.google.com/macros/s/TU_ID_SCRIPT/exec',
+            DURACION_CACHE: 300000 // 5 minutos
+        };
+
+        // ============================================
+        // DATOS DE USUARIO (desde localStorage)
+        // ============================================
+        function getUserData() {
+            try {
+                const data = localStorage.getItem('ipe3_user');
+                return data ? JSON.parse(data) : null;
+            } catch {
+                return null;
+            }
+        }
+
+        const user = getUserData();
+
+        // ============================================
+        // VERIFICAR AUTENTICACIÓN
+        // ============================================
+        if (!user) {
+            // Redirigir al login si no hay usuario
+            window.location.href = 'login.html';
+        }
+
+        // ============================================
+        // MOSTRAR DATOS DEL USUARIO
+        // ============================================
+        function mostrarUsuario() {
+            if (!user) return;
+            
+            const initial = user.name.charAt(0).toUpperCase();
+            document.getElementById('userNameDisplay').textContent = user.name;
+            document.getElementById('headerName').textContent = user.name;
+            document.getElementById('headerAvatar').textContent = initial;
+            document.getElementById('userRoleDisplay').textContent = `Rol: ${user.role}`;
+            document.getElementById('userModeBadge').textContent = user.mode === 'admin' ? '🔐 ADMIN' : '👤 USUARIO';
+            
+            // Modal
+            document.getElementById('modalAvatar').textContent = initial;
+            document.getElementById('modalName').textContent = user.name;
+            document.getElementById('modalRole').textContent = user.role;
+            document.getElementById('modalMode').textContent = `Modo: ${user.mode === 'admin' ? 'Administrador' : 'Usuario'}`;
+
+            document.getElementById('welcomeText').innerHTML = `
+                👋 Bienvenido, <span id="userNameDisplay">${user.name}</span>
+            `;
+        }
+
+        // ============================================
+        // MODAL
+        // ============================================
+        function mostrarModal() {
+            document.getElementById('userModal').classList.add('show');
+        }
+
+        function cerrarModal() {
+            document.getElementById('userModal').classList.remove('show');
+            // Cerrar sesión
+            localStorage.removeItem('ipe3_user');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 300);
+        }
+
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('userModal').classList.remove('show');
+            }
+        });
+
+        // Cerrar modal haciendo clic fuera
+        document.getElementById('userModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                document.getElementById('userModal').classList.remove('show');
+            }
+        });
+
+        // ============================================
+        // RELOJ EN TIEMPO REAL
+        // ============================================
+        function actualizarReloj() {
+            const ahora = new Date();
+            document.getElementById('currentTime').textContent = ahora.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
