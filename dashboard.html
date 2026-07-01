@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPE3 Engineering - Dashboard</title>
+    <link rel="manifest" href="/manifest.json">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -135,26 +136,18 @@
         .status-critical { border-left: 4px solid #ffb4ab; }
         .status-warning { border-left: 4px solid #ffde59; }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #051424; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
 
-        /* Animación de entrada */
         .animate-enter {
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .animate-enter:nth-child(1) { animation-delay: 0.1s; }
@@ -162,7 +155,6 @@
         .animate-enter:nth-child(3) { animation-delay: 0.3s; }
         .animate-enter:nth-child(4) { animation-delay: 0.4s; }
 
-        /* Avatar en header */
         .user-avatar {
             width: 36px;
             height: 36px;
@@ -176,7 +168,6 @@
             font-size: 14px;
         }
 
-        /* Badge de usuario */
         .user-badge {
             background: rgba(0, 229, 255, 0.1);
             border: 1px solid rgba(0, 229, 255, 0.2);
@@ -187,7 +178,6 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Logout button */
         .logout-btn {
             color: rgba(180, 200, 220, 0.4);
             transition: all 0.3s;
@@ -198,11 +188,8 @@
             font-size: inherit;
         }
 
-        .logout-btn:hover {
-            color: #ffb4ab;
-        }
+        .logout-btn:hover { color: #ffb4ab; }
 
-        /* Loading skeleton */
         .skeleton {
             background: linear-gradient(90deg, #1c2b3c 25%, #273647 50%, #1c2b3c 75%);
             background-size: 200% 100%;
@@ -215,7 +202,6 @@
             100% { background-position: -200% 0; }
         }
 
-        /* Modal de usuario */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -228,9 +214,7 @@
             animation: fadeIn 0.3s ease;
         }
 
-        .modal-overlay.show {
-            display: flex;
-        }
+        .modal-overlay.show { display: flex; }
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -248,14 +232,26 @@
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #00e5ff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(10px);
         }
     </style>
 </head>
@@ -272,7 +268,7 @@
                 </div>
                 <h3 style="color: #d4e4fa; font-size: 1.3rem; margin-top: 12px;" id="modalName">Usuario</h3>
                 <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace;" id="modalRole">Rol</p>
-                <p style="color: rgba(180,200,220,0.2); font-size: 0.7rem; margin-top: 4px;" id="modalMode">Modo: Admin</p>
+                <p style="color: rgba(180,200,220,0.2); font-size: 0.7rem; margin-top: 4px;" id="modalMode">Modo</p>
             </div>
             <button onclick="cerrarModal()" style="width: 100%; padding: 12px; border: 1px solid rgba(255,180,171,0.2); background: rgba(147,0,10,0.1); color: #ffb4ab; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
                 CERRAR SESIÓN
@@ -316,10 +312,10 @@
                     <h2 class="font-headline-lg text-headline-lg text-on-surface" id="welcomeText">
                         👋 Bienvenido, <span id="userNameDisplay">Usuario</span>
                     </h2>
-                    <p class="text-on-surface-variant text-sm" id="userRoleDisplay">Rol: Administrador</p>
+                    <p class="text-on-surface-variant text-sm" id="userRoleDisplay">Cargando...</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="user-badge" id="userModeBadge">🔐 ADMIN</span>
+                    <span class="user-badge" id="userModeBadge">🔐 CARGANDO</span>
                     <span class="text-on-surface-variant text-xs font-mono" id="currentTime"></span>
                 </div>
             </div>
@@ -342,10 +338,9 @@
         </section>
 
         <!-- ============================================
-        BENTO GRID STATS (CARGADOS DESDE API)
+        BENTO GRID STATS
         ============================================ -->
         <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-lg" id="statsGrid">
-            <!-- Las stats se cargan dinámicamente -->
             <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
             <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
             <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
@@ -364,7 +359,10 @@
                     <span class="text-error font-label-caps text-[10px] bg-error-container px-2 py-0.5 rounded-full" id="alertCount">0</span>
                 </div>
                 <div class="space-y-4" id="alertsContainer">
-                    <!-- Alertas cargadas dinámicamente -->
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">hourglass_top</span>
+                        <p class="text-on-surface-variant text-sm mt-2">Cargando alertas...</p>
+                    </div>
                 </div>
             </section>
 
@@ -389,7 +387,11 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-outline-variant/30" id="maintenanceTable">
-                                <!-- Filas cargadas dinámicamente -->
+                                <tr>
+                                    <td colspan="5" class="p-4 text-center text-on-surface-variant opacity-50">
+                                        Cargando mantenimientos...
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -433,21 +435,21 @@
     ============================================ -->
     <script>
         // ============================================
-        // CONFIGURACIÓN DE LA API (Google Sheets)
+        // CONFIGURACIÓN
         // ============================================
         const API_CONFIG = {
-            // 🔴 ¡IMPORTANTE! Reemplazar con tu URL de Google Apps Script
             URL_BASE: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec',
-            DURACION_CACHE: 300000 // 5 minutos
+            DURACION_CACHE: 300000
         };
 
         // ============================================
-        // DATOS DE USUARIO (desde localStorage)
+        // USUARIO
         // ============================================
         function getUserData() {
             try {
                 const data = localStorage.getItem('ipe3_user');
-                return data ? JSON.parse(data) : null;
+                if (!data) return null;
+                return JSON.parse(data);
             } catch {
                 return null;
             }
@@ -455,35 +457,34 @@
 
         const user = getUserData();
 
-        // ============================================
-        // VERIFICAR AUTENTICACIÓN
-        // ============================================
         if (!user) {
-            // Redirigir al login si no hay usuario
             window.location.href = 'login.html';
         }
 
         // ============================================
-        // MOSTRAR DATOS DEL USUARIO
+        // MOSTRAR USUARIO
         // ============================================
         function mostrarUsuario() {
             if (!user) return;
             
-            const initial = user.name.charAt(0).toUpperCase();
-            document.getElementById('userNameDisplay').textContent = user.name;
-            document.getElementById('headerName').textContent = user.name;
+            const nombre = user.nombre || user.name || 'Usuario';
+            const rol = user.rol || user.role || 'USER';
+            const modo = user.modo || 'user';
+            const initial = nombre.charAt(0).toUpperCase();
+
+            document.getElementById('userNameDisplay').textContent = nombre;
+            document.getElementById('headerName').textContent = nombre;
             document.getElementById('headerAvatar').textContent = initial;
-            document.getElementById('userRoleDisplay').textContent = `Rol: ${user.role}`;
-            document.getElementById('userModeBadge').textContent = user.mode === 'admin' ? '🔐 ADMIN' : '👤 USUARIO';
+            document.getElementById('userRoleDisplay').textContent = `Rol: ${rol}`;
+            document.getElementById('userModeBadge').textContent = modo === 'admin' ? '🔐 ADMIN' : '👤 USUARIO';
             
-            // Modal
             document.getElementById('modalAvatar').textContent = initial;
-            document.getElementById('modalName').textContent = user.name;
-            document.getElementById('modalRole').textContent = user.role;
-            document.getElementById('modalMode').textContent = `Modo: ${user.mode === 'admin' ? 'Administrador' : 'Usuario'}`;
+            document.getElementById('modalName').textContent = nombre;
+            document.getElementById('modalRole').textContent = rol;
+            document.getElementById('modalMode').textContent = `Modo: ${modo === 'admin' ? 'Administrador' : 'Usuario'}`;
 
             document.getElementById('welcomeText').innerHTML = `
-                👋 Bienvenido, <span id="userNameDisplay">${user.name}</span>
+                👋 Bienvenido, <span>${nombre}</span>
             `;
         }
 
@@ -496,29 +497,20 @@
 
         function cerrarModal() {
             document.getElementById('userModal').classList.remove('show');
-            // Cerrar sesión
             localStorage.removeItem('ipe3_user');
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 300);
+            setTimeout(() => window.location.href = 'login.html', 300);
         }
 
-        // Cerrar modal con ESC
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                document.getElementById('userModal').classList.remove('show');
-            }
+            if (e.key === 'Escape') document.getElementById('userModal').classList.remove('show');
         });
 
-        // Cerrar modal haciendo clic fuera
         document.getElementById('userModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) {
-                document.getElementById('userModal').classList.remove('show');
-            }
+            if (e.target === e.currentTarget) document.getElementById('userModal').classList.remove('show');
         });
 
         // ============================================
-        // RELOJ EN TIEMPO REAL
+        // RELOJ
         // ============================================
         function actualizarReloj() {
             const ahora = new Date();
@@ -532,7 +524,7 @@
         actualizarReloj();
 
         // ============================================
-        // API PARA DATOS DEL DASHBOARD
+        // API
         // ============================================
         class DashboardAPI {
             constructor() {
@@ -545,6 +537,7 @@
                 if (this.cache.has(claveCache)) {
                     const cacheado = this.cache.get(claveCache);
                     if (Date.now() - cacheado.timestamp < API_CONFIG.DURACION_CACHE) {
+                        console.log(`📦 Caché: ${endpoint}`);
                         return cacheado.datos;
                     }
                 }
@@ -559,12 +552,19 @@
                         }
                     });
 
+                    console.log(`🔍 Fetch: ${endpoint}`);
                     const response = await fetch(url.toString());
+                    
                     if (!response.ok) {
-                        throw new Error(`HTTP Error: ${response.status}`);
+                        throw new Error(`HTTP ${response.status}`);
                     }
 
                     const datos = await response.json();
+                    
+                    if (datos && datos.error) {
+                        console.error(`❌ API Error: ${datos.error}`);
+                        return null;
+                    }
                     
                     this.cache.set(claveCache, {
                         datos: datos,
@@ -574,7 +574,7 @@
                     return datos;
 
                 } catch (error) {
-                    console.error(`Error obteniendo ${endpoint}:`, error);
+                    console.error(`❌ Error ${endpoint}:`, error);
                     return null;
                 }
             }
@@ -595,42 +595,20 @@
         const api = new DashboardAPI();
 
         // ============================================
-        // CARGAR DATOS DEL DASHBOARD
-        // ============================================
-        async function cargarDashboard() {
-            try {
-                // 1. Cargar métricas
-                const metricas = await api.obtenerMetricas();
-                if (metricas && !metricas.error) {
-                    actualizarStats(metricas);
-                }
-
-                // 2. Cargar alertas
-                const alertas = await api.obtenerAlertas(null, null);
-                if (alertas && !alertas.error) {
-                    actualizarAlertas(alertas);
-                }
-
-                // 3. Cargar mantenimientos
-                const mantenimientos = await api.obtenerMantenimientos(null, 30);
-                if (mantenimientos && !mantenimientos.error) {
-                    actualizarMantenimientos(mantenimientos);
-                }
-
-            } catch (error) {
-                console.error('❌ Error cargando dashboard:', error);
-                // Usar datos de respaldo
-                usarDatosRespaldo();
-            }
-        }
-
-        // ============================================
         // ACTUALIZAR STATS
         // ============================================
         function actualizarStats(metricas) {
             const statsGrid = document.getElementById('statsGrid');
             
-            // Mapeo de métricas a stats
+            if (!metricas || !Array.isArray(metricas) || metricas.length === 0) {
+                statsGrid.innerHTML = `
+                    <div class="glass-card p-4 rounded-xl col-span-4 text-center text-on-surface-variant">
+                        ⚠️ No se pudieron cargar las métricas
+                    </div>
+                `;
+                return;
+            }
+
             const statsMap = {
                 'Tasa Operacional': { icon: 'trending_up', color: 'text-primary-fixed-dim' },
                 'Unidades Activas': { icon: 'settings_input_component', color: 'text-on-surface' },
@@ -658,7 +636,11 @@
                 }
             });
 
-            statsGrid.innerHTML = html;
+            statsGrid.innerHTML = html || `
+                <div class="glass-card p-4 rounded-xl col-span-4 text-center text-on-surface-variant">
+                    ⚠️ No hay métricas disponibles
+                </div>
+            `;
         }
 
         // ============================================
@@ -668,8 +650,22 @@
             const container = document.getElementById('alertsContainer');
             const count = document.getElementById('alertCount');
             
-            // Filtrar alertas activas (no resueltas)
-            const activas = alertas.filter(a => a.estado !== 'RESUELTA' && a.estado !== 'RESUELTO');
+            if (!alertas || !Array.isArray(alertas) || alertas.length === 0) {
+                count.textContent = '0';
+                container.innerHTML = `
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">check_circle</span>
+                        <p class="text-on-surface-variant text-sm mt-2">✅ No hay alertas activas</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const activas = alertas.filter(a => {
+                const estado = (a.estado || '').toUpperCase();
+                return estado !== 'RESUELTA' && estado !== 'RESUELTO' && estado !== 'RESOLVED';
+            });
+            
             count.textContent = activas.length;
 
             if (activas.length === 0) {
@@ -682,29 +678,29 @@
                 return;
             }
 
-            // Mostrar hasta 5 alertas
             const mostrar = activas.slice(0, 5);
             let html = '';
             mostrar.forEach(alerta => {
-                const isCritical = alerta.prioridad === 'CRÍTICA' || alerta.prioridad === 'CRÍTICO';
-                const isWarning = alerta.prioridad === 'ALTA';
+                const isCritical = (alerta.prioridad || '').toUpperCase() === 'CRÍTICA' || 
+                                  (alerta.prioridad || '').toUpperCase() === 'CRÍTICO';
+                const isWarning = (alerta.prioridad || '').toUpperCase() === 'ALTA';
                 const statusClass = isCritical ? 'status-critical' : isWarning ? 'status-warning' : '';
 
                 html += `
                     <div class="glass-card p-4 rounded-xl ${statusClass} group hover:bg-surface-container-highest transition-colors">
                         <div class="flex justify-between items-start">
                             <div>
-                                <h3 class="font-body-lg text-on-surface font-bold">${alerta.equipo}</h3>
-                                <p class="font-body-sm text-on-surface-variant">${alerta.descripcion}</p>
+                                <h3 class="font-body-lg text-on-surface font-bold">${alerta.equipo || 'Sin equipo'}</h3>
+                                <p class="font-body-sm text-on-surface-variant">${alerta.descripcion || 'Sin descripción'}</p>
                             </div>
                             <span class="material-symbols-outlined ${isCritical ? 'text-error' : 'text-tertiary'}" style="font-variation-settings: 'FILL' ${isCritical ? 1 : 0};">
                                 ${isCritical ? 'warning' : 'vibration'}
                             </span>
                         </div>
                         <div class="mt-4 flex gap-2 flex-wrap">
-                            <span class="bg-error-container text-error font-label-caps text-[10px] px-2 py-1 rounded">${alerta.prioridad}</span>
+                            <span class="bg-error-container text-error font-label-caps text-[10px] px-2 py-1 rounded">${alerta.prioridad || 'N/A'}</span>
                             <span class="bg-surface-container text-on-surface-variant font-label-caps text-[10px] px-2 py-1 rounded">${alerta.zona || 'N/A'}</span>
-                            <span class="bg-secondary-container text-on-secondary-container font-label-caps text-[10px] px-2 py-1 rounded">${alerta.estado}</span>
+                            <span class="bg-secondary-container text-on-secondary-container font-label-caps text-[10px] px-2 py-1 rounded">${alerta.estado || 'N/A'}</span>
                         </div>
                     </div>
                 `;
@@ -719,7 +715,7 @@
         function actualizarMantenimientos(mantenimientos) {
             const tbody = document.getElementById('maintenanceTable');
             
-            if (!mantenimientos || mantenimientos.length === 0) {
+            if (!mantenimientos || !Array.isArray(mantenimientos) || mantenimientos.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="5" class="p-4 text-center text-on-surface-variant opacity-50">
@@ -730,28 +726,30 @@
                 return;
             }
 
-            // Mostrar hasta 5
             const mostrar = mantenimientos.slice(0, 5);
             let html = '';
             mostrar.forEach(mant => {
-                const fecha = new Date(mant.fechaVencimiento);
+                const fecha = mant.fechaVencimiento ? new Date(mant.fechaVencimiento) : new Date();
                 const fechaStr = fecha.toLocaleDateString('es-ES', {
                     day: '2-digit',
                     month: 'short',
                     year: 'numeric'
                 });
 
-                const estadoClass = mant.estado === 'COMPLETADO' || mant.estado === 'COMPLETED' 
+                const estado = (mant.estado || '').toUpperCase();
+                const estadoClass = estado === 'COMPLETADO' || estado === 'COMPLETED' 
                     ? 'bg-primary-container/20 text-primary-container border border-primary-container'
-                    : mant.estado === 'EN_PROGRESO' || mant.estado === 'IN_PROGRESS'
+                    : estado === 'EN_PROGRESO' || estado === 'IN_PROGRESS'
                     ? 'bg-secondary-container/30 text-secondary-fixed-dim border border-secondary-container'
                     : 'bg-surface-container-highest text-on-surface-variant border border-outline-variant';
 
-                const estadoLabel = mant.estado === 'COMPLETADO' || mant.estado === 'COMPLETED' 
+                const estadoLabel = estado === 'COMPLETADO' || estado === 'COMPLETED' 
                     ? 'COMPLETADO'
-                    : mant.estado === 'EN_PROGRESO' || mant.estado === 'IN_PROGRESS'
+                    : estado === 'EN_PROGRESO' || estado === 'IN_PROGRESS'
                     ? 'EN PROGRESO'
-                    : mant.estado;
+                    : mant.estado || 'ABIERTO';
+
+                const asignado = mant.asignadoA || mant.asignado || '';
 
                 html += `
                     <tr class="hover:bg-surface-container-highest transition-colors">
@@ -759,17 +757,17 @@
                             <div class="w-10 h-10 rounded bg-surface-container-low flex items-center justify-center">
                                 <span class="material-symbols-outlined text-primary-container">settings</span>
                             </div>
-                            <span class="font-body-sm font-bold">${mant.equipo}</span>
+                            <span class="font-body-sm font-bold">${mant.equipo || 'N/A'}</span>
                         </td>
                         <td class="p-4 font-body-sm text-on-surface-variant">${mant.tipoTarea || mant.taskType || 'N/A'}</td>
                         <td class="p-4 font-body-sm font-data-display">${fechaStr}</td>
                         <td class="p-4">
-                            ${mant.asignadoA ? `
+                            ${asignado ? `
                                 <div class="flex items-center gap-2">
                                     <div class="w-6 h-6 rounded-full border-2 border-surface-container overflow-hidden bg-secondary-container flex items-center justify-center text-xs">
-                                        ${mant.asignadoA.charAt(0).toUpperCase()}
+                                        ${asignado.charAt(0).toUpperCase()}
                                     </div>
-                                    <span class="text-xs text-on-surface-variant">${mant.asignadoA}</span>
+                                    <span class="text-xs text-on-surface-variant">${asignado}</span>
                                 </div>
                             ` : `
                                 <span class="text-on-surface-variant font-label-caps text-[10px]">NO ASIGNADO</span>
@@ -786,19 +784,19 @@
         }
 
         // ============================================
-        // DATOS DE RESPALDO (SI LA API FALLA)
+        // DATOS DE RESPALDO
         // ============================================
         function usarDatosRespaldo() {
-            // Métricas de respaldo
+            console.warn('⚠️ Usando datos de respaldo');
+            
             const metricasRespaldo = [
-                { nombre: 'Tasa Operacional', valor: 94, unidad: '%', color: 'text-primary-fixed-dim', icon: 'trending_up' },
-                { nombre: 'Unidades Activas', valor: 128, unidad: '', color: 'text-on-surface', icon: 'settings_input_component' },
-                { nombre: 'Alertas Críticas', valor: 3, unidad: '', color: 'text-error', icon: 'error' },
-                { nombre: 'Tareas Pendientes', valor: 12, unidad: '', color: 'text-primary-container', icon: 'pending_actions' }
+                { nombre: 'Tasa Operacional', valor: 94, unidad: '%' },
+                { nombre: 'Unidades Activas', valor: 128, unidad: '' },
+                { nombre: 'Alertas Críticas', valor: 3, unidad: '' },
+                { nombre: 'Tareas Pendientes', valor: 12, unidad: '' }
             ];
             actualizarStats(metricasRespaldo);
 
-            // Alertas de respaldo
             const alertasRespaldo = [
                 { equipo: 'Turbina XT-500', descripcion: 'Presión excedida (450 PSI)', prioridad: 'CRÍTICA', zona: 'ZONA A4', estado: 'EN_PROGRESO' },
                 { equipo: 'Motor Conveyor B1', descripcion: 'Vibración anormal detectada', prioridad: 'ALTA', zona: 'ZONA B2', estado: 'ABIERTA' },
@@ -806,28 +804,55 @@
             ];
             actualizarAlertas(alertasRespaldo);
 
-            // Mantenimientos de respaldo
             const mantRespaldo = [
-                { equipo: 'Bomba Hidráulica P1', tipoTarea: 'Reemplazo de Sellos', fechaVencimiento: new Date(Date.now() + 86400000), asignadoA: 'Juan Pérez', estado: 'PROGRAMADO' },
-                { equipo: 'Controlador Array', tipoTarea: 'Actualización Firmware', fechaVencimiento: new Date(Date.now() + 172800000), asignadoA: 'María García', estado: 'EN_PROGRESO' },
-                { equipo: 'Chiller HVAC #2', tipoTarea: 'Limpieza de Filtros', fechaVencimiento: new Date(Date.now() + 259200000), asignadoA: null, estado: 'ABIERTO' }
+                { equipo: 'Bomba Hidráulica P1', tipoTarea: 'Reemplazo de Sellos', fechaVencimiento: new Date(Date.now() + 86400000), asignado: 'Juan Pérez', estado: 'PROGRAMADO' },
+                { equipo: 'Controlador Array', tipoTarea: 'Actualización Firmware', fechaVencimiento: new Date(Date.now() + 172800000), asignado: 'María García', estado: 'EN_PROGRESO' },
+                { equipo: 'Chiller HVAC #2', tipoTarea: 'Limpieza de Filtros', fechaVencimiento: new Date(Date.now() + 259200000), asignado: null, estado: 'ABIERTO' }
             ];
             actualizarMantenimientos(mantRespaldo);
-
-            console.warn('⚠️ Usando datos de respaldo (sin conexión a API)');
         }
 
         // ============================================
-        // BOTÓN DE ACTUALIZAR
+        // CARGAR DASHBOARD
+        // ============================================
+        async function cargarDashboard() {
+            console.log('🔄 Cargando dashboard...');
+            
+            try {
+                // 1. Métricas
+                const metricas = await api.obtenerMetricas();
+                if (metricas && !metricas.error) {
+                    actualizarStats(metricas);
+                }
+
+                // 2. Alertas
+                const alertas = await api.obtenerAlertas(null, null);
+                if (alertas && !alertas.error) {
+                    actualizarAlertas(alertas);
+                }
+
+                // 3. Mantenimientos
+                const mantenimientos = await api.obtenerMantenimientos(null, 30);
+                if (mantenimientos && !mantenimientos.error) {
+                    actualizarMantenimientos(mantenimientos);
+                }
+
+                console.log('✅ Dashboard cargado');
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                usarDatosRespaldo();
+            }
+        }
+
+        // ============================================
+        // BOTONES
         // ============================================
         document.getElementById('refreshBtn').addEventListener('click', () => {
             const btn = document.getElementById('refreshBtn');
             btn.innerHTML = 'ACTUALIZANDO <span class="material-symbols-outlined text-sm">refresh</span>';
             btn.disabled = true;
-            
-            // Limpiar caché
             api.cache.clear();
-            
             cargarDashboard().then(() => {
                 btn.innerHTML = 'ACTUALIZADO ✓';
                 setTimeout(() => {
@@ -837,39 +862,30 @@
             });
         });
 
-        // ============================================
-        // BOTÓN DE ESCANEO
-        // ============================================
         document.getElementById('scanBtn').addEventListener('click', () => {
             const btn = document.getElementById('scanBtn');
             btn.innerHTML = '<span class="material-symbols-outlined">scanning</span> ESCANEANDO...';
             btn.disabled = true;
-            
             setTimeout(() => {
                 btn.innerHTML = '<span class="material-symbols-outlined">qr_code_scanner</span> ESCANEAR';
                 btn.disabled = false;
-                
-                // Mostrar notificación
-                const toast = document.createElement('div');
-                toast.style.cssText = `
-                    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-                    background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3);
-                    color: #00e5ff; padding: 12px 24px; border-radius: 12px;
-                    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
-                    z-index: 1000; animation: fadeIn 0.3s ease;
-                `;
-                toast.textContent = '✅ Equipo registrado: SCAN-2026-001';
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
+                showToast('✅ Equipo registrado: SCAN-2026-001');
             }, 2000);
         });
 
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
         // ============================================
-        // BÚSQUEDA EN TIEMPO REAL
+        // BÚSQUEDA
         // ============================================
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
-            // Filtrar filas de la tabla
             const rows = document.querySelectorAll('#maintenanceTable tr');
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
@@ -883,15 +899,23 @@
         mostrarUsuario();
         cargarDashboard();
 
-        // Actualizar cada 5 minutos
         setInterval(() => {
             api.cache.clear();
             cargarDashboard();
         }, 300000);
 
-        console.log('🚀 Dashboard IPE3 Engineering v3.0');
+        console.log('🚀 Dashboard IPE3 v3.0');
         console.log('👤 Usuario:', user);
-        console.log('📊 Sistema listo para monitoreo industrial');
+        console.log('📊 API:', API_CONFIG.URL_BASE);
+
+        // ============================================
+        // REGISTRO DE SERVICE WORKER (PWA)
+        // ============================================
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('✅ Service Worker registrado'))
+                .catch(err => console.error('❌ SW Error:', err));
+        }
     </script>
 
 </body>
