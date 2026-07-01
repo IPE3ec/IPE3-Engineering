@@ -1,372 +1,584 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPE3 Engineering - Sistema Industrial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>IPE3 Engineering - Dashboard</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind Configuration -->
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "tertiary": "#e6edff",
-                    "primary-fixed-dim": "#00daf3",
-                    "on-error": "#690005",
-                    "tertiary-container": "#c6d1e9",
-                    "secondary": "#c1c6db",
-                    "on-secondary-container": "#afb4c9",
-                    "on-surface": "#d4e4fa",
-                    "error": "#ffb4ab",
-                    "surface-container-highest": "#273647",
-                    "secondary-container": "#414658",
-                    "surface-container-high": "#1c2b3c",
-                    "surface-container-low": "#0d1c2d",
-                    "on-surface-variant": "#bac9cc",
-                    "background": "#051424",
-                    "on-tertiary": "#263143",
-                    "surface-dim": "#051424",
-                    "primary-container": "#00e5ff",
-                    "on-primary-fixed-variant": "#004f58",
-                    "on-error-container": "#ffdad6",
-                    "surface": "#051424",
-                    "on-secondary": "#2a3040",
-                    "on-tertiary-fixed": "#111c2d",
-                    "tertiary-fixed-dim": "#bcc7de",
-                    "on-secondary-fixed": "#151b2b",
-                    "on-tertiary-fixed-variant": "#3c475a",
-                    "error-container": "#93000a",
-                    "tertiary-fixed": "#d8e3fb",
-                    "on-tertiary-container": "#4f5a6e",
-                    "secondary-fixed-dim": "#c1c6db",
-                    "on-primary-container": "#00626e",
-                    "surface-container-lowest": "#010f1f",
-                    "surface-tint": "#00daf3",
-                    "inverse-primary": "#006875",
-                    "primary": "#c3f5ff",
-                    "outline": "#849396",
-                    "surface-bright": "#2c3a4c",
-                    "on-background": "#d4e4fa",
-                    "inverse-on-surface": "#233143",
-                    "surface-container": "#122131",
-                    "on-primary": "#00363d",
-                    "inverse-surface": "#d4e4fa",
-                    "outline-variant": "#3b494c",
-                    "surface-variant": "#273647",
-                    "primary-fixed": "#9cf0ff",
-                    "on-secondary-fixed-variant": "#414658",
-                    "secondary-fixed": "#dde2f8",
-                    "on-primary-fixed": "#001f24"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.125rem",
-                    "lg": "0.25rem",
-                    "xl": "0.5rem",
-                    "full": "0.75rem"
-            },
-            "spacing": {
-                    "sm": "8px",
-                    "lg": "24px",
-                    "xl": "32px",
-                    "xs": "4px",
-                    "md": "16px",
-                    "gutter": "16px",
-                    "margin-mobile": "20px",
-                    "base": "4px"
-            },
-            "fontFamily": {
-                    "body-sm": ["Inter"],
-                    "headline-lg": ["Inter"],
-                    "headline-md": ["Inter"],
-                    "body-lg": ["Inter"],
-                    "label-caps": ["JetBrains Mono"],
-                    "data-display": ["JetBrains Mono"]
-            },
-            "fontSize": {
-                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                    "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                    "data-display": ["18px", {"lineHeight": "24px", "fontWeight": "500"}]
-            }
-          },
-        },
-      }
-    </script>
-<style>
         body {
-            background-color: #051424;
-            color: #d4e4fa;
-            -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', sans-serif;
+            background: #051424;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid #334155;
-        }
-        .status-running { border-left: 4px solid #00e5ff; }
-        .status-critical { border-left: 4px solid #ffb4ab; }
-        .status-warning { border-left: 4px solid #ffde59; }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #051424; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-</head>
-<body class="font-body-lg text-body-lg overflow-x-hidden">
-<!-- TopAppBar -->
-<header class="fixed top-0 w-full z-50 bg-background border-b border-outline-variant flex items-center justify-between px-margin-mobile h-16 w-full">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary-container">precision_manufacturing</span>
-<h1 class="font-headline-md text-headline-md font-bold text-primary-container">IPE3 Engineering</h1>
-</div>
-<div class="flex items-center gap-4">
-<button class="hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 duration-150">
-<span class="material-symbols-outlined text-on-surface-variant">search</span>
-</button>
-<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
-<img class="w-full h-full object-cover" data-alt="A close-up professional profile portrait of an industrial engineer wearing a clean high-visibility vest and a focused expression. The background is a blurred high-tech factory floor with cyan and deep blue lighting, emphasizing a modern industrial aesthetic and professional technical authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1sun9Bx3egKIZYazieS6BbskTFSLnO0cRw9WkqBhN33Q53nZy6K6Q-ZPds78GqO-XcIC6hgAUzOTaa6zGxSlxMGRxb5aB3JkucyWLoivZxH3bhqsOP-cCFAM8_Nq9pOKNpgsBmrNjS0ZJc-3JOy309qqER-qYw2lU-xW5xMPCMOfNRfXkkkrqqji_de2UbJ6B1HU8W-xVXyF1GOzGtsVfFFZUUUOpAeix0Z3ke7-_FgWazEvPofE4aH7fCA42pOsSmFhuJToC3w"/>
-</div>
-</div>
-</header>
-<main class="pt-20 pb-28 px-margin-mobile max-w-7xl mx-auto">
-<!-- Search & Quick Action -->
-<section class="mb-lg">
-<div class="flex flex-col md:flex-row gap-4">
-<div class="relative flex-grow">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-<input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-3 pl-12 pr-4 text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all font-body-sm text-body-sm" placeholder="Search equipment, tasks, or logs..." type="text"/>
-</div>
-<button class="bg-primary-container text-on-primary flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-label-caps text-label-caps active:scale-95 transition-transform shadow-[0_0_20px_rgba(0,229,255,0.3)]">
-<span class="material-symbols-outlined">qr_code_scanner</span>
-                    QUICK SCAN
-                </button>
-</div>
-</section>
-<!-- Bento Grid Stats -->
-<section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-lg">
-<div class="glass-card p-4 rounded-xl flex flex-col justify-between">
-<span class="font-label-caps text-label-caps text-on-surface-variant">OPERATIONAL</span>
-<div class="flex items-end justify-between mt-2">
-<span class="font-data-display text-3xl text-primary-fixed-dim">94%</span>
-<span class="material-symbols-outlined text-primary-fixed-dim opacity-50">trending_up</span>
-</div>
-</div>
-<div class="glass-card p-4 rounded-xl flex flex-col justify-between">
-<span class="font-label-caps text-label-caps text-on-surface-variant">ACTIVE UNITS</span>
-<div class="flex items-end justify-between mt-2">
-<span class="font-data-display text-3xl text-on-surface">128</span>
-<span class="material-symbols-outlined text-on-surface-variant opacity-50">settings_input_component</span>
-</div>
-</div>
-<div class="glass-card p-4 rounded-xl flex flex-col justify-between border-l-4 border-l-error">
-<span class="font-label-caps text-label-caps text-error">CRITICAL</span>
-<div class="flex items-end justify-between mt-2">
-<span class="font-data-display text-3xl text-error">03</span>
-<span class="material-symbols-outlined text-error opacity-50">error</span>
-</div>
-</div>
-<div class="glass-card p-4 rounded-xl flex flex-col justify-between border-l-4 border-l-primary-container">
-<span class="font-label-caps text-label-caps text-primary-container">PENDING</span>
-<div class="flex items-end justify-between mt-2">
-<span class="font-data-display text-3xl text-primary-container">12</span>
-<span class="material-symbols-outlined text-primary-container opacity-50">pending_actions</span>
-</div>
-</div>
-</section>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
-<!-- Alert Section -->
-<section class="lg:col-span-1">
-<div class="flex items-center justify-between mb-4">
-<h2 class="font-headline-md text-headline-md text-on-surface">Alertas de Equipos</h2>
-<span class="text-error font-label-caps text-[10px] bg-error-container px-2 py-0.5 rounded-full">HIGH PRIORITY</span>
-</div>
-<div class="space-y-4">
-<!-- Alert Card 1 -->
-<div class="glass-card p-4 rounded-xl status-critical relative overflow-hidden group hover:bg-surface-container-highest transition-colors">
-<div class="flex justify-between items-start">
-<div>
-<h3 class="font-body-lg text-on-surface font-bold">Turbine XT-500</h3>
-<p class="font-body-sm text-on-surface-variant">Pressure threshold exceeded (450 PSI)</p>
-</div>
-<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
-</div>
-<div class="mt-4 flex gap-2">
-<span class="bg-error-container text-error font-label-caps text-[10px] px-2 py-1 rounded">BLOCKING</span>
-<span class="bg-surface-container text-on-surface-variant font-label-caps text-[10px] px-2 py-1 rounded">ZONE A4</span>
-</div>
-</div>
-<!-- Alert Card 2 -->
-<div class="glass-card p-4 rounded-xl status-warning group hover:bg-surface-container-highest transition-colors">
-<div class="flex justify-between items-start">
-<div>
-<h3 class="font-body-lg text-on-surface font-bold">Conveyor Motor B1</h3>
-<p class="font-body-sm text-on-surface-variant">Unusual vibration detected</p>
-</div>
-<span class="material-symbols-outlined text-tertiary">vibration</span>
-</div>
-<div class="mt-4 flex gap-2">
-<span class="bg-secondary-container text-on-secondary-container font-label-caps text-[10px] px-2 py-1 rounded">PREDICTIVE</span>
-</div>
-</div>
-<!-- Alert Card 3 -->
-<div class="glass-card p-4 rounded-xl status-critical group hover:bg-surface-container-highest transition-colors">
-<div class="flex justify-between items-start">
-<div>
-<h3 class="font-body-lg text-on-surface font-bold">Main Server UPS</h3>
-<p class="font-body-sm text-on-surface-variant">Battery health below 15%</p>
-</div>
-<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">battery_alert</span>
-</div>
-</div>
-</div>
-</section>
-<!-- Upcoming Maintenance -->
-<section class="lg:col-span-2">
-<div class="flex items-center justify-between mb-4">
-<h2 class="font-headline-md text-headline-md text-on-surface">Mantenimientos Próximos</h2>
-<button class="text-primary-container font-label-caps text-label-caps flex items-center gap-1 hover:underline">
-                        VIEW SCHEDULE <span class="material-symbols-outlined text-sm">arrow_forward</span>
-</button>
-</div>
-<div class="glass-card rounded-2xl overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead class="bg-surface-container-high">
-<tr>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">EQUIPMENT</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">TASK</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">DUE DATE</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">ASSIGNED</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">STATUS</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant/30">
-<tr class="hover:bg-surface-container-highest transition-colors">
-<td class="p-4 flex items-center gap-3">
-<div class="w-10 h-10 rounded bg-surface-container-low flex items-center justify-center">
-<span class="material-symbols-outlined text-primary-container">compress</span>
-</div>
-<span class="font-body-sm font-bold">Hydraulic Pump P1</span>
-</td>
-<td class="p-4 font-body-sm text-on-surface-variant">Seal Replacement</td>
-<td class="p-4 font-body-sm font-data-display">24 Oct, 2023</td>
-<td class="p-4">
-<div class="flex -space-x-2">
-<div class="w-6 h-6 rounded-full border-2 border-surface-container overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="Close-up avatar of a technician wearing a blue engineering cap and safety glasses, high-tech industrial background with soft cyan highlights, sharp focus, technical professional style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnB9pHPQ5yaloRG_rVlEssk3uvoo3hwXAvlnBVeDz4ih1t4VahHYl3AoScZPl9KeuK44t_9vzuoAVy0sBbg1WhvARk3Z8x1uT_pmtRF1_qZEWi5bohjsdehF3e00kMkn23qCacw0_XzsI3JRkkeu8SAo8Nosi0edSuLeGTcG-q_TTKN-jUUeha5Mt0hm6dcttGdZoztkDtTwWLARKzo7E09QRjDDQrOFPBtJztQHYY-RX987tuLwxrnPbPkyDk6g_joHP2KKr2EA"/>
-</div>
-<div class="w-6 h-6 rounded-full border-2 border-surface-container overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="Close-up avatar of a maintenance specialist with short dark hair, wearing professional industrial workshop attire, clean high-tech engineering environment, professional portrait lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk5NnoXNlAMzvVriYc0rOSocUuk4GY2DjB3GCjq21pgIjtR611kJrZO88r69sqguT78csvlwdZaeR_5rHxwsVFMNe_hU6ORHZlXYDgdmj0-SUoAUwzPr0ZLYlKI02kSsNUrof_nbp28EQRJD9UjkfphW7kAhg9SmHU2uk9CQdUScWYrteh-4qdDWXoZT60OIzT-VdnWnGp_YQ5BCfkZSEom5Qaht8n3XuvKXjNjdB3dFfCyvCyAWeFhm4ke0gKE8jcpVvn292_PQ"/>
-</div>
-</div>
-</td>
-<td class="p-4">
-<span class="bg-secondary-container/30 text-secondary-fixed-dim border border-secondary-container font-label-caps text-[10px] px-2 py-1 rounded">SCHEDULED</span>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-highest transition-colors">
-<td class="p-4 flex items-center gap-3">
-<div class="w-10 h-10 rounded bg-surface-container-low flex items-center justify-center">
-<span class="material-symbols-outlined text-primary-container">solar_power</span>
-</div>
-<span class="font-body-sm font-bold">Array Controller</span>
-</td>
-<td class="p-4 font-body-sm text-on-surface-variant">Firmware Update v4.2</td>
-<td class="p-4 font-body-sm font-data-display">25 Oct, 2023</td>
-<td class="p-4">
-<div class="w-6 h-6 rounded-full border-2 border-surface-container overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="Avatar of a female system administrator in industrial control room setting, wearing a headset, soft blue glowing screens in the background, sharp professional look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw6sdcV3DIiuT12ubtH_ukhm4f4ROWe6nIUTCXYFEYq2Pmi3Hsx1tR6135amVL6UjCEj3U0dj7dC484KudzDcf7gIKKQLY7OWViV8FAimZOAhOUfGYm2J8B4FpCdTIFO3inCIHgAK2s6RlXS0FyMOr-sDNOpULSD7c5U7TQvtoaByHQ47ebmEtYTR_MhelBmNtvUWQ4cKcayLUQNt4O49PthybYt53znrj947krV5Ze1AVC0oM4oUl6qCqYdp9as9Y68KfAaOU1A"/>
-</div>
-</td>
-<td class="p-4">
-<span class="bg-primary-container/20 text-primary-container border border-primary-container font-label-caps text-[10px] px-2 py-1 rounded">IN PROGRESS</span>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-highest transition-colors">
-<td class="p-4 flex items-center gap-3">
-<div class="w-10 h-10 rounded bg-surface-container-low flex items-center justify-center">
-<span class="material-symbols-outlined text-primary-container">hvac</span>
-</div>
-<span class="font-body-sm font-bold">HVAC Chiller #2</span>
-</td>
-<td class="p-4 font-body-sm text-on-surface-variant">Filter Cleaning</td>
-<td class="p-4 font-body-sm font-data-display">26 Oct, 2023</td>
-<td class="p-4">
-<span class="text-on-surface-variant font-label-caps text-[10px]">UNASSIGNED</span>
-</td>
-<td class="p-4">
-<span class="bg-surface-container-highest text-on-surface-variant border border-outline-variant font-label-caps text-[10px] px-2 py-1 rounded">OPEN</span>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- Atmospheric Visual Asset -->
-<div class="mt-lg rounded-2xl overflow-hidden h-48 relative glass-card border-none">
 
-<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
-<div class="absolute bottom-4 left-4">
-<p class="font-label-caps text-label-caps text-primary-container mb-1">SYSTEMS REAL-TIME TOPOLOGY</p>
-<p class="font-body-sm text-on-surface-variant max-w-sm">AI-driven predictive engine monitoring 4.2k sensors across the facility. No anomalies detected in structural integrity.</p>
-</div>
-</div>
-</section>
-</div>
-</main>
-<!-- BottomNavBar -->
-<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-low border-t border-outline-variant shadow-lg flex justify-around items-center h-20 px-4 w-full">
-<a class="flex flex-col items-center justify-center bg-secondary-container text-primary-container rounded-full px-4 py-1 hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
-<span class="font-label-caps text-[10px] mt-0.5">Dashboard</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
-<span class="material-symbols-outlined">settings_input_component</span>
-<span class="font-label-caps text-[10px] mt-0.5">Equipment</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
-<span class="material-symbols-outlined">build</span>
-<span class="font-label-caps text-[10px] mt-0.5">Requests</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
-<span class="material-symbols-outlined">person</span>
-<span class="font-label-caps text-[10px] mt-0.5">Profile</span>
-</a>
-</nav>
-<script>
-        // Micro-interaction for cards
-        document.querySelectorAll('.glass-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-2px)';
-                card.style.transition = 'transform 0.2s ease-out';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0px)';
+        /* ============================================
+           ANIMACIONES DE FONDO
+           ============================================ */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-animation .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 70%);
+            animation: floatCircle 20s infinite ease-in-out;
+        }
+
+        .bg-animation .circle:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation .circle:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            left: -100px;
+            animation-delay: -5s;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 70%);
+        }
+
+        .bg-animation .circle:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, transparent 70%);
+        }
+
+        @keyframes floatCircle {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 30px) scale(0.9); }
+            75% { transform: translate(40px, 40px) scale(1.05); }
+        }
+
+        /* ============================================
+           PARTÍCULAS
+           ============================================ */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(0, 229, 255, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 15s infinite linear;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================
+           CONTENEDOR PRINCIPAL
+           ============================================ */
+        .hero-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================
+           LOGO CON ANIMACIÓN
+           ============================================ */
+        .logo-wrapper {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 80px;
+            color: #00e5ff;
+            animation: pulse 2s infinite;
+            filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3));
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3));
+            }
+            50% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 60px rgba(0, 229, 255, 0.6));
+            }
+        }
+
+        .logo-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border: 2px solid rgba(0, 229, 255, 0.2);
+            border-radius: 50%;
+            animation: spin 10s linear infinite;
+        }
+
+        .logo-ring::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background: #00e5ff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
+        }
+
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* ============================================
+           TEXTO CON TYPING ANIMATION
+           ============================================ */
+        .title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #00e5ff 0%, #00daf3 50%, #c3f5ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: rgba(180, 200, 220, 0.8);
+            font-weight: 400;
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+        }
+
+        .subtitle span {
+            color: #00e5ff;
+            font-weight: 600;
+        }
+
+        /* ============================================
+           TEXTO TYPING
+           ============================================ */
+        .typing-container {
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .typing-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            color: rgba(180, 200, 220, 0.6);
+            border-right: 2px solid #00e5ff;
+            padding-right: 10px;
+            animation: blink 0.8s step-end infinite;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        @keyframes blink {
+            0%, 100% { border-color: #00e5ff; }
+            50% { border-color: transparent; }
+        }
+
+        /* ============================================
+           BOTONES
+           ============================================ */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00e5ff, #00daf3);
+            color: #00363d;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #c3f5ff;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 229, 255, 0.1);
+            transform: translateY(-3px);
+            border-color: #00e5ff;
+        }
+
+        .btn .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+        /* ============================================
+           BADGE DE VERSIÓN
+           ============================================ */
+        .version-badge {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: rgba(180, 200, 220, 0.5);
+            font-family: 'JetBrains Mono', monospace;
+            backdrop-filter: blur(10px);
+        }
+
+        /* ============================================
+           STATUS INDICATOR
+           ============================================ */
+        .status-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 229, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00e5ff;
+            animation: dotPulse 2s infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .status-text {
+            font-size: 0.7rem;
+            color: rgba(180, 200, 220, 0.6);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 640px) {
+            .btn {
+                padding: 14px 24px;
+                font-size: 0.9rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .logo-icon {
+                font-size: 60px;
+            }
+
+            .logo-ring {
+                width: 100px;
+                height: 100px;
+            }
+
+            .status-indicator {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+            }
+
+            .version-badge {
+                bottom: 15px;
+                right: 15px;
+                font-size: 0.6rem;
+                padding: 6px 12px;
+            }
+        }
+
+        /* ============================================
+           SCROLLBAR
+           ============================================ */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #051424;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00e5ff;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    ANIMACIÓN DE FONDO - CÍRCULOS
+    ============================================ -->
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <!-- ============================================
+    PARTÍCULAS
+    ============================================ -->
+    <div class="particles" id="particles"></div>
+
+    <!-- ============================================
+    STATUS INDICATOR
+    ============================================ -->
+    <div class="status-indicator">
+        <div class="status-dot"></div>
+        <span class="status-text">SISTEMA OPERATIVO</span>
+    </div>
+
+    <!-- ============================================
+    VERSION BADGE
+    ============================================ -->
+    <div class="version-badge">v3.0.0 · INDUSTRIAL</div>
+
+    <!-- ============================================
+    CONTENIDO PRINCIPAL
+    ============================================ -->
+    <div class="hero-container">
+
+        <!-- LOGO -->
+        <div class="logo-wrapper">
+            <div class="logo-ring"></div>
+            <span class="material-symbols-outlined logo-icon">precision_manufacturing</span>
+        </div>
+
+        <!-- TÍTULO -->
+        <h1 class="title">IPE3 Engineering</h1>
+        <p class="subtitle">SISTEMA DE GESTIÓN <span>INDUSTRIAL</span></p>
+
+        <!-- TYPING TEXT -->
+        <div class="typing-container">
+            <div class="typing-text" id="typingText"></div>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="btn-group">
+            <a href="login.html?mode=admin" class="btn btn-primary">
+                <span class="material-symbols-outlined">admin_panel_settings</span>
+                ACCESO ADMIN
+            </a>
+            <a href="login.html?mode=user" class="btn btn-secondary">
+                <span class="material-symbols-outlined">badge</span>
+                ACCESO USUARIO
+            </a>
+        </div>
+
+        <!-- INFO ADICIONAL -->
+        <p style="margin-top: 40px; font-size: 0.8rem; color: rgba(180,200,220,0.3); font-family: 'JetBrains Mono', monospace;">
+            ⚙️ MONITOREO EN TIEMPO REAL · 4.2K SENSORES · IA PREDICTIVA
+        </p>
+    </div>
+
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
+    <script>
+        // ============================================
+        // GENERAR PARTÍCULAS
+        // ============================================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const count = 50;
+
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 10) + 's';
+                particle.style.width = (Math.random() * 3 + 1) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // ============================================
+        // TYPING ANIMATION
+        // ============================================
+        const texts = [
+            'MONITOREO EN TIEMPO REAL',
+            '4.200+ SENSORES CONECTADOS',
+            'IA PREDICTIVA ACTIVADA',
+            'MANTENIMIENTO AUTOMATIZADO',
+            'SEGURIDAD INDUSTRIAL 24/7'
+        ];
+
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typingText');
+
+        function typeEffect() {
+            const currentText = texts[textIndex];
+
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let speed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                speed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                speed = 500;
+            }
+
+            setTimeout(typeEffect, speed);
+        }
+
+        // Iniciar typing después de 1 segundo
+        setTimeout(typeEffect, 1000);
+
+        // ============================================
+        // EFECTO DE PARALLAX EN CÍRCULOS
+        // ============================================
+        document.addEventListener('mousemove', (e) => {
+            const circles = document.querySelectorAll('.bg-animation .circle');
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+            circles.forEach((circle, index) => {
+                const factor = (index + 1) * 0.5;
+                circle.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
             });
         });
 
-        // Simple real-time clock update (Simulating system live status)
-        function updateLiveStatus() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            // Logic could be added here to update dynamic parts of the UI
-        }
-        setInterval(updateLiveStatus, 60000);
+        // ============================================
+        // ANIMACIÓN DE ENTRADA CON INTERSECTION OBSERVER
+        // ============================================
+        const hero = document.querySelector('.hero-container');
+        hero.style.opacity = '0';
+        hero.style.transform = 'translateY(30px)';
+
+        setTimeout(() => {
+            hero.style.transition = 'all 1s ease-out';
+            hero.style.opacity = '1';
+            hero.style.transform = 'translateY(0)';
+        }, 100);
+
+        console.log('🚀 IPE3 Engineering - Sistema Industrial v3.0');
+        console.log('📊 Monitoreo en tiempo real activado');
+        console.log('🔐 Acceso seguro mediante clave/RUC');
     </script>
-</body></html>
+
+</body>
+</html>
