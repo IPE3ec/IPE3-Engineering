@@ -6,10 +6,6 @@
   "display": "standalone",
   "background_color": "#051424",
   "theme_color": "#00e5ff",
-  "orientation": "portrait-primary",
-  "categories": ["business", "productivity", "utilities"],
-  "lang": "es",
-  "dir": "ltr",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -59,48 +55,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "screenshots": [
-    {
-      "src": "screenshots/desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "label": "Vista escritorio"
-    },
-    {
-      "src": "screenshots/mobile.png",
-      "sizes": "360x640",
-      "type": "image/png",
-      "label": "Vista móvil"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "Ver panel de control",
-      "url": "/dashboard.html",
-      "icons": [
-        {
-          "src": "icons/icon-96x96.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "Login",
-      "short_name": "Login",
-      "description": "Iniciar sesión",
-      "url": "/login.html",
-      "icons": [
-        {
-          "src": "icons/icon-96x96.png",
-          "sizes": "96x96"
-        }
-      ]
-    }
-  ],
-  "prefer_related_applications": false,
-  "related_applications": [],
-  "display_override": ["standalone", "window-controls-overlay"]
+  ]
 }
