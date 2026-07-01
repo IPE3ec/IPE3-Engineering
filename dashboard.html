@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPE3 Engineering - Dashboard</title>
-    <link rel="manifest" href="/manifest.json">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="IPE3">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -102,59 +107,45 @@
     </script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #051424;
             color: #d4e4fa;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
         }
-
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-
         .glass-card {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid #334155;
             transition: all 0.3s ease;
         }
-
         .glass-card:hover {
             transform: translateY(-2px);
             border-color: rgba(0, 229, 255, 0.2);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
-
         .status-running { border-left: 4px solid #00e5ff; }
         .status-critical { border-left: 4px solid #ffb4ab; }
         .status-warning { border-left: 4px solid #ffde59; }
-
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #051424; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-
         .animate-enter {
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
         }
-
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .animate-enter:nth-child(1) { animation-delay: 0.1s; }
         .animate-enter:nth-child(2) { animation-delay: 0.2s; }
         .animate-enter:nth-child(3) { animation-delay: 0.3s; }
         .animate-enter:nth-child(4) { animation-delay: 0.4s; }
-
         .user-avatar {
             width: 36px;
             height: 36px;
@@ -167,7 +158,6 @@
             font-weight: 700;
             font-size: 14px;
         }
-
         .user-badge {
             background: rgba(0, 229, 255, 0.1);
             border: 1px solid rgba(0, 229, 255, 0.2);
@@ -177,31 +167,16 @@
             color: #00e5ff;
             font-family: 'JetBrains Mono', monospace;
         }
-
-        .logout-btn {
-            color: rgba(180, 200, 220, 0.4);
-            transition: all 0.3s;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-family: inherit;
-            font-size: inherit;
-        }
-
-        .logout-btn:hover { color: #ffb4ab; }
-
         .skeleton {
             background: linear-gradient(90deg, #1c2b3c 25%, #273647 50%, #1c2b3c 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
             border-radius: 8px;
         }
-
         @keyframes shimmer {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
-
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -213,14 +188,11 @@
             justify-content: center;
             animation: fadeIn 0.3s ease;
         }
-
         .modal-overlay.show { display: flex; }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
         .modal-content {
             background: #122131;
             border: 1px solid rgba(0, 229, 255, 0.1);
@@ -230,36 +202,15 @@
             width: 90%;
             animation: slideUp 0.3s ease;
         }
-
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* Toast notification */
-        .toast-notification {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 229, 255, 0.1);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            color: #00e5ff;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
-            backdrop-filter: blur(10px);
         }
     </style>
 </head>
 <body>
 
-    <!-- ============================================
-    MODAL DE USUARIO
-    ============================================ -->
+    <!-- MODAL USUARIO -->
     <div class="modal-overlay" id="userModal">
         <div class="modal-content">
             <div style="text-align: center; margin-bottom: 24px;">
@@ -279,9 +230,7 @@
         </div>
     </div>
 
-    <!-- ============================================
-    TOP APP BAR
-    ============================================ -->
+    <!-- TOP APP BAR -->
     <header class="fixed top-0 w-full z-50 bg-background border-b border-outline-variant flex items-center justify-between px-margin-mobile h-16">
         <div class="flex items-center gap-3">
             <span class="material-symbols-outlined text-primary-container">precision_manufacturing</span>
@@ -298,32 +247,24 @@
         </div>
     </header>
 
-    <!-- ============================================
-    MAIN CONTENT
-    ============================================ -->
+    <!-- MAIN CONTENT -->
     <main class="pt-20 pb-28 px-margin-mobile max-w-7xl mx-auto">
 
-        <!-- ============================================
-        BIENVENIDA PERSONALIZADA
-        ============================================ -->
         <section class="mb-lg animate-enter">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                     <h2 class="font-headline-lg text-headline-lg text-on-surface" id="welcomeText">
                         👋 Bienvenido, <span id="userNameDisplay">Usuario</span>
                     </h2>
-                    <p class="text-on-surface-variant text-sm" id="userRoleDisplay">Cargando...</p>
+                    <p class="text-on-surface-variant text-sm" id="userRoleDisplay">Rol: Administrador</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="user-badge" id="userModeBadge">🔐 CARGANDO</span>
+                    <span class="user-badge" id="userModeBadge">🔐 ADMIN</span>
                     <span class="text-on-surface-variant text-xs font-mono" id="currentTime"></span>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================
-        SEARCH & QUICK ACTION
-        ============================================ -->
         <section class="mb-lg animate-enter">
             <div class="flex flex-col md:flex-row gap-4">
                 <div class="relative flex-grow">
@@ -337,9 +278,6 @@
             </div>
         </section>
 
-        <!-- ============================================
-        BENTO GRID STATS
-        ============================================ -->
         <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-lg" id="statsGrid">
             <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
             <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
@@ -347,12 +285,8 @@
             <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
         </section>
 
-        <!-- ============================================
-        ALERTAS Y MANTENIMIENTOS
-        ============================================ -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
             
-            <!-- Alertas -->
             <section class="lg:col-span-1 animate-enter">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="font-headline-md text-headline-md text-on-surface">🚨 Alertas de Equipos</h2>
@@ -366,7 +300,6 @@
                 </div>
             </section>
 
-            <!-- Mantenimientos -->
             <section class="lg:col-span-2 animate-enter">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="font-headline-md text-headline-md text-on-surface">🔧 Mantenimientos Próximos</h2>
@@ -399,28 +332,23 @@
             </section>
         </div>
 
-        <!-- ============================================
-        FOOTER
-        ============================================ -->
         <div class="mt-lg text-center text-on-surface-variant text-xs font-mono opacity-30">
             ⚙️ IPE3 Engineering v3.0 · Datos en tiempo real · Sistema Industrial
         </div>
 
     </main>
 
-    <!-- ============================================
-    BOTTOM NAV BAR
-    ============================================ -->
+    <!-- BOTTOM NAV -->
     <nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-low border-t border-outline-variant shadow-lg flex justify-around items-center h-20 px-4">
-        <a class="flex flex-col items-center justify-center bg-secondary-container text-primary-container rounded-full px-4 py-1 hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+        <a class="flex flex-col items-center justify-center bg-secondary-container text-primary-container rounded-full px-4 py-1 hover:text-on-surface transition-colors active:scale-90 duration-200" href="dashboard.html">
             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
             <span class="font-label-caps text-[10px] mt-0.5">Dashboard</span>
         </a>
-        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="equipos.html">
             <span class="material-symbols-outlined">settings_input_component</span>
             <span class="font-label-caps text-[10px] mt-0.5">Equipos</span>
         </a>
-        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="solicitudes.html">
             <span class="material-symbols-outlined">build</span>
             <span class="font-label-caps text-[10px] mt-0.5">Solicitudes</span>
         </a>
@@ -430,43 +358,25 @@
         </a>
     </nav>
 
-    <!-- ============================================
-    SCRIPTS
-    ============================================ -->
     <script>
-        // ============================================
-        // CONFIGURACIÓN
-        // ============================================
         const API_CONFIG = {
-            URL_BASE: 'https://script.google.com/macros/s/AKfycbyKuKFJ1VFUU541bXTCtYu7XE2idRxpUwKoEQvpLRnazDONH27OScEK-YsGnQPFE3Tk/exec',
+            URL_BASE: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec',
             DURACION_CACHE: 300000
         };
 
-        // ============================================
-        // USUARIO
-        // ============================================
         function getUserData() {
             try {
                 const data = localStorage.getItem('ipe3_user');
                 if (!data) return null;
                 return JSON.parse(data);
-            } catch {
-                return null;
-            }
+            } catch { return null; }
         }
 
         const user = getUserData();
+        if (!user) window.location.href = 'login.html';
 
-        if (!user) {
-            window.location.href = 'login.html';
-        }
-
-        // ============================================
-        // MOSTRAR USUARIO
-        // ============================================
         function mostrarUsuario() {
             if (!user) return;
-            
             const nombre = user.nombre || user.name || 'Usuario';
             const rol = user.rol || user.role || 'USER';
             const modo = user.modo || 'user';
@@ -477,20 +387,13 @@
             document.getElementById('headerAvatar').textContent = initial;
             document.getElementById('userRoleDisplay').textContent = `Rol: ${rol}`;
             document.getElementById('userModeBadge').textContent = modo === 'admin' ? '🔐 ADMIN' : '👤 USUARIO';
-            
             document.getElementById('modalAvatar').textContent = initial;
             document.getElementById('modalName').textContent = nombre;
             document.getElementById('modalRole').textContent = rol;
             document.getElementById('modalMode').textContent = `Modo: ${modo === 'admin' ? 'Administrador' : 'Usuario'}`;
-
-            document.getElementById('welcomeText').innerHTML = `
-                👋 Bienvenido, <span>${nombre}</span>
-            `;
+            document.getElementById('welcomeText').innerHTML = `👋 Bienvenido, <span>${nombre}</span>`;
         }
 
-        // ============================================
-        // MODAL
-        // ============================================
         function mostrarModal() {
             document.getElementById('userModal').classList.add('show');
         }
@@ -504,14 +407,10 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') document.getElementById('userModal').classList.remove('show');
         });
-
         document.getElementById('userModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) document.getElementById('userModal').classList.remove('show');
         });
 
-        // ============================================
-        // RELOJ
-        // ============================================
         function actualizarReloj() {
             const ahora = new Date();
             document.getElementById('currentTime').textContent = ahora.toLocaleTimeString('es-ES', {
@@ -523,99 +422,52 @@
         setInterval(actualizarReloj, 1000);
         actualizarReloj();
 
-        // ============================================
-        // API
-        // ============================================
         class DashboardAPI {
-            constructor() {
-                this.cache = new Map();
-            }
+            constructor() { this.cache = new Map(); }
 
             async obtenerDatos(endpoint, params = {}) {
                 const claveCache = `${endpoint}_${JSON.stringify(params)}`;
-                
                 if (this.cache.has(claveCache)) {
                     const cacheado = this.cache.get(claveCache);
-                    if (Date.now() - cacheado.timestamp < API_CONFIG.DURACION_CACHE) {
-                        console.log(`📦 Caché: ${endpoint}`);
-                        return cacheado.datos;
-                    }
+                    if (Date.now() - cacheado.timestamp < API_CONFIG.DURACION_CACHE) return cacheado.datos;
                 }
-
                 try {
                     const url = new URL(API_CONFIG.URL_BASE);
                     url.searchParams.append('endpoint', endpoint);
-                    
                     Object.entries(params).forEach(([key, value]) => {
-                        if (value !== null && value !== undefined) {
-                            url.searchParams.append(key, value);
-                        }
+                        if (value !== null && value !== undefined) url.searchParams.append(key, value);
                     });
-
-                    console.log(`🔍 Fetch: ${endpoint}`);
                     const response = await fetch(url.toString());
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
-                    }
-
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const datos = await response.json();
-                    
-                    if (datos && datos.error) {
-                        console.error(`❌ API Error: ${datos.error}`);
-                        return null;
-                    }
-                    
-                    this.cache.set(claveCache, {
-                        datos: datos,
-                        timestamp: Date.now()
-                    });
-
+                    if (datos && datos.error) { console.error(`❌ API Error: ${datos.error}`); return null; }
+                    this.cache.set(claveCache, { datos: datos, timestamp: Date.now() });
                     return datos;
-
                 } catch (error) {
                     console.error(`❌ Error ${endpoint}:`, error);
                     return null;
                 }
             }
 
-            async obtenerMetricas() {
-                return this.obtenerDatos('metricas');
-            }
-
-            async obtenerAlertas(prioridad = null, estado = null) {
-                return this.obtenerDatos('alertas', { prioridad, estado });
-            }
-
-            async obtenerMantenimientos(estado = null, dias = 30) {
-                return this.obtenerDatos('mantenimientos', { estado, dias });
-            }
+            async obtenerMetricas() { return this.obtenerDatos('metricas'); }
+            async obtenerAlertas(prioridad = null, estado = null) { return this.obtenerDatos('alertas', { prioridad, estado }); }
+            async obtenerMantenimientos(estado = null, dias = 30) { return this.obtenerDatos('mantenimientos', { estado, dias }); }
         }
 
         const api = new DashboardAPI();
 
-        // ============================================
-        // ACTUALIZAR STATS
-        // ============================================
         function actualizarStats(metricas) {
             const statsGrid = document.getElementById('statsGrid');
-            
             if (!metricas || !Array.isArray(metricas) || metricas.length === 0) {
-                statsGrid.innerHTML = `
-                    <div class="glass-card p-4 rounded-xl col-span-4 text-center text-on-surface-variant">
-                        ⚠️ No se pudieron cargar las métricas
-                    </div>
-                `;
+                statsGrid.innerHTML = `<div class="glass-card p-4 rounded-xl col-span-4 text-center text-on-surface-variant">⚠️ No se pudieron cargar las métricas</div>`;
                 return;
             }
-
             const statsMap = {
                 'Tasa Operacional': { icon: 'trending_up', color: 'text-primary-fixed-dim' },
                 'Unidades Activas': { icon: 'settings_input_component', color: 'text-on-surface' },
                 'Alertas Críticas': { icon: 'error', color: 'text-error' },
                 'Tareas Pendientes': { icon: 'pending_actions', color: 'text-primary-container' }
             };
-
             let html = '';
             metricas.forEach(metrica => {
                 const stat = statsMap[metrica.nombre];
@@ -623,7 +475,6 @@
                     const isCritical = metrica.nombre === 'Alertas Críticas';
                     const valor = metrica.valor;
                     const unidad = metrica.unidad || '';
-                    
                     html += `
                         <div class="glass-card p-4 rounded-xl flex flex-col justify-between animate-enter ${isCritical ? 'border-l-4 border-l-error' : ''}">
                             <span class="font-label-caps text-label-caps text-on-surface-variant">${metrica.nombre.toUpperCase()}</span>
@@ -635,57 +486,29 @@
                     `;
                 }
             });
-
-            statsGrid.innerHTML = html || `
-                <div class="glass-card p-4 rounded-xl col-span-4 text-center text-on-surface-variant">
-                    ⚠️ No hay métricas disponibles
-                </div>
-            `;
+            statsGrid.innerHTML = html || `<div class="glass-card p-4 rounded-xl col-span-4 text-center text-on-surface-variant">⚠️ No hay métricas disponibles</div>`;
         }
 
-        // ============================================
-        // ACTUALIZAR ALERTAS
-        // ============================================
         function actualizarAlertas(alertas) {
             const container = document.getElementById('alertsContainer');
             const count = document.getElementById('alertCount');
-            
             if (!alertas || !Array.isArray(alertas) || alertas.length === 0) {
                 count.textContent = '0';
-                container.innerHTML = `
-                    <div class="glass-card p-6 rounded-xl text-center">
-                        <span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">check_circle</span>
-                        <p class="text-on-surface-variant text-sm mt-2">✅ No hay alertas activas</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="glass-card p-6 rounded-xl text-center"><span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">check_circle</span><p class="text-on-surface-variant text-sm mt-2">✅ No hay alertas activas</p></div>`;
                 return;
             }
-
-            const activas = alertas.filter(a => {
-                const estado = (a.estado || '').toUpperCase();
-                return estado !== 'RESUELTA' && estado !== 'RESUELTO' && estado !== 'RESOLVED';
-            });
-            
+            const activas = alertas.filter(a => { const estado = (a.estado || '').toUpperCase(); return estado !== 'RESUELTA' && estado !== 'RESUELTO' && estado !== 'RESOLVED'; });
             count.textContent = activas.length;
-
             if (activas.length === 0) {
-                container.innerHTML = `
-                    <div class="glass-card p-6 rounded-xl text-center">
-                        <span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">check_circle</span>
-                        <p class="text-on-surface-variant text-sm mt-2">✅ No hay alertas activas</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="glass-card p-6 rounded-xl text-center"><span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">check_circle</span><p class="text-on-surface-variant text-sm mt-2">✅ No hay alertas activas</p></div>`;
                 return;
             }
-
             const mostrar = activas.slice(0, 5);
             let html = '';
             mostrar.forEach(alerta => {
-                const isCritical = (alerta.prioridad || '').toUpperCase() === 'CRÍTICA' || 
-                                  (alerta.prioridad || '').toUpperCase() === 'CRÍTICO';
+                const isCritical = (alerta.prioridad || '').toUpperCase() === 'CRÍTICA' || (alerta.prioridad || '').toUpperCase() === 'CRÍTICO';
                 const isWarning = (alerta.prioridad || '').toUpperCase() === 'ALTA';
                 const statusClass = isCritical ? 'status-critical' : isWarning ? 'status-warning' : '';
-
                 html += `
                     <div class="glass-card p-4 rounded-xl ${statusClass} group hover:bg-surface-container-highest transition-colors">
                         <div class="flex justify-between items-start">
@@ -693,9 +516,7 @@
                                 <h3 class="font-body-lg text-on-surface font-bold">${alerta.equipo || 'Sin equipo'}</h3>
                                 <p class="font-body-sm text-on-surface-variant">${alerta.descripcion || 'Sin descripción'}</p>
                             </div>
-                            <span class="material-symbols-outlined ${isCritical ? 'text-error' : 'text-tertiary'}" style="font-variation-settings: 'FILL' ${isCritical ? 1 : 0};">
-                                ${isCritical ? 'warning' : 'vibration'}
-                            </span>
+                            <span class="material-symbols-outlined ${isCritical ? 'text-error' : 'text-tertiary'}" style="font-variation-settings: 'FILL' ${isCritical ? 1 : 0};">${isCritical ? 'warning' : 'vibration'}</span>
                         </div>
                         <div class="mt-4 flex gap-2 flex-wrap">
                             <span class="bg-error-container text-error font-label-caps text-[10px] px-2 py-1 rounded">${alerta.prioridad || 'N/A'}</span>
@@ -705,52 +526,28 @@
                     </div>
                 `;
             });
-
             container.innerHTML = html;
         }
 
-        // ============================================
-        // ACTUALIZAR MANTENIMIENTOS
-        // ============================================
         function actualizarMantenimientos(mantenimientos) {
             const tbody = document.getElementById('maintenanceTable');
-            
             if (!mantenimientos || !Array.isArray(mantenimientos) || mantenimientos.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="5" class="p-4 text-center text-on-surface-variant opacity-50">
-                            No hay mantenimientos programados
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-on-surface-variant opacity-50">No hay mantenimientos programados</td></tr>`;
                 return;
             }
-
             const mostrar = mantenimientos.slice(0, 5);
             let html = '';
             mostrar.forEach(mant => {
                 const fecha = mant.fechaVencimiento ? new Date(mant.fechaVencimiento) : new Date();
-                const fechaStr = fecha.toLocaleDateString('es-ES', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                });
-
+                const fechaStr = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
                 const estado = (mant.estado || '').toUpperCase();
-                const estadoClass = estado === 'COMPLETADO' || estado === 'COMPLETED' 
-                    ? 'bg-primary-container/20 text-primary-container border border-primary-container'
-                    : estado === 'EN_PROGRESO' || estado === 'IN_PROGRESS'
-                    ? 'bg-secondary-container/30 text-secondary-fixed-dim border border-secondary-container'
-                    : 'bg-surface-container-highest text-on-surface-variant border border-outline-variant';
-
-                const estadoLabel = estado === 'COMPLETADO' || estado === 'COMPLETED' 
-                    ? 'COMPLETADO'
-                    : estado === 'EN_PROGRESO' || estado === 'IN_PROGRESS'
-                    ? 'EN PROGRESO'
-                    : mant.estado || 'ABIERTO';
-
+                const estadoClass = estado === 'COMPLETADO' || estado === 'COMPLETED' ? 'bg-primary-container/20 text-primary-container border border-primary-container' :
+                                   estado === 'EN_PROGRESO' || estado === 'IN_PROGRESS' ? 'bg-secondary-container/30 text-secondary-fixed-dim border border-secondary-container' :
+                                   'bg-surface-container-highest text-on-surface-variant border border-outline-variant';
+                const estadoLabel = estado === 'COMPLETADO' || estado === 'COMPLETED' ? 'COMPLETADO' :
+                                   estado === 'EN_PROGRESO' || estado === 'IN_PROGRESS' ? 'EN PROGRESO' :
+                                   mant.estado || 'ABIERTO';
                 const asignado = mant.asignadoA || mant.asignado || '';
-
                 html += `
                     <tr class="hover:bg-surface-container-highest transition-colors">
                         <td class="p-4 flex items-center gap-3">
@@ -762,16 +559,7 @@
                         <td class="p-4 font-body-sm text-on-surface-variant">${mant.tipoTarea || mant.taskType || 'N/A'}</td>
                         <td class="p-4 font-body-sm font-data-display">${fechaStr}</td>
                         <td class="p-4">
-                            ${asignado ? `
-                                <div class="flex items-center gap-2">
-                                    <div class="w-6 h-6 rounded-full border-2 border-surface-container overflow-hidden bg-secondary-container flex items-center justify-center text-xs">
-                                        ${asignado.charAt(0).toUpperCase()}
-                                    </div>
-                                    <span class="text-xs text-on-surface-variant">${asignado}</span>
-                                </div>
-                            ` : `
-                                <span class="text-on-surface-variant font-label-caps text-[10px]">NO ASIGNADO</span>
-                            `}
+                            ${asignado ? `<div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full border-2 border-surface-container overflow-hidden bg-secondary-container flex items-center justify-center text-xs">${asignado.charAt(0).toUpperCase()}</div><span class="text-xs text-on-surface-variant">${asignado}</span></div>` : `<span class="text-on-surface-variant font-label-caps text-[10px]">NO ASIGNADO</span>`}
                         </td>
                         <td class="p-4">
                             <span class="${estadoClass} font-label-caps text-[10px] px-2 py-1 rounded">${estadoLabel}</span>
@@ -779,75 +567,45 @@
                     </tr>
                 `;
             });
-
             tbody.innerHTML = html;
         }
 
-        // ============================================
-        // DATOS DE RESPALDO
-        // ============================================
         function usarDatosRespaldo() {
             console.warn('⚠️ Usando datos de respaldo');
-            
-            const metricasRespaldo = [
+            actualizarStats([
                 { nombre: 'Tasa Operacional', valor: 94, unidad: '%' },
                 { nombre: 'Unidades Activas', valor: 128, unidad: '' },
                 { nombre: 'Alertas Críticas', valor: 3, unidad: '' },
                 { nombre: 'Tareas Pendientes', valor: 12, unidad: '' }
-            ];
-            actualizarStats(metricasRespaldo);
-
-            const alertasRespaldo = [
+            ]);
+            actualizarAlertas([
                 { equipo: 'Turbina XT-500', descripcion: 'Presión excedida (450 PSI)', prioridad: 'CRÍTICA', zona: 'ZONA A4', estado: 'EN_PROGRESO' },
                 { equipo: 'Motor Conveyor B1', descripcion: 'Vibración anormal detectada', prioridad: 'ALTA', zona: 'ZONA B2', estado: 'ABIERTA' },
                 { equipo: 'UPS Servidor Principal', descripcion: 'Batería por debajo del 15%', prioridad: 'CRÍTICA', zona: 'SALA SERVIDORES', estado: 'ABIERTA' }
-            ];
-            actualizarAlertas(alertasRespaldo);
-
-            const mantRespaldo = [
+            ]);
+            actualizarMantenimientos([
                 { equipo: 'Bomba Hidráulica P1', tipoTarea: 'Reemplazo de Sellos', fechaVencimiento: new Date(Date.now() + 86400000), asignado: 'Juan Pérez', estado: 'PROGRAMADO' },
                 { equipo: 'Controlador Array', tipoTarea: 'Actualización Firmware', fechaVencimiento: new Date(Date.now() + 172800000), asignado: 'María García', estado: 'EN_PROGRESO' },
                 { equipo: 'Chiller HVAC #2', tipoTarea: 'Limpieza de Filtros', fechaVencimiento: new Date(Date.now() + 259200000), asignado: null, estado: 'ABIERTO' }
-            ];
-            actualizarMantenimientos(mantRespaldo);
+            ]);
         }
 
-        // ============================================
-        // CARGAR DASHBOARD
-        // ============================================
         async function cargarDashboard() {
             console.log('🔄 Cargando dashboard...');
-            
             try {
-                // 1. Métricas
                 const metricas = await api.obtenerMetricas();
-                if (metricas && !metricas.error) {
-                    actualizarStats(metricas);
-                }
-
-                // 2. Alertas
+                if (metricas && !metricas.error) actualizarStats(metricas);
                 const alertas = await api.obtenerAlertas(null, null);
-                if (alertas && !alertas.error) {
-                    actualizarAlertas(alertas);
-                }
-
-                // 3. Mantenimientos
+                if (alertas && !alertas.error) actualizarAlertas(alertas);
                 const mantenimientos = await api.obtenerMantenimientos(null, 30);
-                if (mantenimientos && !mantenimientos.error) {
-                    actualizarMantenimientos(mantenimientos);
-                }
-
+                if (mantenimientos && !mantenimientos.error) actualizarMantenimientos(mantenimientos);
                 console.log('✅ Dashboard cargado');
-
             } catch (error) {
                 console.error('❌ Error:', error);
                 usarDatosRespaldo();
             }
         }
 
-        // ============================================
-        // BOTONES
-        // ============================================
         document.getElementById('refreshBtn').addEventListener('click', () => {
             const btn = document.getElementById('refreshBtn');
             btn.innerHTML = 'ACTUALIZANDO <span class="material-symbols-outlined text-sm">refresh</span>';
@@ -869,21 +627,14 @@
             setTimeout(() => {
                 btn.innerHTML = '<span class="material-symbols-outlined">qr_code_scanner</span> ESCANEAR';
                 btn.disabled = false;
-                showToast('✅ Equipo registrado: SCAN-2026-001');
+                const toast = document.createElement('div');
+                toast.style.cssText = `position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); color: #00e5ff; padding: 12px 24px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; z-index: 1000; animation: fadeIn 0.3s ease; backdrop-filter: blur(10px);`;
+                toast.textContent = '✅ Equipo registrado: SCAN-2026-001';
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
             }, 2000);
         });
 
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-notification';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
-        // ============================================
-        // BÚSQUEDA
-        // ============================================
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
             const rows = document.querySelectorAll('#maintenanceTable tr');
@@ -893,28 +644,22 @@
             });
         });
 
-        // ============================================
-        // INICIALIZAR
-        // ============================================
         mostrarUsuario();
         cargarDashboard();
-
         setInterval(() => {
             api.cache.clear();
             cargarDashboard();
         }, 300000);
 
         console.log('🚀 Dashboard IPE3 v3.0');
-        console.log('👤 Usuario:', user);
-        console.log('📊 API:', API_CONFIG.URL_BASE);
 
-        // ============================================
-        // REGISTRO DE SERVICE WORKER (PWA)
-        // ============================================
+        // REGISTRO DEL SERVICE WORKER (RUTA RELATIVA)
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('✅ Service Worker registrado'))
-                .catch(err => console.error('❌ SW Error:', err));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('✅ Service Worker registrado correctamente'))
+                    .catch(err => console.error('❌ SW Error:', err));
+            });
         }
     </script>
 
