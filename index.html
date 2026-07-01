@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPE3 Engineering - Sistema Industrial</title>
     
-    <!-- PWA - MANIFEST (RUTA RELATIVA) -->
+    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
-    
-    <!-- METADATOS PARA iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="IPE3">
@@ -387,9 +385,7 @@
 
         console.log('🚀 IPE3 Engineering - Sistema Industrial v3.0');
 
-        // ============================================
         // REGISTRO DEL SERVICE WORKER (RUTA RELATIVA)
-        // ============================================
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
