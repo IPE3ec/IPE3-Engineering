@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Iconos PWA</title>
+    <style>
+        body {
+            background: #051424;
+            color: #d4e4fa;
+            font-family: 'Inter', sans-serif;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(18, 33, 49, 0.9);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+        }
+        h1 { color: #00e5ff; margin-bottom: 8px; }
+        .sub { color: rgba(180,200,220,0.4); margin-bottom: 30px; }
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .icon-preview {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(0,229,255,0.05);
+        }
+        .icon-preview img {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            background: #00e5ff;
+        }
+        .icon-preview .size {
+            font-size: 0.7rem;
+            color: rgba(180,200,220,0.3);
+            margin-top: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .icon-preview .name {
+            font-size: 0.6rem;
+            color: rgba(180,200,220,0.2);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .instructions {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: rgba(180,200,220,0.6);
+        }
+        .instructions code {
+            color: #00e5ff;
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00e5ff, #00daf3);
+            color: #00363d;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 4px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0,229,255,0.3);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            color: #c3f5ff;
+            border: 1px solid rgba(0,229,255,0.2);
+        }
+        .btn-secondary:hover {
+            background: rgba(0,229,255,0.1);
+        }
+        .status {
+            margin: 16px 0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .status.success {
+            display: block;
+            background: rgba(0,229,255,0.05);
+            border: 1px solid rgba(0,229,255,0.2);
+            color: #00e5ff;
+        }
+        .status.error {
+            display: block;
+            background: rgba(255,180,171,0.05);
+            border: 1px solid rgba(255,180,171,0.2);
+            color: #ffb4ab;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Generador de Iconos PWA</h1>
+        <p class="sub">Crea los iconos necesarios para tu Progressive Web App</p>
+
+        <div id="status" class="status"></div>
+
+        <div class="preview-grid" id="previewGrid">
+            <!-- Los iconos se generarán aquí -->
+        </div>
+
+        <div class="instructions">
+            <h3 style="color: #00e5ff; margin-bottom: 12px;">📋 Instrucciones</h3>
+            <p>1. Haz clic en <strong>"Generar Iconos"</strong> para crear un canvas con el logo</p>
+            <p>2. Cada icono se descargará automáticamente</p>
+            <p>3. Coloca los archivos en la carpeta <code>icons/</code></p>
+            <p>4. Asegúrate de que el <code>manifest.json</code> apunte a las rutas correctas</p>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
+            <button class="btn" onclick="generateIcons()">
+                <span class="material-symbols-outlined">image</span>
+                GENERAR ICONOS
+            </button>
+            <button class="btn btn-secondary" onclick="downloadAll()">
+                <span class="material-symbols-outlined">download</span>
+                DESCARGAR TODOS
+            </button>
+            <button class="btn btn-secondary" onclick="copyManifest()">
+                <span class="material-symbols-outlined">content_copy</span>
+                COPIAR MANIFEST
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const SIZES = [
+            { size: 72, name: 'icon-72x72' },
+            { size: 96, name: 'icon-96x96' },
+            { size: 128, name: 'icon-128x128' },
+            { size: 144, name: 'icon-144x144' },
+            { size: 152, name: 'icon-152x152' },
+            { size: 192, name: 'icon-192x192' },
+            { size: 384, name: 'icon-384x384' },
+            { size: 512, name: 'icon-512x512' }
+        ];
+
+        let generatedIcons = {};
+
+        function getStatus() {
+            return document.getElementById('status');
+        }
+
+        function showStatus(message, type = 'success') {
+            const status = getStatus();
+            status.textContent = message;
+            status.className = `status ${type}`;
+        }
+
+        function hideStatus() {
+            const status = getStatus();
+            status.className = 'status';
+        }
+
+        function createIconCanvas(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Fondo con gradiente
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#00e5ff');
+            gradient.addColorStop(0.5, '#00daf3');
+            gradient.addColorStop(1, '#0099aa');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.2);
+            ctx.fill();
+
+            // Borde sutil
+            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+            ctx.lineWidth = size * 0.02;
+            ctx.beginPath();
+            ctx.roundRect(size * 0.02, size * 0.02, size * 0.96, size * 0.96, size * 0.18);
+            ctx.stroke();
+
+            // Texto IPE3
+            const fontSize = size * 0.35;
+            ctx.fillStyle = '#00363d';
+            ctx.font = `bold ${fontSize}px Inter, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('IPE3', size / 2, size / 2 - size * 0.05);
+
+            // Subtítulo
+            const subSize = size * 0.08;
+            ctx.fillStyle = 'rgba(0,54,61,0.5)';
+            ctx.font = `${subSize}px Inter, sans-serif`;
+            ctx.fillText('ENGINEERING', size / 2, size / 2 + fontSize * 0.55);
+
+            // Icono decorativo
+            const iconSize = size * 0.15;
+            ctx.fillStyle = 'rgba(0,54,61,0.15)';
+            ctx.font = `${iconSize}px "Material Symbols Outlined"`;
+            ctx.fillText('precision_manufacturing', size / 2, size / 2 + fontSize * 0.9);
+
+            return canvas;
+        }
+
+        // RoundRect polyfill para Canvas
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+                if (r > w/2) r = w/2;
+                if (r > h/2) r = h/2;
+                this.moveTo(x + r, y);
+                this.lineTo(x + w - r, y);
+                this.quadraticCurveTo(x + w, y, x + w, y + r);
+                this.lineTo(x + w, y + h - r);
+                this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+                this.lineTo(x + r, y + h);
+                this.quadraticCurveTo(x, y + h, x, y + h - r);
+                this.lineTo(x, y + r);
+                this.quadraticCurveTo(x, y, x + r, y);
+                return this;
+            };
+        }
+
+        function generateIcons() {
+            hideStatus();
+            const previewGrid = document.getElementById('previewGrid');
+            previewGrid.innerHTML = '';
+            generatedIcons = {};
+
+            try {
+                SIZES.forEach(({ size, name }) => {
+                    const canvas = createIconCanvas(size);
+                    const dataUrl = canvas.toDataURL('image/png');
+                    generatedIcons[name] = dataUrl;
+
+                    // Preview
+                    const div = document.createElement('div');
+                    div.className = 'icon-preview';
+                    div.innerHTML = `
+                        <img src="${dataUrl}" alt="${name}" style="width: 64px; height: 64px;">
+                        <div class="size">${size}×${size}</div>
+                        <div class="name">${name}.png</div>
+                    `;
+                    previewGrid.appendChild(div);
+                });
+
+                showStatus(`✅ ${SIZES.length} iconos generados exitosamente`, 'success');
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}`, 'error');
+                console.error(error);
+            }
+        }
+
+        function downloadAll() {
+            const keys = Object.keys(generatedIcons);
+            if (keys.length === 0) {
+                showStatus('⚠️ Primero genera los iconos haciendo clic en "GENERAR ICONOS"', 'error');
+                return;
+            }
+
+            keys.forEach((name) => {
+                const link = document.createElement('a');
+                link.download = `${name}.png`;
+                link.href = generatedIcons[name];
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+
+            showStatus(`✅ ${keys.length} iconos descargados`, 'success');
+        }
+
+        function copyManifest() {
+            const manifest = {
+                name: "IPE3 Engineering - Sistema Industrial",
+                short_name: "IPE3",
+                description: "Sistema de gestión industrial con monitoreo en tiempo real",
+                start_url: "/index.html",
+                display: "standalone",
+                background_color: "#051424",
+                theme_color: "#00e5ff",
+                icons: SIZES.map(({ size, name }) => ({
+                    src: `icons/${name}.png`,
+                    sizes: `${size}x${size}`,
+                    type: "image/png",
+                    purpose: "any maskable"
+                }))
+            };
+
+            const text = JSON.stringify(manifest, null, 2);
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('✅ Manifest copiado al portapapeles', 'success');
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showStatus('✅ Manifest copiado al portapapeles', 'success');
+            });
+        }
+
+        // Generar automáticamente al cargar
+        generateIcons();
+
+        console.log('🖼️ Generador de Iconos PWA cargado');
+        console.log('📦 Tamaños disponibles:', SIZES.map(s => s.size).join(', '));
+    </script>
+</body>
+</html>
