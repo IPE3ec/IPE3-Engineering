@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPE3 Engineering - Administración</title>
+    <link rel="manifest" href="/manifest.json">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#e6edff",
+                        "primary-fixed-dim": "#00daf3",
+                        "on-error": "#690005",
+                        "tertiary-container": "#c6d1e9",
+                        "secondary": "#c1c6db",
+                        "on-secondary-container": "#afb4c9",
+                        "on-surface": "#d4e4fa",
+                        "error": "#ffb4ab",
+                        "surface-container-highest": "#273647",
+                        "secondary-container": "#414658",
+                        "surface-container-high": "#1c2b3c",
+                        "surface-container-low": "#0d1c2d",
+                        "on-surface-variant": "#bac9cc",
+                        "background": "#051424",
+                        "on-tertiary": "#263143",
+                        "surface-dim": "#051424",
+                        "primary-container": "#00e5ff",
+                        "on-primary-fixed-variant": "#004f58",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#051424",
+                        "on-secondary": "#2a3040",
+                        "on-tertiary-fixed": "#111c2d",
+                        "tertiary-fixed-dim": "#bcc7de",
+                        "on-secondary-fixed": "#151b2b",
+                        "on-tertiary-fixed-variant": "#3c475a",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#d8e3fb",
+                        "on-tertiary-container": "#4f5a6e",
+                        "secondary-fixed-dim": "#c1c6db",
+                        "on-primary-container": "#00626e",
+                        "surface-container-lowest": "#010f1f",
+                        "surface-tint": "#00daf3",
+                        "inverse-primary": "#006875",
+                        "primary": "#c3f5ff",
+                        "outline": "#849396",
+                        "surface-bright": "#2c3a4c",
+                        "on-background": "#d4e4fa",
+                        "inverse-on-surface": "#233143",
+                        "surface-container": "#122131",
+                        "on-primary": "#00363d",
+                        "inverse-surface": "#d4e4fa",
+                        "outline-variant": "#3b494c",
+                        "surface-variant": "#273647",
+                        "primary-fixed": "#9cf0ff",
+                        "on-secondary-fixed-variant": "#414658",
+                        "secondary-fixed": "#dde2f8",
+                        "on-primary-fixed": "#001f24"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    spacing: {
+                        sm: "8px",
+                        lg: "24px",
+                        xl: "32px",
+                        xs: "4px",
+                        md: "16px",
+                        gutter: "16px",
+                        "margin-mobile": "20px",
+                        base: "4px"
+                    },
+                    fontFamily: {
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-display": ["JetBrains Mono"]
+                    },
+                    fontSize: {
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "data-display": ["18px", {"lineHeight": "24px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #051424;
+            color: #d4e4fa;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 229, 255, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #051424; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+        .animate-enter {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00e5ff, #00daf3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00363d;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .user-badge {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #00e5ff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: #122131;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 560px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #00e5ff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .toast-notification.error {
+            color: #ffb4ab;
+            border-color: rgba(255, 180, 171, 0.3);
+            background: rgba(147, 0, 10, 0.1);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 10px;
+            color: #d4e4fa;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            border-color: #00e5ff;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.05);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .form-input::placeholder {
+            color: rgba(180, 200, 220, 0.2);
+        }
+
+        .form-label {
+            display: block;
+            color: rgba(180, 200, 220, 0.6);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 10px;
+            color: #d4e4fa;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(180,200,220,0.3)' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        .form-select:focus {
+            border-color: #00e5ff;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.05);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .form-select option {
+            background: #122131;
+            color: #d4e4fa;
+        }
+
+        .btn-primary {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00e5ff, #00daf3);
+            color: #00363d;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 12px 24px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 10px;
+            background: transparent;
+            color: rgba(180, 200, 220, 0.6);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 229, 255, 0.05);
+            border-color: rgba(0, 229, 255, 0.3);
+            color: #d4e4fa;
+        }
+
+        .btn-danger {
+            padding: 12px 24px;
+            border: 1px solid rgba(255, 180, 171, 0.2);
+            border-radius: 10px;
+            background: rgba(147, 0, 10, 0.1);
+            color: #ffb4ab;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-danger:hover {
+            background: rgba(147, 0, 10, 0.2);
+            border-color: rgba(255, 180, 171, 0.3);
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            border: none;
+            border-bottom: 2px solid transparent;
+            background: transparent;
+            color: rgba(180, 200, 220, 0.4);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            color: rgba(180, 200, 220, 0.7);
+        }
+
+        .tab-btn.active {
+            color: #00e5ff;
+            border-bottom-color: #00e5ff;
+        }
+
+        .admin-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(0, 229, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .admin-card:hover {
+            border-color: rgba(0, 229, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    MODAL DE USUARIO
+    ============================================ -->
+    <div class="modal-overlay" id="userModal">
+        <div class="modal-content">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #00e5ff, #00daf3); display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 36px; color: #00363d; font-weight: 700;">
+                    <span id="modalAvatar">A</span>
+                </div>
+                <h3 style="color: #d4e4fa; font-size: 1.3rem; margin-top: 12px;" id="modalName">Usuario</h3>
+                <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace;" id="modalRole">Rol</p>
+                <p style="color: rgba(180,200,220,0.2); font-size: 0.7rem; margin-top: 4px;" id="modalMode">Modo</p>
+            </div>
+            <button onclick="cerrarModal()" style="width: 100%; padding: 12px; border: 1px solid rgba(255,180,171,0.2); background: rgba(147,0,10,0.1); color: #ffb4ab; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                CERRAR SESIÓN
+            </button>
+            <button onclick="cerrarModal()" style="width: 100%; margin-top: 8px; padding: 12px; border: 1px solid rgba(0,229,255,0.1); background: transparent; color: rgba(180,200,220,0.4); border-radius: 10px; cursor: pointer; transition: all 0.3s;">
+                CANCELAR
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================
+    MODAL DE FORMULARIO (genérico)
+    ============================================ -->
+    <div class="modal-overlay" id="formModal">
+        <div class="modal-content" id="formModalContent">
+            <!-- Se llena dinámicamente -->
+        </div>
+    </div>
+
+    <!-- ============================================
+    TOP APP BAR
+    ============================================ -->
+    <header class="fixed top-0 w-full z-50 bg-background border-b border-outline-variant flex items-center justify-between px-margin-mobile h-16">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary-container">precision_manufacturing</span>
+            <h1 class="font-headline-md text-headline-md font-bold text-primary-container">IPE3 Engineering</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button onclick="mostrarModal()" class="flex items-center gap-2 hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 duration-150">
+                <div class="user-avatar" id="headerAvatar">A</div>
+                <span class="text-on-surface-variant text-sm hidden sm:inline" id="headerName">Usuario</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================
+    MAIN CONTENT
+    ============================================ -->
+    <main class="pt-20 pb-28 px-margin-mobile max-w-7xl mx-auto">
+
+        <!-- ============================================
+        HEADER
+        ============================================ -->
+        <section class="mb-lg animate-enter">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface">
+                        ⚙️ Administración del Sistema
+                    </h2>
+                    <p class="text-on-surface-variant text-sm">Gestión de clientes, equipos, técnicos y más</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="user-badge" id="userModeBadge">🔐 CARGANDO</span>
+                    <span class="text-on-surface-variant text-xs font-mono" id="currentTime"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+        TABS DE ADMINISTRACIÓN
+        ============================================ -->
+        <section class="mb-lg animate-enter border-b border-outline-variant flex flex-wrap gap-2 overflow-x-auto">
+            <button class="tab-btn active" data-tab="clientes">
+                <span class="material-symbols-outlined">business</span>
+                CLIENTES
+            </button>
+            <button class="tab-btn" data-tab="equipos">
+                <span class="material-symbols-outlined">settings_input_component</span>
+                EQUIPOS
+            </button>
+            <button class="tab-btn" data-tab="tecnicos">
+                <span class="material-symbols-outlined">engineering</span>
+                TÉCNICOS
+            </button>
+            <button class="tab-btn" data-tab="usuarios">
+                <span class="material-symbols-outlined">people</span>
+                USUARIOS
+            </button>
+            <button class="tab-btn" data-tab="ubicaciones">
+                <span class="material-symbols-outlined">location_on</span>
+                UBICACIONES
+            </button>
+            <button class="tab-btn" data-tab="categorias">
+                <span class="material-symbols-outlined">category</span>
+                CATEGORÍAS
+            </button>
+        </section>
+
+        <!-- ============================================
+        BOTÓN DE NUEVO (dinámico)
+        ============================================ -->
+        <section class="mb-lg animate-enter">
+            <button id="btnNuevo" class="btn-primary">
+                <span class="material-symbols-outlined">add</span>
+                NUEVO
+            </button>
+        </section>
+
+        <!-- ============================================
+        CONTENEDOR DE LISTA (dinámico)
+        ============================================ -->
+        <section id="listContainer" class="space-y-3">
+            <!-- Se llena dinámicamente -->
+        </section>
+
+        <!-- ============================================
+        FOOTER
+        ============================================ -->
+        <div class="mt-lg text-center text-on-surface-variant text-xs font-mono opacity-30">
+            ⚙️ IPE3 Engineering v3.0 · Panel de Administración
+        </div>
+
+    </main>
+
+    <!-- ============================================
+    BOTTOM NAV BAR
+    ============================================ -->
+    <nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-low border-t border-outline-variant shadow-lg flex justify-around items-center h-20 px-4">
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="dashboard.html">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-label-caps text-[10px] mt-0.5">Dashboard</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="equipos.html">
+            <span class="material-symbols-outlined">settings_input_component</span>
+            <span class="font-label-caps text-[10px] mt-0.5">Equipos</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="solicitudes.html">
+            <span class="material-symbols-outlined">build</span>
+            <span class="font-label-caps text-[10px] mt-0.5">Solicitudes</span>
+        </a>
+        <a class="flex flex-col items-center justify-center bg-secondary-container text-primary-container rounded-full px-4 py-1 hover:text-on-surface transition-colors active:scale-90 duration-200" href="admin.html">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+            <span class="font-label-caps text-[10px] mt-0.5">Admin</span>
+        </a>
+    </nav>
+
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
+    <script>
+        // ============================================
+        // CONFIGURACIÓN
+        // ============================================
+        const API_CONFIG = {
+            URL_BASE: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec',
+            DURACION_CACHE: 300000
+        };
+
+        // ============================================
+        // USUARIO
+        // ============================================
+        function getUserData() {
+            try {
+                const data = localStorage.getItem('ipe3_user');
+                if (!data) return null;
+                return JSON.parse(data);
+            } catch {
+                return null;
+            }
+        }
+
+        const user = getUserData();
+
+        if (!user) {
+            window.location.href = 'login.html';
+        }
+
+        // Verificar que sea administrador
+        if (user.rol !== 'ADMIN' && user.modo !== 'admin') {
+            // Redirigir al dashboard si no es admin
+            window.location.href = 'dashboard.html';
+        }
+
+        // ============================================
+        // MOSTRAR USUARIO
+        // ============================================
+        function mostrarUsuario() {
+            if (!user) return;
+            
+            const nombre = user.nombre || user.name || 'Usuario';
+            const rol = user.rol || user.role || 'USER';
+            const modo = user.modo || 'user';
+            const initial = nombre.charAt(0).toUpperCase();
+
+            document.getElementById('headerName').textContent = nombre;
+            document.getElementById('headerAvatar').textContent = initial;
+            document.getElementById('userModeBadge').textContent = modo === 'admin' ? '🔐 ADMIN' : '👤 USUARIO';
+            
+            document.getElementById('modalAvatar').textContent = initial;
+            document.getElementById('modalName').textContent = nombre;
+            document.getElementById('modalRole').textContent = rol;
+            document.getElementById('modalMode').textContent = `Modo: ${modo === 'admin' ? 'Administrador' : 'Usuario'}`;
+        }
+
+        // ============================================
+        // MODAL USUARIO
+        // ============================================
+        function mostrarModal() {
+            document.getElementById('userModal').classList.add('show');
+        }
+
+        function cerrarModal() {
+            document.getElementById('userModal').classList.remove('show');
+            localStorage.removeItem('ipe3_user');
+            setTimeout(() => window.location.href = 'login.html', 300);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('userModal').classList.remove('show');
+                document.getElementById('formModal').classList.remove('show');
+            }
+        });
+
+        document.getElementById('userModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) document.getElementById('userModal').classList.remove('show');
+        });
+
+        document.getElementById('formModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) document.getElementById('formModal').classList.remove('show');
+        });
+
+        // ============================================
+        // RELOJ
+        // ============================================
+        function actualizarReloj() {
+            const ahora = new Date();
+            document.getElementById('currentTime').textContent = ahora.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
+
+        // ============================================
+        // TOAST
+        // ============================================
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast-notification ${type === 'error' ? 'error' : ''}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // ============================================
+        // DATOS DE ADMINISTRACIÓN
+        // ============================================
+        let adminData = {
+            clientes: [],
+            equipos: [],
+            tecnicos: [],
+            usuarios: [],
+            ubicaciones: [],
+            categorias: []
+        };
+
+        let currentTab = 'clientes';
+
+        // ============================================
+        // DATOS DE RESPALDO
+        // ============================================
+        function getDefaultData() {
+            return {
+                clientes: [
+                    { id: 'CLI-001', nombre: 'Industrias López SAC', ruc: '20123456789', contacto: 'Carlos López', telefono: '+51 965 432 109', email: 'carlos@industriaslopez.com', direccion: 'Av. Industrial 456' },
+                    { id: 'CLI-002', nombre: 'Corporación García EIRL', ruc: '20987654321', contacto: 'María García', telefono: '+51 976 543 210', email: 'maria@corporaciongarcia.com', direccion: 'Calle Principal 789' },
+                    { id: 'CLI-003', nombre: 'Ingeniería Martínez S.A.', ruc: '20666666666', contacto: 'Ana Martínez', telefono: '+51 954 321 098', email: 'ana@ingenieriamartinez.com', direccion: 'Av. Tecnología 123' }
+                ],
+                equipos: [
+                    { id: 'TURBINA-001', nombre: 'Turbina XT-500', tipo: 'Turbina', modelo: 'XT-500', fabricante: 'Siemens', ubicacion: 'ZONA A4', estado: 'OPERATIVO' },
+                    { id: 'MOTOR-B1', nombre: 'Motor Conveyor B1', tipo: 'Motor', modelo: 'M-2000', fabricante: 'ABB', ubicacion: 'ZONA B2', estado: 'OPERATIVO' },
+                    { id: 'BOMBA-P1', nombre: 'Bomba Hidráulica P1', tipo: 'Bomba', modelo: 'HP-500', fabricante: 'Grundfos', ubicacion: 'ZONA C3', estado: 'OPERATIVO' },
+                    { id: 'CHILLER-2', nombre: 'Chiller HVAC #2', tipo: 'Chiller', modelo: 'CH-1000', fabricante: 'Carrier', ubicacion: 'SALA B', estado: 'MANTENIMIENTO' }
+                ],
+                tecnicos: [
+                    { id: 'TEC-001', nombre: 'Juan Pérez', especialidad: 'Mecánica', telefono: '+51 987 654 321', email: 'juan.perez@ipe3.com', disponible: true },
+                    { id: 'TEC-002', nombre: 'María García', especialidad: 'Eléctrica', telefono: '+51 976 543 210', email: 'maria.garcia@ipe3.com', disponible: true },
+                    { id: 'TEC-003', nombre: 'Carlos López', especialidad: 'Electrónica', telefono: '+51 965 432 109', email: 'carlos.lopez@ipe3.com', disponible: false },
+                    { id: 'TEC-004', nombre: 'Ana Martínez', especialidad: 'Software', telefono: '+51 954 321 098', email: 'ana.martinez@ipe3.com', disponible: true }
+                ],
+                usuarios: [
+                    { id: 'U001', nombre: 'Administrador Sistema', email: 'admin@ipe3.com', rol: 'ADMIN', estado: 'ACTIVO' },
+                    { id: 'U002', nombre: 'Juan Pérez', email: 'juan.perez@ipe3.com', rol: 'INGENIERO', estado: 'ACTIVO' },
+                    { id: 'U003', nombre: 'María García', email: 'maria.garcia@ipe3.com', rol: 'SUPERVISOR', estado: 'ACTIVO' }
+                ],
+                ubicaciones: [
+                    { id: 'UBI-001', nombre: 'ZONA A4', descripcion: 'Planta principal - Sector A' },
+                    { id: 'UBI-002', nombre: 'ZONA B2', descripcion: 'Planta principal - Sector B' },
+                    { id: 'UBI-003', nombre: 'ZONA C3', descripcion: 'Planta principal - Sector C' },
+                    { id: 'UBI-004', nombre: 'SALA A', descripcion: 'Sala de control A' },
+                    { id: 'UBI-005', nombre: 'SALA B', descripcion: 'Sala de control B' }
+                ],
+                categorias: [
+                    { id: 'CAT-001', nombre: 'Mecánica', descripcion: 'Equipos y componentes mecánicos' },
+                    { id: 'CAT-002', nombre: 'Eléctrica', descripcion: 'Equipos y componentes eléctricos' },
+                    { id: 'CAT-003', nombre: 'Electrónica', descripcion: 'Equipos y componentes electrónicos' },
+                    { id: 'CAT-004', nombre: 'Software', descripcion: 'Sistemas y aplicaciones' },
+                    { id: 'CAT-005', nombre: 'Neumática', descripcion: 'Equipos y componentes neumáticos' }
+                ]
+            };
+        }
+
+        // ============================================
+        // RENDERIZAR LISTA SEGÚN TAB
+        // ============================================
+        function renderList(tab) {
+            const container = document.getElementById('listContainer');
+            const data = adminData[tab] || [];
+            
+            if (!data || data.length === 0) {
+                container.innerHTML = `
+                    <div class="glass-card p-8 rounded-xl text-center">
+                        <span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 64px;">inbox</span>
+                        <p class="text-on-surface-variant text-sm mt-4">No hay registros en ${tab}</p>
+                        <button onclick="abrirFormularioNuevo()" class="btn-primary mt-4" style="margin: 16px auto 0;">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+                            AGREGAR
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Definir columnas según tab
+            let headers = [];
+            let rowTemplate = (item) => '';
+            
+            switch(tab) {
+                case 'clientes':
+                    headers = ['ID', 'Nombre', 'RUC', 'Contacto', 'Teléfono', 'Email'];
+                    rowTemplate = (item) => `
+                        <tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors cursor-pointer" onclick="verDetalle('${tab}', '${item.id}')">
+                            <td class="p-3 font-mono text-xs text-on-surface-variant">${item.id}</td>
+                            <td class="p-3 font-medium">${item.nombre}</td>
+                            <td class="p-3 text-on-surface-variant">${item.ruc || '-'}</td>
+                            <td class="p-3 text-on-surface-variant">${item.contacto || '-'}</td>
+                            <td class="p-3 text-on-surface-variant">${item.telefono || '-'}</td>
+                            <td class="p-3 text-on-surface-variant text-sm">${item.email || '-'}</td>
+                        </tr>
+                    `;
+                    break;
+                    
+                case 'equipos':
+                    headers = ['ID', 'Nombre', 'Tipo', 'Modelo', 'Ubicación', 'Estado'];
+                    rowTemplate = (item) => `
+                        <tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors cursor-pointer" onclick="verDetalle('${tab}', '${item.id}')">
+                            <td class="p-3 font-mono text-xs text-on-surface-variant">${item.id}</td>
+                            <td class="p-3 font-medium">${item.nombre}</td>
+                            <td class="p-3 text-on-surface-variant">${item.tipo || '-'}</td>
+                            <td class="p-3 text-on-surface-variant">${item.modelo || '-'}</td>
+                            <td class="p-3 text-on-surface-variant">${item.ubicacion || '-'}</td>
+                            <td class="p-3">
+                                <span class="chip ${item.estado === 'OPERATIVO' ? 'chip-operativo' : item.estado === 'MANTENIMIENTO' ? 'chip-mantenimiento' : item.estado === 'FALLA' ? 'chip-falla' : 'chip-fuera'}">${item.estado || 'N/A'}</span>
+                            </td>
+                        </tr>
+                    `;
+                    break;
+                    
+                case 'tecnicos':
+                    headers = ['ID', 'Nombre', 'Especialidad', 'Teléfono', 'Email', 'Disponible'];
+                    rowTemplate = (item) => `
+                        <tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors cursor-pointer" onclick="verDetalle('${tab}', '${item.id}')">
+                            <td class="p-3 font-mono text-xs text-on-surface-variant">${item.id}</td>
+                            <td class="p-3 font-medium">${item.nombre}</td>
+                            <td class="p-3 text-on-surface-variant">${item.especialidad || '-'}</td>
+                            <td class="p-3 text-on-surface-variant">${item.telefono || '-'}</td>
+                            <td class="p-3 text-on-surface-variant text-sm">${item.email || '-'}</td>
+                            <td class="p-3">
+                                <span class="chip ${item.disponible ? 'chip-operativo' : 'chip-fuera'}">${item.disponible ? 'DISPONIBLE' : 'NO DISPONIBLE'}</span>
+                            </td>
+                        </tr>
+                    `;
+                    break;
+                    
+                case 'usuarios':
+                    headers = ['ID', 'Nombre', 'Email', 'Rol', 'Estado'];
+                    rowTemplate = (item) => `
+                        <tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors cursor-pointer" onclick="verDetalle('${tab}', '${item.id}')">
+                            <td class="p-3 font-mono text-xs text-on-surface-variant">${item.id}</td>
+                            <td class="p-3 font-medium">${item.nombre}</td>
+                            <td class="p-3 text-on-surface-variant">${item.email}</td>
+                            <td class="p-3">
+                                <span class="chip ${item.rol === 'ADMIN' ? 'chip-progreso' : 'chip-operativo'}">${item.rol}</span>
+                            </td>
+                            <td class="p-3">
+                                <span class="chip ${item.estado === 'ACTIVO' ? 'chip-operativo' : 'chip-fuera'}">${item.estado}</span>
+                            </td>
+                        </tr>
+                    `;
+                    break;
+                    
+                case 'ubicaciones':
+                    headers = ['ID', 'Nombre', 'Descripción'];
+                    rowTemplate = (item) => `
+                        <tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors cursor-pointer" onclick="verDetalle('${tab}', '${item.id}')">
+                            <td class="p-3 font-mono text-xs text-on-surface-variant">${item.id}</td>
+                            <td class="p-3 font-medium">${item.nombre}</td>
+                            <td class="p-3 text-on-surface-variant">${item.descripcion || '-'}</td>
+                        </tr>
+                    `;
+                    break;
+                    
+                case 'categorias':
+                    headers = ['ID', 'Nombre', 'Descripción'];
+                    rowTemplate = (item) => `
+                        <tr class="border-b border-outline-variant/30 hover:bg-surface-container-highest transition-colors cursor-pointer" onclick="verDetalle('${tab}', '${item.id}')">
+                            <td class="p-3 font-mono text-xs text-on-surface-variant">${item.id}</td>
+                            <td class="p-3 font-medium">${item.nombre}</td>
+                            <td class="p-3 text-on-surface-variant">${item.descripcion || '-'}</td>
+                        </tr>
+                    `;
+                    break;
+            }
+
+            container.innerHTML = `
+                <div class="glass-card rounded-2xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-surface-container-high">
+                                <tr>
+                                    ${headers.map(h => `<th class="p-3 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">${h}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant/30">
+                                ${data.map(rowTemplate).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            // Agregar estilos de chips si no existen
+            if (!document.getElementById('chipStyles')) {
+                const style = document.createElement('style');
+                style.id = 'chipStyles';
+                style.textContent = `
+                    .chip {
+                        padding: 2px 10px;
+                        border-radius: 12px;
+                        font-size: 0.65rem;
+                        font-weight: 600;
+                        font-family: 'JetBrains Mono', monospace;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                    }
+                    .chip-operativo { background: rgba(0, 229, 255, 0.15); color: #00e5ff; border: 1px solid rgba(0, 229, 255, 0.2); }
+                    .chip-mantenimiento { background: rgba(255, 222, 89, 0.15); color: #ffde59; border: 1px solid rgba(255, 222, 89, 0.2); }
+                    .chip-falla { background: rgba(255, 180, 171, 0.15); color: #ffb4ab; border: 1px solid rgba(255, 180, 171, 0.2); }
+                    .chip-fuera { background: rgba(105, 0, 5, 0.3); color: #ffb4ab; border: 1px solid rgba(105, 0, 5, 0.3); }
+                    .chip-progreso { background: rgba(79, 195, 247, 0.15); color: #4fc3f7; border: 1px solid rgba(79, 195, 247, 0.2); }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // ============================================
+        // VER DETALLE
+        // ============================================
+        function verDetalle(tab, id) {
+            const item = adminData[tab].find(i => i.id === id);
+            if (!item) {
+                showToast('❌ Elemento no encontrado', 'error');
+                return;
+            }
+
+            const modal = document.getElementById('formModal');
+            const content = document.getElementById('formModalContent');
+
+            // Generar campos de detalle según tab
+            let fields = '';
+            Object.entries(item).forEach(([key, value]) => {
+                if (key === 'id') return;
+                const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+                fields += `
+                    <div class="mb-3">
+                        <label class="form-label">${label}</label>
+                        <div class="form-input" style="background:rgba(0,0,0,0.2);cursor:default;">${value || '-'}</div>
+                    </div>
+                `;
+            });
+
+            content.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
+                    <div>
+                        <h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">${item.nombre || item.id}</h2>
+                        <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">${tab.toUpperCase()} · ${item.id}</p>
+                    </div>
+                    <button onclick="document.getElementById('formModal').classList.remove('show')" style="background: none; border: none; color: rgba(180,200,220,0.3); cursor: pointer; font-size: 24px;">✕</button>
+                </div>
+
+                ${fields}
+
+                <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button onclick="editarElemento('${tab}', '${item.id}')" class="btn-primary" style="flex:1;justify-content:center;">
+                        <span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+                        EDITAR
+                    </button>
+                    <button onclick="eliminarElemento('${tab}', '${item.id}')" class="btn-danger" style="flex:1;justify-content:center;">
+                        <span class="material-symbols-outlined" style="font-size: 20px;">delete</span>
+                        ELIMINAR
+                    </button>
+                </div>
+            `;
+
+            modal.classList.add('show');
+        }
+
+        // ============================================
+        // ABRIR FORMULARIO NUEVO
+        // ============================================
+        function abrirFormularioNuevo() {
+            const modal = document.getElementById('formModal');
+            const content = document.getElementById('formModalContent');
+
+            const tab = currentTab;
+            let fields = '';
+            let idPrefix = '';
+            
+            switch(tab) {
+                case 'clientes':
+                    idPrefix = 'CLI-';
+                    fields = `
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Cliente *</label>
+                            <input class="form-input" id="f_nombre" placeholder="Ej: Industrias López SAC" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">RUC</label>
+                            <input class="form-input" id="f_ruc" placeholder="20123456789" maxlength="13">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contacto</label>
+                            <input class="form-input" id="f_contacto" placeholder="Nombre del contacto">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input class="form-input" id="f_telefono" placeholder="+51 999 999 999">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input class="form-input" id="f_email" type="email" placeholder="contacto@empresa.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dirección</label>
+                            <input class="form-input" id="f_direccion" placeholder="Av. Principal 123">
+                        </div>
+                    `;
+                    break;
+                    
+                case 'equipos':
+                    idPrefix = 'EQ-';
+                    fields = `
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Equipo *</label>
+                            <input class="form-input" id="f_nombre" placeholder="Ej: Turbina XT-500" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tipo</label>
+                            <input class="form-input" id="f_tipo" placeholder="Turbina, Motor, Bomba...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Modelo</label>
+                            <input class="form-input" id="f_modelo" placeholder="XT-500">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fabricante</label>
+                            <input class="form-input" id="f_fabricante" placeholder="Siemens, ABB...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ubicación</label>
+                            <input class="form-input" id="f_ubicacion" placeholder="ZONA A4">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" id="f_estado">
+                                <option value="OPERATIVO">🟢 OPERATIVO</option>
+                                <option value="MANTENIMIENTO">🟡 MANTENIMIENTO</option>
+                                <option value="FALLA">🔴 FALLA</option>
+                                <option value="FUERA_DE_SERVICIO">⚫ FUERA DE SERVICIO</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'tecnicos':
+                    idPrefix = 'TEC-';
+                    fields = `
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Técnico *</label>
+                            <input class="form-input" id="f_nombre" placeholder="Juan Pérez" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Especialidad</label>
+                            <input class="form-input" id="f_especialidad" placeholder="Mecánica, Eléctrica...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input class="form-input" id="f_telefono" placeholder="+51 999 999 999">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input class="form-input" id="f_email" type="email" placeholder="tecnico@ipe3.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Disponible</label>
+                            <select class="form-select" id="f_disponible">
+                                <option value="true">✅ DISPONIBLE</option>
+                                <option value="false">❌ NO DISPONIBLE</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'usuarios':
+                    idPrefix = 'U';
+                    fields = `
+                        <div class="mb-3">
+                            <label class="form-label">Nombre *</label>
+                            <input class="form-input" id="f_nombre" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email *</label>
+                            <input class="form-input" id="f_email" type="email" placeholder="usuario@ipe3.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Rol</label>
+                            <select class="form-select" id="f_rol">
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="SUPERVISOR">SUPERVISOR</option>
+                                <option value="INGENIERO">INGENIERO</option>
+                                <option value="TÉCNICO">TÉCNICO</option>
+                                <option value="CONSULTOR">CONSULTOR</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" id="f_estado">
+                                <option value="ACTIVO">ACTIVO</option>
+                                <option value="INACTIVO">INACTIVO</option>
+                                <option value="SUSPENDIDO">SUSPENDIDO</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'ubicaciones':
+                    idPrefix = 'UBI-';
+                    fields = `
+                        <div class="mb-3">
+                            <label class="form-label">Nombre *</label>
+                            <input class="form-input" id="f_nombre" placeholder="ZONA A4" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <input class="form-input" id="f_descripcion" placeholder="Planta principal - Sector A">
+                        </div>
+                    `;
+                    break;
+                    
+                case 'categorias':
+                    idPrefix = 'CAT-';
+                    fields = `
+                        <div class="mb-3">
+                            <label class="form-label">Nombre *</label>
+                            <input class="form-input" id="f_nombre" placeholder="Mecánica" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <input class="form-input" id="f_descripcion" placeholder="Equipos y componentes mecánicos">
+                        </div>
+                    `;
+                    break;
+            }
+
+            content.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
+                    <div>
+                        <h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">📝 Nuevo ${tab.slice(0, -1).toUpperCase()}</h2>
+                        <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">Completa los campos para agregar un nuevo registro</p>
+                    </div>
+                    <button onclick="document.getElementById('formModal').classList.remove('show')" style="background: none; border: none; color: rgba(180,200,220,0.3); cursor: pointer; font-size: 24px;">✕</button>
+                </div>
+
+                <form id="adminForm" onsubmit="guardarNuevo(event, '${tab}', '${idPrefix}')">
+                    ${fields}
+                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                        <button type="submit" class="btn-primary" style="flex:1;justify-content:center;">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">save</span>
+                            GUARDAR
+                        </button>
+                        <button type="button" onclick="document.getElementById('formModal').classList.remove('show')" class="btn-secondary">
+                            CANCELAR
+                        </button>
+                    </div>
+                </form>
+            `;
+
+            modal.classList.add('show');
+        }
+
+        // ============================================
+        // GUARDAR NUEVO ELEMENTO
+        // ============================================
+        function guardarNuevo(event, tab, idPrefix) {
+            event.preventDefault();
+            
+            const form = document.getElementById('adminForm');
+            const formData = new FormData(form);
+            
+            const nuevo = {
+                id: `${idPrefix}${String(adminData[tab].length + 1).padStart(3, '0')}`
+            };
+            
+            // Recoger datos del formulario
+            const fields = ['nombre', 'ruc', 'contacto', 'telefono', 'email', 'direccion', 'tipo', 'modelo', 'fabricante', 'ubicacion', 'estado', 'especialidad', 'disponible', 'descripcion', 'rol'];
+            
+            fields.forEach(f => {
+                const value = document.getElementById(`f_${f}`);
+                if (value) {
+                    if (f === 'disponible') {
+                        nuevo[f] = value.value === 'true';
+                    } else {
+                        nuevo[f] = value.value;
+                    }
+                }
+            });
+            
+            // Agregar a los datos
+            adminData[tab].push(nuevo);
+            
+            // Cerrar modal y refrescar
+            document.getElementById('formModal').classList.remove('show');
+            renderList(tab);
+            showToast(`✅ ${tab.slice(0, -1)} agregado exitosamente`);
+            
+            // Aquí se enviaría a la API en producción
+            console.log('📝 Nuevo registro:', { tab, data: nuevo });
+        }
+
+        // ============================================
+        // EDITAR ELEMENTO
+        // ============================================
+        function editarElemento(tab, id) {
+            const item = adminData[tab].find(i => i.id === id);
+            if (!item) {
+                showToast('❌ Elemento no encontrado', 'error');
+                return;
+            }
+
+            document.getElementById('formModal').classList.remove('show');
+            
+            // Abrir formulario de edición (similar a nuevo pero con datos)
+            abrirFormularioEdicion(tab, item);
+        }
+
+        function abrirFormularioEdicion(tab, item) {
+            const modal = document.getElementById('formModal');
+            const content = document.getElementById('formModalContent');
+
+            const fields = ['nombre', 'ruc', 'contacto', 'telefono', 'email', 'direccion', 'tipo', 'modelo', 'fabricante', 'ubicacion', 'estado', 'especialidad', 'disponible', 'descripcion', 'rol'];
+            
+            let inputs = '';
+            fields.forEach(f => {
+                if (item[f] !== undefined) {
+                    const value = item[f] !== null ? item[f] : '';
+                    const label = f.charAt(0).toUpperCase() + f.slice(1).replace(/_/g, ' ');
+                    if (f === 'estado' || f === 'disponible' || f === 'rol') {
+                        // Select fields
+                        let options = '';
+                        if (f === 'estado') {
+                            options = `
+                                <option value="OPERATIVO" ${value === 'OPERATIVO' ? 'selected' : ''}>🟢 OPERATIVO</option>
+                                <option value="MANTENIMIENTO" ${value === 'MANTENIMIENTO' ? 'selected' : ''}>🟡 MANTENIMIENTO</option>
+                                <option value="FALLA" ${value === 'FALLA' ? 'selected' : ''}>🔴 FALLA</option>
+                                <option value="FUERA_DE_SERVICIO" ${value === 'FUERA_DE_SERVICIO' ? 'selected' : ''}>⚫ FUERA DE SERVICIO</option>
+                            `;
+                        } else if (f === 'disponible') {
+                            options = `
+                                <option value="true" ${value === true ? 'selected' : ''}>✅ DISPONIBLE</option>
+                                <option value="false" ${value === false ? 'selected' : ''}>❌ NO DISPONIBLE</option>
+                            `;
+                        } else if (f === 'rol') {
+                            options = `
+                                <option value="ADMIN" ${value === 'ADMIN' ? 'selected' : ''}>ADMIN</option>
+                                <option value="SUPERVISOR" ${value === 'SUPERVISOR' ? 'selected' : ''}>SUPERVISOR</option>
+                                <option value="INGENIERO" ${value === 'INGENIERO' ? 'selected' : ''}>INGENIERO</option>
+                                <option value="TÉCNICO" ${value === 'TÉCNICO' ? 'selected' : ''}>TÉCNICO</option>
+                                <option value="CONSULTOR" ${value === 'CONSULTOR' ? 'selected' : ''}>CONSULTOR</option>
+                            `;
+                        }
+                        inputs += `
+                            <div class="mb-3">
+                                <label class="form-label">${label}</label>
+                                <select class="form-select" id="f_${f}">${options}</select>
+                            </div>
+                        `;
+                    } else {
+                        inputs += `
+                            <div class="mb-3">
+                                <label class="form-label">${label}</label>
+                                <input class="form-input" id="f_${f}" value="${value}" placeholder="Ingresa ${label.toLowerCase()}">
+                            </div>
+                        `;
+                    }
+                }
+            });
+
+            content.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
+                    <div>
+                        <h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">✏️ Editar ${item.nombre || item.id}</h2>
+                        <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">${tab.toUpperCase()} · ${item.id}</p>
+                    </div>
+                    <button onclick="document.getElementById('formModal').classList.remove('show')" style="background: none; border: none; color: rgba(180,200,220,0.3); cursor: pointer; font-size: 24px;">✕</button>
+                </div>
+
+                <form id="editForm" onsubmit="guardarEdicion(event, '${tab}', '${item.id}')">
+                    ${inputs}
+                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                        <button type="submit" class="btn-primary" style="flex:1;justify-content:center;">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">save</span>
+                            ACTUALIZAR
+                        </button>
+                        <button type="button" onclick="document.getElementById('formModal').classList.remove('show')" class="btn-secondary">
+                            CANCELAR
+                        </button>
+                    </div>
+                </form>
+            `;
+
+            modal.classList.add('show');
+        }
+
+        function guardarEdicion(event, tab, id) {
+            event.preventDefault();
+            
+            const item = adminData[tab].find(i => i.id === id);
+            if (!item) {
+                showToast('❌ Elemento no encontrado', 'error');
+                return;
+            }
+
+            const fields = ['nombre', 'ruc', 'contacto', 'telefono', 'email', 'direccion', 'tipo', 'modelo', 'fabricante', 'ubicacion', 'estado', 'especialidad', 'disponible', 'descripcion', 'rol'];
+            
+            fields.forEach(f => {
+                const input = document.getElementById(`f_${f}`);
+                if (input) {
+                    if (f === 'disponible') {
+                        item[f] = input.value === 'true';
+                    } else {
+                        item[f] = input.value;
+                    }
+                }
+            });
+            
+            document.getElementById('formModal').classList.remove('show');
+            renderList(tab);
+            showToast(`✅ ${tab.slice(0, -1)} actualizado exitosamente`);
+            
+            console.log('✏️ Registro actualizado:', { tab, id, data: item });
+        }
+
+        // ============================================
+        // ELIMINAR ELEMENTO
+        // ============================================
+        function eliminarElemento(tab, id) {
+            if (!confirm(`¿Estás seguro de eliminar este registro de ${tab}?`)) return;
+            
+            adminData[tab] = adminData[tab].filter(i => i.id !== id);
+            document.getElementById('formModal').classList.remove('show');
+            renderList(tab);
+            showToast(`✅ ${tab.slice(0, -1)} eliminado`);
+            
+            console.log('🗑️ Registro eliminado:', { tab, id });
+        }
+
+        // ============================================
+        // CAMBIO DE TAB
+        // ============================================
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTab = btn.dataset.tab;
+                
+                // Actualizar botón "NUEVO"
+                const btnNuevo = document.getElementById('btnNuevo');
+                btnNuevo.innerHTML = `<span class="material-symbols-outlined">add</span> NUEVO ${currentTab.slice(0, -1).toUpperCase()}`;
+                btnNuevo.onclick = abrirFormularioNuevo;
+                
+                renderList(currentTab);
+            });
+        });
+
+        // ============================================
+        // INICIALIZAR
+        // ============================================
+        function init() {
+            mostrarUsuario();
+            
+            // Cargar datos (por ahora usar respaldo)
+            const defaultData = getDefaultData();
+            adminData = defaultData;
+            
+            // Renderizar tab inicial
+            renderList('clientes');
+            
+            // Configurar botón nuevo
+            const btnNuevo = document.getElementById('btnNuevo');
+            btnNuevo.innerHTML = `<span class="material-symbols-outlined">add</span> NUEVO CLIENTE`;
+            btnNuevo.onclick = abrirFormularioNuevo;
+            
+            console.log('🚀 IPE3 Admin v3.0');
+            console.log('👤 Usuario:', user);
+            console.log('📊 Datos cargados:', Object.keys(adminData).length, 'tablas');
+        }
+
+        init();
+
+        // ============================================
+        // SERVICE WORKER
+        // ============================================
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('✅ Service Worker registrado'))
+                .catch(err => console.error('❌ SW Error:', err));
+        }
+    </script>
+
+</body>
+</html>
