@@ -4,157 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPE3 Engineering - Solicitudes</title>
-    <link rel="manifest" href="/manifest.json">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="IPE3">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "tertiary": "#e6edff",
-                        "primary-fixed-dim": "#00daf3",
-                        "on-error": "#690005",
-                        "tertiary-container": "#c6d1e9",
-                        "secondary": "#c1c6db",
-                        "on-secondary-container": "#afb4c9",
-                        "on-surface": "#d4e4fa",
-                        "error": "#ffb4ab",
-                        "surface-container-highest": "#273647",
-                        "secondary-container": "#414658",
-                        "surface-container-high": "#1c2b3c",
-                        "surface-container-low": "#0d1c2d",
-                        "on-surface-variant": "#bac9cc",
-                        "background": "#051424",
-                        "on-tertiary": "#263143",
-                        "surface-dim": "#051424",
-                        "primary-container": "#00e5ff",
-                        "on-primary-fixed-variant": "#004f58",
-                        "on-error-container": "#ffdad6",
-                        "surface": "#051424",
-                        "on-secondary": "#2a3040",
-                        "on-tertiary-fixed": "#111c2d",
-                        "tertiary-fixed-dim": "#bcc7de",
-                        "on-secondary-fixed": "#151b2b",
-                        "on-tertiary-fixed-variant": "#3c475a",
-                        "error-container": "#93000a",
-                        "tertiary-fixed": "#d8e3fb",
-                        "on-tertiary-container": "#4f5a6e",
-                        "secondary-fixed-dim": "#c1c6db",
-                        "on-primary-container": "#00626e",
-                        "surface-container-lowest": "#010f1f",
-                        "surface-tint": "#00daf3",
-                        "inverse-primary": "#006875",
-                        "primary": "#c3f5ff",
-                        "outline": "#849396",
-                        "surface-bright": "#2c3a4c",
-                        "on-background": "#d4e4fa",
-                        "inverse-on-surface": "#233143",
-                        "surface-container": "#122131",
-                        "on-primary": "#00363d",
-                        "inverse-surface": "#d4e4fa",
-                        "outline-variant": "#3b494c",
-                        "surface-variant": "#273647",
-                        "primary-fixed": "#9cf0ff",
-                        "on-secondary-fixed-variant": "#414658",
-                        "secondary-fixed": "#dde2f8",
-                        "on-primary-fixed": "#001f24"
-                    },
-                    borderRadius: {
-                        DEFAULT: "0.125rem",
-                        lg: "0.25rem",
-                        xl: "0.5rem",
-                        full: "0.75rem"
-                    },
-                    spacing: {
-                        sm: "8px",
-                        lg: "24px",
-                        xl: "32px",
-                        xs: "4px",
-                        md: "16px",
-                        gutter: "16px",
-                        "margin-mobile": "20px",
-                        base: "4px"
-                    },
-                    fontFamily: {
-                        "body-sm": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "label-caps": ["JetBrains Mono"],
-                        "data-display": ["JetBrains Mono"]
-                    },
-                    fontSize: {
-                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                        "data-display": ["18px", {"lineHeight": "24px", "fontWeight": "500"}]
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #051424;
             color: #d4e4fa;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
         }
-
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-
         .glass-card {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid #334155;
             transition: all 0.3s ease;
         }
-
         .glass-card:hover {
             transform: translateY(-2px);
             border-color: rgba(0, 229, 255, 0.2);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
-
         .status-pendiente { border-left: 4px solid #ffde59; }
         .status-en-progreso { border-left: 4px solid #4fc3f7; }
         .status-completado { border-left: 4px solid #66bb6a; }
         .status-cancelado { border-left: 4px solid #ffb4ab; }
-
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #051424; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-
         .animate-enter {
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
         }
-
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .animate-enter:nth-child(1) { animation-delay: 0.1s; }
         .animate-enter:nth-child(2) { animation-delay: 0.2s; }
         .animate-enter:nth-child(3) { animation-delay: 0.3s; }
         .animate-enter:nth-child(4) { animation-delay: 0.4s; }
-
         .user-avatar {
             width: 36px;
             height: 36px;
@@ -167,7 +68,6 @@
             font-weight: 700;
             font-size: 14px;
         }
-
         .user-badge {
             background: rgba(0, 229, 255, 0.1);
             border: 1px solid rgba(0, 229, 255, 0.2);
@@ -177,19 +77,16 @@
             color: #00e5ff;
             font-family: 'JetBrains Mono', monospace;
         }
-
         .skeleton {
             background: linear-gradient(90deg, #1c2b3c 25%, #273647 50%, #1c2b3c 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
             border-radius: 8px;
         }
-
         @keyframes shimmer {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
-
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -201,14 +98,11 @@
             justify-content: center;
             animation: fadeIn 0.3s ease;
         }
-
         .modal-overlay.show { display: flex; }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
         .modal-content {
             background: #122131;
             border: 1px solid rgba(0, 229, 255, 0.1);
@@ -220,29 +114,10 @@
             overflow-y: auto;
             animation: slideUp 0.3s ease;
         }
-
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-
-        .toast-notification {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 229, 255, 0.1);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            color: #00e5ff;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
         .chip {
             padding: 2px 10px;
             border-radius: 12px;
@@ -252,12 +127,10 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-
         .chip-pendiente { background: rgba(255, 222, 89, 0.15); color: #ffde59; border: 1px solid rgba(255, 222, 89, 0.2); }
         .chip-progreso { background: rgba(79, 195, 247, 0.15); color: #4fc3f7; border: 1px solid rgba(79, 195, 247, 0.2); }
         .chip-completado { background: rgba(102, 187, 106, 0.15); color: #66bb6a; border: 1px solid rgba(102, 187, 106, 0.2); }
         .chip-cancelado { background: rgba(255, 180, 171, 0.15); color: #ffb4ab; border: 1px solid rgba(255, 180, 171, 0.2); }
-
         .filter-btn {
             padding: 8px 16px;
             border-radius: 20px;
@@ -270,19 +143,8 @@
             transition: all 0.3s ease;
             font-family: 'JetBrains Mono', monospace;
         }
-
-        .filter-btn:hover {
-            border-color: rgba(0, 229, 255, 0.3);
-            color: #d4e4fa;
-        }
-
-        .filter-btn.active {
-            background: rgba(0, 229, 255, 0.1);
-            border-color: #00e5ff;
-            color: #00e5ff;
-        }
-
-        /* Form styles */
+        .filter-btn:hover { border-color: rgba(0, 229, 255, 0.3); color: #d4e4fa; }
+        .filter-btn.active { background: rgba(0, 229, 255, 0.1); border-color: #00e5ff; color: #00e5ff; }
         .form-input {
             width: 100%;
             padding: 12px 16px;
@@ -295,22 +157,12 @@
             outline: none;
             font-family: 'Inter', sans-serif;
         }
-
         .form-input:focus {
             border-color: #00e5ff;
             box-shadow: 0 0 30px rgba(0, 229, 255, 0.05);
             background: rgba(0, 0, 0, 0.4);
         }
-
-        .form-input::placeholder {
-            color: rgba(180, 200, 220, 0.2);
-        }
-
-        .form-input option {
-            background: #122131;
-            color: #d4e4fa;
-        }
-
+        .form-input::placeholder { color: rgba(180, 200, 220, 0.2); }
         .form-label {
             display: block;
             color: rgba(180, 200, 220, 0.6);
@@ -320,7 +172,6 @@
             letter-spacing: 0.05em;
             margin-bottom: 6px;
         }
-
         .form-select {
             width: 100%;
             padding: 12px 16px;
@@ -337,18 +188,12 @@
             background-repeat: no-repeat;
             background-position: right 16px center;
         }
-
         .form-select:focus {
             border-color: #00e5ff;
             box-shadow: 0 0 30px rgba(0, 229, 255, 0.05);
             background: rgba(0, 0, 0, 0.4);
         }
-
-        .form-select option {
-            background: #122131;
-            color: #d4e4fa;
-        }
-
+        .form-select option { background: #122131; color: #d4e4fa; }
         .btn-primary {
             padding: 12px 24px;
             border: none;
@@ -363,12 +208,10 @@
             align-items: center;
             gap: 8px;
         }
-
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
         }
-
         .btn-secondary {
             padding: 12px 24px;
             border: 1px solid rgba(0, 229, 255, 0.2);
@@ -383,13 +226,11 @@
             align-items: center;
             gap: 8px;
         }
-
         .btn-secondary:hover {
             background: rgba(0, 229, 255, 0.05);
             border-color: rgba(0, 229, 255, 0.3);
             color: #d4e4fa;
         }
-
         .btn-danger {
             padding: 12px 24px;
             border: 1px solid rgba(255, 180, 171, 0.2);
@@ -404,23 +245,31 @@
             align-items: center;
             gap: 8px;
         }
-
         .btn-danger:hover {
             background: rgba(147, 0, 10, 0.2);
             border-color: rgba(255, 180, 171, 0.3);
         }
-
-        .priority-urgente { color: #ffb4ab; }
-        .priority-alta { color: #ffde59; }
-        .priority-media { color: #4fc3f7; }
-        .priority-baja { color: #66bb6a; }
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #00e5ff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 <body>
 
-    <!-- ============================================
-    MODAL DE USUARIO
-    ============================================ -->
+    <!-- MODAL USUARIO -->
     <div class="modal-overlay" id="userModal">
         <div class="modal-content">
             <div style="text-align: center; margin-bottom: 24px;">
@@ -440,16 +289,13 @@
         </div>
     </div>
 
-    <!-- ============================================
-    MODAL DE NUEVA SOLICITUD
-    ============================================ -->
+    <!-- MODAL NUEVA SOLICITUD -->
     <div class="modal-overlay" id="nuevaSolicitudModal">
         <div class="modal-content">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                 <h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">📝 Nueva Solicitud</h2>
                 <button onclick="cerrarNuevaSolicitud()" style="background: none; border: none; color: rgba(180,200,220,0.3); cursor: pointer; font-size: 24px;">✕</button>
             </div>
-
             <form id="nuevaSolicitudForm">
                 <div class="mb-4">
                     <label class="form-label">📋 Equipo</label>
@@ -457,7 +303,6 @@
                         <option value="">Selecciona un equipo...</option>
                     </select>
                 </div>
-
                 <div class="mb-4">
                     <label class="form-label">📌 Tipo de Solicitud</label>
                     <select class="form-select" id="solicitudTipo" required>
@@ -470,7 +315,6 @@
                         <option value="ACTUALIZACION">Actualización</option>
                     </select>
                 </div>
-
                 <div class="mb-4">
                     <label class="form-label">⚠️ Prioridad</label>
                     <select class="form-select" id="solicitudPrioridad" required>
@@ -481,22 +325,18 @@
                         <option value="BAJA">🟢 Baja</option>
                     </select>
                 </div>
-
                 <div class="mb-4">
                     <label class="form-label">📝 Descripción</label>
                     <textarea class="form-input" id="solicitudDescripcion" rows="3" placeholder="Describe el problema o la solicitud..." required style="resize: vertical; font-family: 'Inter', sans-serif;"></textarea>
                 </div>
-
                 <div class="mb-4">
                     <label class="form-label">👤 Asignado a</label>
                     <input class="form-input" id="solicitudAsignado" placeholder="Nombre del técnico asignado">
                 </div>
-
                 <div class="mb-4">
                     <label class="form-label">📅 Fecha deseada</label>
                     <input class="form-input" type="date" id="solicitudFecha">
                 </div>
-
                 <div style="display: flex; gap: 12px; margin-top: 20px;">
                     <button type="submit" class="btn-primary" style="flex: 1; justify-content: center;">
                         <span class="material-symbols-outlined" style="font-size: 20px;">send</span>
@@ -510,18 +350,14 @@
         </div>
     </div>
 
-    <!-- ============================================
-    MODAL DE DETALLE DE SOLICITUD
-    ============================================ -->
+    <!-- MODAL DETALLE SOLICITUD -->
     <div class="modal-overlay" id="detalleSolicitudModal">
         <div class="modal-content" id="detalleContent">
             <!-- Se llena dinámicamente -->
         </div>
     </div>
 
-    <!-- ============================================
-    TOP APP BAR
-    ============================================ -->
+    <!-- TOP APP BAR -->
     <header class="fixed top-0 w-full z-50 bg-background border-b border-outline-variant flex items-center justify-between px-margin-mobile h-16">
         <div class="flex items-center gap-3">
             <span class="material-symbols-outlined text-primary-container">precision_manufacturing</span>
@@ -538,20 +374,13 @@
         </div>
     </header>
 
-    <!-- ============================================
-    MAIN CONTENT
-    ============================================ -->
+    <!-- MAIN CONTENT -->
     <main class="pt-20 pb-28 px-margin-mobile max-w-7xl mx-auto">
 
-        <!-- ============================================
-        HEADER
-        ============================================ -->
         <section class="mb-lg animate-enter">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                    <h2 class="font-headline-lg text-headline-lg text-on-surface">
-                        📋 Solicitudes de Servicio
-                    </h2>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface">📋 Solicitudes de Servicio</h2>
                     <p class="text-on-surface-variant text-sm" id="solicitudCount">Cargando solicitudes...</p>
                 </div>
                 <div class="flex items-center gap-3">
@@ -565,9 +394,6 @@
             </div>
         </section>
 
-        <!-- ============================================
-        FILTROS
-        ============================================ -->
         <section class="mb-lg animate-enter">
             <div class="flex flex-wrap gap-2">
                 <button class="filter-btn active" data-filter="todos">📊 TODOS</button>
@@ -578,9 +404,6 @@
             </div>
         </section>
 
-        <!-- ============================================
-        SEARCH
-        ============================================ -->
         <section class="mb-lg animate-enter">
             <div class="relative flex-grow">
                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
@@ -588,28 +411,19 @@
             </div>
         </section>
 
-        <!-- ============================================
-        LISTA DE SOLICITUDES
-        ============================================ -->
         <section class="space-y-4" id="solicitudesContainer">
-            <!-- Skeletons -->
             <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 120px;"></div>
             <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 120px;"></div>
             <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 120px;"></div>
         </section>
 
-        <!-- ============================================
-        FOOTER
-        ============================================ -->
         <div class="mt-lg text-center text-on-surface-variant text-xs font-mono opacity-30">
             ⚙️ IPE3 Engineering v3.0 · Datos en tiempo real · Sistema Industrial
         </div>
 
     </main>
 
-    <!-- ============================================
-    BOTTOM NAV BAR
-    ============================================ -->
+    <!-- BOTTOM NAV -->
     <nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-low border-t border-outline-variant shadow-lg flex justify-around items-center h-20 px-4">
         <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="dashboard.html">
             <span class="material-symbols-outlined">dashboard</span>
@@ -629,61 +443,34 @@
         </a>
     </nav>
 
-    <!-- ============================================
-    SCRIPTS
-    ============================================ -->
     <script>
-        // ============================================
-        // CONFIGURACIÓN
-        // ============================================
         const API_CONFIG = {
-            URL_BASE: 'https://script.google.com/macros/s/AKfycbyKuKFJ1VFUU541bXTCtYu7XE2idRxpUwKoEQvpLRnazDONH27OScEK-YsGnQPFE3Tk/exec',
+            URL_BASE: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec',
             DURACION_CACHE: 300000
         };
 
-        // ============================================
-        // USUARIO
-        // ============================================
         function getUserData() {
             try {
                 const data = localStorage.getItem('ipe3_user');
                 if (!data) return null;
                 return JSON.parse(data);
-            } catch {
-                return null;
-            }
+            } catch { return null; }
         }
 
         const user = getUserData();
+        if (!user) window.location.href = 'login.html';
 
-        if (!user) {
-            window.location.href = 'login.html';
-        }
-
-        // ============================================
-        // MOSTRAR USUARIO
-        // ============================================
         function mostrarUsuario() {
             if (!user) return;
-            
             const nombre = user.nombre || user.name || 'Usuario';
             const rol = user.rol || user.role || 'USER';
             const modo = user.modo || 'user';
             const initial = nombre.charAt(0).toUpperCase();
-
             document.getElementById('headerName').textContent = nombre;
             document.getElementById('headerAvatar').textContent = initial;
             document.getElementById('userModeBadge').textContent = modo === 'admin' ? '🔐 ADMIN' : '👤 USUARIO';
-            
-            document.getElementById('modalAvatar').textContent = initial;
-            document.getElementById('modalName').textContent = nombre;
-            document.getElementById('modalRole').textContent = rol;
-            document.getElementById('modalMode').textContent = `Modo: ${modo === 'admin' ? 'Administrador' : 'Usuario'}`;
         }
 
-        // ============================================
-        // MODAL USUARIO
-        // ============================================
         function mostrarModal() {
             document.getElementById('userModal').classList.add('show');
         }
@@ -701,111 +488,16 @@
                 document.getElementById('detalleSolicitudModal').classList.remove('show');
             }
         });
-
         document.getElementById('userModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) document.getElementById('userModal').classList.remove('show');
         });
-
-        // ============================================
-        // MODAL NUEVA SOLICITUD
-        // ============================================
-        function abrirNuevaSolicitud() {
-            document.getElementById('nuevaSolicitudModal').classList.add('show');
-            // Cargar equipos en el select
-            cargarEquiposSelect();
-        }
-
-        function cerrarNuevaSolicitud() {
-            document.getElementById('nuevaSolicitudModal').classList.remove('show');
-            document.getElementById('nuevaSolicitudForm').reset();
-        }
-
         document.getElementById('nuevaSolicitudModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) cerrarNuevaSolicitud();
         });
-
-        // ============================================
-        // MODAL DETALLE
-        // ============================================
-        function abrirDetalle(solicitud) {
-            const modal = document.getElementById('detalleSolicitudModal');
-            const content = document.getElementById('detalleContent');
-
-            const estadoClass = solicitud.estado === 'COMPLETADO' ? 'chip-completado' :
-                               solicitud.estado === 'EN_PROGRESO' ? 'chip-progreso' :
-                               solicitud.estado === 'CANCELADO' ? 'chip-cancelado' : 'chip-pendiente';
-
-            const priorityClass = solicitud.prioridad === 'URGENTE' ? 'priority-urgente' :
-                                  solicitud.prioridad === 'ALTA' ? 'priority-alta' :
-                                  solicitud.prioridad === 'MEDIA' ? 'priority-media' : 'priority-baja';
-
-            content.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
-                    <div>
-                        <h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">${solicitud.equipo || 'Sin equipo'}</h2>
-                        <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">${solicitud.tipo || 'Solicitud'}</p>
-                    </div>
-                    <button onclick="document.getElementById('detalleSolicitudModal').classList.remove('show')" style="background: none; border: none; color: rgba(180,200,220,0.3); cursor: pointer; font-size: 24px;">✕</button>
-                </div>
-
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
-                    <span class="chip ${estadoClass}">${solicitud.estado || 'PENDIENTE'}</span>
-                    <span class="chip" style="background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.1);color:rgba(180,200,220,0.6);">
-                        ${solicitud.prioridad || 'MEDIA'}
-                    </span>
-                </div>
-
-                <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:16px;margin-bottom:16px;">
-                    <p style="color:rgba(180,200,220,0.6);font-size:0.85rem;line-height:1.6;">${solicitud.descripcion || 'Sin descripción'}</p>
-                </div>
-
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-                    <div>
-                        <span style="color:rgba(180,200,220,0.3);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">Asignado</span>
-                        <p style="color:#d4e4fa;font-size:0.9rem;">${solicitud.asignado || 'No asignado'}</p>
-                    </div>
-                    <div>
-                        <span style="color:rgba(180,200,220,0.3);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">Fecha</span>
-                        <p style="color:#d4e4fa;font-size:0.9rem;">${solicitud.fecha ? new Date(solicitud.fecha).toLocaleDateString('es-ES') : 'Sin fecha'}</p>
-                    </div>
-                    <div>
-                        <span style="color:rgba(180,200,220,0.3);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">Creado por</span>
-                        <p style="color:#d4e4fa;font-size:0.9rem;">${solicitud.creadoPor || 'Sistema'}</p>
-                    </div>
-                    <div>
-                        <span style="color:rgba(180,200,220,0.3);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">ID</span>
-                        <p style="color:#d4e4fa;font-size:0.9rem;font-family:'JetBrains Mono',monospace;">${solicitud.id || 'N/A'}</p>
-                    </div>
-                </div>
-
-                <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
-                    ${solicitud.estado !== 'COMPLETADO' && solicitud.estado !== 'CANCELADO' ? `
-                        <button onclick="actualizarEstadoSolicitud('${solicitud.id}', 'COMPLETADO')" class="btn-primary" style="flex:1;justify-content:center;font-size:0.8rem;padding:10px;">
-                            <span class="material-symbols-outlined" style="font-size:18px;">check</span>
-                            COMPLETAR
-                        </button>
-                        <button onclick="actualizarEstadoSolicitud('${solicitud.id}', 'CANCELADO')" class="btn-danger" style="flex:1;justify-content:center;font-size:0.8rem;padding:10px;">
-                            <span class="material-symbols-outlined" style="font-size:18px;">cancel</span>
-                            CANCELAR
-                        </button>
-                    ` : `
-                        <button onclick="document.getElementById('detalleSolicitudModal').classList.remove('show')" class="btn-secondary" style="flex:1;justify-content:center;">
-                            CERRAR
-                        </button>
-                    `}
-                </div>
-            `;
-
-            modal.classList.add('show');
-        }
-
         document.getElementById('detalleSolicitudModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) document.getElementById('detalleSolicitudModal').classList.remove('show');
         });
 
-        // ============================================
-        // RELOJ
-        // ============================================
         function actualizarReloj() {
             const ahora = new Date();
             document.getElementById('currentTime').textContent = ahora.toLocaleTimeString('es-ES', {
@@ -817,54 +509,27 @@
         setInterval(actualizarReloj, 1000);
         actualizarReloj();
 
-        // ============================================
-        // API
-        // ============================================
         class DashboardAPI {
-            constructor() {
-                this.cache = new Map();
-            }
+            constructor() { this.cache = new Map(); }
 
             async obtenerDatos(endpoint, params = {}) {
                 const claveCache = `${endpoint}_${JSON.stringify(params)}`;
-                
                 if (this.cache.has(claveCache)) {
                     const cacheado = this.cache.get(claveCache);
-                    if (Date.now() - cacheado.timestamp < API_CONFIG.DURACION_CACHE) {
-                        return cacheado.datos;
-                    }
+                    if (Date.now() - cacheado.timestamp < API_CONFIG.DURACION_CACHE) return cacheado.datos;
                 }
-
                 try {
                     const url = new URL(API_CONFIG.URL_BASE);
                     url.searchParams.append('endpoint', endpoint);
-                    
                     Object.entries(params).forEach(([key, value]) => {
-                        if (value !== null && value !== undefined) {
-                            url.searchParams.append(key, value);
-                        }
+                        if (value !== null && value !== undefined) url.searchParams.append(key, value);
                     });
-
                     const response = await fetch(url.toString());
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
-                    }
-
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const datos = await response.json();
-                    
-                    if (datos && datos.error) {
-                        console.error(`❌ API Error: ${datos.error}`);
-                        return null;
-                    }
-                    
-                    this.cache.set(claveCache, {
-                        datos: datos,
-                        timestamp: Date.now()
-                    });
-
+                    if (datos && datos.error) { console.error(`❌ API Error: ${datos.error}`); return null; }
+                    this.cache.set(claveCache, { datos: datos, timestamp: Date.now() });
                     return datos;
-
                 } catch (error) {
                     console.error(`❌ Error ${endpoint}:`, error);
                     return null;
@@ -893,20 +558,11 @@
 
         const api = new DashboardAPI();
 
-        // ============================================
-        // DATOS DE SOLICITUDES (Desde mantenimientos)
-        // ============================================
         let solicitudesData = [];
         let filteredSolicitudes = [];
 
-        // ============================================
-        // CONVERTIR MANTENIMIENTOS A SOLICITUDES
-        // ============================================
         function convertirASolicitudes(mantenimientos) {
-            if (!mantenimientos || !Array.isArray(mantenimientos) || mantenimientos.length === 0) {
-                return [];
-            }
-
+            if (!mantenimientos || !Array.isArray(mantenimientos) || mantenimientos.length === 0) return [];
             return mantenimientos.map(m => ({
                 id: m.id || m.ID_Tarea || `SOL-${Date.now()}`,
                 equipo: m.equipo || 'Sin equipo',
@@ -921,64 +577,26 @@
             }));
         }
 
-        // ============================================
-        // RENDERIZAR SOLICITUDES
-        // ============================================
         function renderSolicitudes(solicitudes) {
             const container = document.getElementById('solicitudesContainer');
             const count = document.getElementById('solicitudCount');
-            
             if (!solicitudes || solicitudes.length === 0) {
-                container.innerHTML = `
-                    <div class="glass-card p-8 rounded-xl text-center">
-                        <span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 64px;">description_off</span>
-                        <p class="text-on-surface-variant text-sm mt-4">No se encontraron solicitudes</p>
-                        <button onclick="abrirNuevaSolicitud()" class="btn-primary mt-4" style="margin: 16px auto 0;">
-                            <span class="material-symbols-outlined" style="font-size: 20px;">add</span>
-                            CREAR SOLICITUD
-                        </button>
-                    </div>
-                `;
+                container.innerHTML = `<div class="glass-card p-8 rounded-xl text-center"><span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 64px;">description_off</span><p class="text-on-surface-variant text-sm mt-4">No se encontraron solicitudes</p><button onclick="abrirNuevaSolicitud()" class="btn-primary mt-4" style="margin: 16px auto 0;"><span class="material-symbols-outlined" style="font-size: 20px;">add</span>CREAR SOLICITUD</button></div>`;
                 count.textContent = '0 solicitudes';
                 return;
             }
-
             count.textContent = `${solicitudes.length} solicitudes`;
-
             let html = '';
             solicitudes.forEach(solicitud => {
                 const estado = (solicitud.estado || 'PENDIENTE').toUpperCase();
-                
-                let statusClass = 'status-pendiente';
-                let chipClass = 'chip-pendiente';
-                let statusIcon = 'hourglass_top';
-                
-                if (estado === 'EN_PROGRESO') {
-                    statusClass = 'status-en-progreso';
-                    chipClass = 'chip-progreso';
-                    statusIcon = 'progress_activity';
-                } else if (estado === 'COMPLETADO') {
-                    statusClass = 'status-completado';
-                    chipClass = 'chip-completado';
-                    statusIcon = 'check_circle';
-                } else if (estado === 'CANCELADO') {
-                    statusClass = 'status-cancelado';
-                    chipClass = 'chip-cancelado';
-                    statusIcon = 'cancel';
-                }
-
+                let statusClass = 'status-pendiente', chipClass = 'chip-pendiente', statusIcon = 'hourglass_top';
+                if (estado === 'EN_PROGRESO') { statusClass = 'status-en-progreso'; chipClass = 'chip-progreso'; statusIcon = 'progress_activity'; }
+                else if (estado === 'COMPLETADO') { statusClass = 'status-completado'; chipClass = 'chip-completado'; statusIcon = 'check_circle'; }
+                else if (estado === 'CANCELADO') { statusClass = 'status-cancelado'; chipClass = 'chip-cancelado'; statusIcon = 'cancel'; }
                 const fecha = solicitud.fecha ? new Date(solicitud.fecha) : new Date();
-                const fechaStr = fecha.toLocaleDateString('es-ES', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                });
-
+                const fechaStr = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
                 const prioridad = (solicitud.prioridad || 'MEDIA').toUpperCase();
-                const priorityIcon = prioridad === 'URGENTE' ? '🔴' :
-                                    prioridad === 'ALTA' ? '🟡' :
-                                    prioridad === 'MEDIA' ? '🔵' : '🟢';
-
+                const priorityIcon = prioridad === 'URGENTE' ? '🔴' : prioridad === 'ALTA' ? '🟡' : prioridad === 'MEDIA' ? '🔵' : '🟢';
                 html += `
                     <div class="glass-card p-4 rounded-xl ${statusClass} group hover:bg-surface-container-highest transition-colors animate-enter cursor-pointer" onclick="abrirDetalle(${JSON.stringify(solicitud).replace(/"/g, '&quot;')})" data-estado="${estado}" data-equipo="${solicitud.equipo}">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -991,80 +609,55 @@
                                     <p class="font-body-sm text-on-surface-variant truncate">${solicitud.descripcion || 'Sin descripción'}</p>
                                     <div class="flex flex-wrap gap-2 mt-2">
                                         <span class="chip ${chipClass}">${estado}</span>
-                                        <span class="chip" style="background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.1);color:rgba(180,200,220,0.6);">
-                                            ${priorityIcon} ${solicitud.prioridad || 'MEDIA'}
-                                        </span>
-                                        <span style="color:rgba(180,200,220,0.3);font-size:0.65rem;font-family:'JetBrains Mono',monospace;">
-                                            ${solicitud.tipo || 'Mantenimiento'}
-                                        </span>
+                                        <span class="chip" style="background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.1);color:rgba(180,200,220,0.6);">${priorityIcon} ${solicitud.prioridad || 'MEDIA'}</span>
+                                        <span style="color:rgba(180,200,220,0.3);font-size:0.65rem;font-family:'JetBrains Mono',monospace;">${solicitud.tipo || 'Mantenimiento'}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="flex flex-col items-end gap-1 flex-shrink-0">
-                                <span style="color:rgba(180,200,220,0.3);font-size:0.65rem;font-family:'JetBrains Mono',monospace;">
-                                    📅 ${fechaStr}
-                                </span>
-                                ${solicitud.asignado ? `
-                                    <span style="color:rgba(180,200,220,0.3);font-size:0.65rem;">
-                                        👤 ${solicitud.asignado}
-                                    </span>
-                                ` : ''}
+                                <span style="color:rgba(180,200,220,0.3);font-size:0.65rem;font-family:'JetBrains Mono',monospace;">📅 ${fechaStr}</span>
+                                ${solicitud.asignado ? `<span style="color:rgba(180,200,220,0.3);font-size:0.65rem;">👤 ${solicitud.asignado}</span>` : ''}
                                 <span class="material-symbols-outlined text-on-surface-variant opacity-30 text-sm">chevron_right</span>
                             </div>
                         </div>
                     </div>
                 `;
             });
-
             container.innerHTML = html;
         }
 
-        // ============================================
-        // FILTRAR SOLICITUDES
-        // ============================================
         function filtrarSolicitudes(filtro, busqueda = '') {
             let resultado = [...solicitudesData];
-
-            if (filtro !== 'todos') {
-                resultado = resultado.filter(s => (s.estado || '').toUpperCase() === filtro);
-            }
-
+            if (filtro !== 'todos') resultado = resultado.filter(s => (s.estado || '').toUpperCase() === filtro);
             if (busqueda.trim()) {
                 const query = busqueda.toLowerCase().trim();
-                resultado = resultado.filter(s => 
-                    (s.equipo || '').toLowerCase().includes(query) ||
-                    (s.descripcion || '').toLowerCase().includes(query) ||
-                    (s.tipo || '').toLowerCase().includes(query) ||
-                    (s.asignado || '').toLowerCase().includes(query)
-                );
+                resultado = resultado.filter(s => (s.equipo || '').toLowerCase().includes(query) || (s.descripcion || '').toLowerCase().includes(query) || (s.tipo || '').toLowerCase().includes(query) || (s.asignado || '').toLowerCase().includes(query));
             }
-
             filteredSolicitudes = resultado;
             renderSolicitudes(resultado);
         }
 
-        // ============================================
-        // CARGAR EQUIPOS PARA SELECT
-        // ============================================
+        function abrirNuevaSolicitud() {
+            document.getElementById('nuevaSolicitudModal').classList.add('show');
+            cargarEquiposSelect();
+        }
+
+        function cerrarNuevaSolicitud() {
+            document.getElementById('nuevaSolicitudModal').classList.remove('show');
+            document.getElementById('nuevaSolicitudForm').reset();
+        }
+
         async function cargarEquiposSelect() {
             try {
                 const equipos = await api.obtenerEquipos();
                 const select = document.getElementById('solicitudEquipo');
                 select.innerHTML = '<option value="">Selecciona un equipo...</option>';
-                equipos.forEach(e => {
-                    select.innerHTML += `<option value="${e.id}">${e.nombre}</option>`;
-                });
-            } catch (error) {
-                console.error('Error cargando equipos:', error);
-            }
+                equipos.forEach(e => { select.innerHTML += `<option value="${e.id}">${e.nombre}</option>`; });
+            } catch (error) { console.error('Error cargando equipos:', error); }
         }
 
-        // ============================================
-        // ENVIAR NUEVA SOLICITUD
-        // ============================================
         document.getElementById('nuevaSolicitudForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const datos = {
                 equipo: document.getElementById('solicitudEquipo').value,
                 tipoTarea: document.getElementById('solicitudTipo').value,
@@ -1075,22 +668,13 @@
                 estado: 'PENDIENTE',
                 creadoPor: user.nombre || user.name || 'Sistema'
             };
-
-            // Enviar a la API (POST)
             try {
                 const response = await fetch(API_CONFIG.URL_BASE, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        accion: 'crear_mantenimiento',
-                        ...datos
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ accion: 'crear_mantenimiento', ...datos })
                 });
-
                 const result = await response.json();
-                
                 if (result.exito) {
                     showToast('✅ Solicitud creada exitosamente');
                     cerrarNuevaSolicitud();
@@ -1101,41 +685,64 @@
             } catch (error) {
                 console.error('Error creando solicitud:', error);
                 showToast('❌ Error de conexión al crear la solicitud', 'error');
-                // Fallback: agregar localmente
-                const nuevaSolicitud = {
-                    id: `SOL-${Date.now()}`,
-                    ...datos,
-                    estado: 'PENDIENTE'
-                };
+                const nuevaSolicitud = { id: `SOL-${Date.now()}`, ...datos, estado: 'PENDIENTE' };
                 solicitudesData.unshift(nuevaSolicitud);
-                filtrarSolicitudes(
-                    document.querySelector('.filter-btn.active')?.dataset.filter || 'todos',
-                    document.getElementById('searchInput').value
-                );
+                const filtroActivo = document.querySelector('.filter-btn.active');
+                const filtro = filtroActivo ? filtroActivo.dataset.filter : 'todos';
+                const busqueda = document.getElementById('searchInput').value;
+                filtrarSolicitudes(filtro, busqueda);
                 cerrarNuevaSolicitud();
                 showToast('✅ Solicitud agregada localmente', 'success');
             }
         });
 
-        // ============================================
-        // ACTUALIZAR ESTADO DE SOLICITUD
-        // ============================================
+        function abrirDetalle(solicitud) {
+            const modal = document.getElementById('detalleSolicitudModal');
+            const content = document.getElementById('detalleContent');
+            const estadoClass = solicitud.estado === 'COMPLETADO' ? 'chip-completado' : solicitud.estado === 'EN_PROGRESO' ? 'chip-progreso' : solicitud.estado === 'CANCELADO' ? 'chip-cancelado' : 'chip-pendiente';
+            const priorityClass = solicitud.prioridad === 'URGENTE' ? 'priority-urgente' : solicitud.prioridad === 'ALTA' ? 'priority-alta' : solicitud.prioridad === 'MEDIA' ? 'priority-media' : 'priority-baja';
+            content.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
+                    <div><h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">${solicitud.equipo || 'Sin equipo'}</h2><p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">${solicitud.tipo || 'Solicitud'}</p></div>
+                    <button onclick="document.getElementById('detalleSolicitudModal').classList.remove('show')" style="background: none; border: none; color: rgba(180,200,220,0.3); cursor: pointer; font-size: 24px;">✕</button>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                    <span class="chip ${estadoClass}">${solicitud.estado || 'PENDIENTE'}</span>
+                    <span class="chip" style="background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.1);color:rgba(180,200,220,0.6);">${solicitud.prioridad || 'MEDIA'}</span>
+                </div>
+                <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:16px;margin-bottom:16px;">
+                    <p style="color:rgba(180,200,220,0.6);font-size:0.85rem;line-height:1.6;">${solicitud.descripcion || 'Sin descripción'}</p>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                    <div><span style="color:rgba(180,200,220,0.3);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">Asignado</span><p style="color:#d4e4fa;font-size:0.9rem;">${solicitud.asignado || 'No asignado'}</p></div>
+                    <div><span style="color:rgba(180,200,220,0.3);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">Fecha</span><p style="color:#d4e4fa;font-size:0.9rem;">${solicitud.fecha ? new Date(solicitud.fecha).toLocaleDateString('es-ES') : 'Sin fecha'}</p></div>
+                    <div><span style="color:rgba(180,200,220,0.3);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">Creado por</span><p style="color:#d4e4fa;font-size:0.9rem;">${solicitud.creadoPor || 'Sistema'}</p></div>
+                    <div><span style="color:rgba(180,200,220,0.3);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">ID</span><p style="color:#d4e4fa;font-size:0.9rem;font-family:'JetBrains Mono',monospace;">${solicitud.id || 'N/A'}</p></div>
+                </div>
+                <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
+                    ${solicitud.estado !== 'COMPLETADO' && solicitud.estado !== 'CANCELADO' ? `
+                        <button onclick="actualizarEstadoSolicitud('${solicitud.id}', 'COMPLETADO')" class="btn-primary" style="flex:1;justify-content:center;font-size:0.8rem;padding:10px;">
+                            <span class="material-symbols-outlined" style="font-size:18px;">check</span> COMPLETAR
+                        </button>
+                        <button onclick="actualizarEstadoSolicitud('${solicitud.id}', 'CANCELADO')" class="btn-danger" style="flex:1;justify-content:center;font-size:0.8rem;padding:10px;">
+                            <span class="material-symbols-outlined" style="font-size:18px;">cancel</span> CANCELAR
+                        </button>
+                    ` : `
+                        <button onclick="document.getElementById('detalleSolicitudModal').classList.remove('show')" class="btn-secondary" style="flex:1;justify-content:center;">CERRAR</button>
+                    `}
+                </div>
+            `;
+            modal.classList.add('show');
+        }
+
         async function actualizarEstadoSolicitud(id, nuevoEstado) {
             try {
                 const response = await fetch(API_CONFIG.URL_BASE, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        accion: 'actualizar_mantenimiento',
-                        id: id,
-                        estado: nuevoEstado
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ accion: 'actualizar_mantenimiento', id: id, estado: nuevoEstado })
                 });
-
                 const result = await response.json();
-                
                 if (result.exito) {
                     showToast(`✅ Solicitud ${nuevoEstado.toLowerCase()}`);
                     document.getElementById('detalleSolicitudModal').classList.remove('show');
@@ -1145,126 +752,53 @@
                 }
             } catch (error) {
                 console.error('Error actualizando:', error);
-                // Fallback local
                 const solicitud = solicitudesData.find(s => s.id === id);
                 if (solicitud) {
                     solicitud.estado = nuevoEstado;
-                    filtrarSolicitudes(
-                        document.querySelector('.filter-btn.active')?.dataset.filter || 'todos',
-                        document.getElementById('searchInput').value
-                    );
+                    const filtroActivo = document.querySelector('.filter-btn.active');
+                    const filtro = filtroActivo ? filtroActivo.dataset.filter : 'todos';
+                    const busqueda = document.getElementById('searchInput').value;
+                    filtrarSolicitudes(filtro, busqueda);
                     document.getElementById('detalleSolicitudModal').classList.remove('show');
                     showToast(`✅ Solicitud ${nuevoEstado.toLowerCase()} (local)`, 'success');
                 }
             }
         }
 
-        // ============================================
-        // CARGAR SOLICITUDES
-        // ============================================
         async function cargarSolicitudes() {
             console.log('🔄 Cargando solicitudes...');
-            
             try {
                 const mantenimientos = await api.obtenerMantenimientos(null, 60);
-                
                 if (mantenimientos && !mantenimientos.error) {
                     solicitudesData = convertirASolicitudes(mantenimientos);
-                    
-                    // Ordenar por fecha (más reciente primero)
                     solicitudesData.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-                    
                     const filtroActivo = document.querySelector('.filter-btn.active');
                     const filtro = filtroActivo ? filtroActivo.dataset.filter : 'todos';
                     const busqueda = document.getElementById('searchInput').value;
-                    
                     filtrarSolicitudes(filtro, busqueda);
                 } else {
                     usarDatosRespaldo();
                 }
-
                 console.log(`✅ ${solicitudesData.length} solicitudes cargadas`);
-
             } catch (error) {
                 console.error('❌ Error cargando solicitudes:', error);
                 usarDatosRespaldo();
             }
         }
 
-        // ============================================
-        // DATOS DE RESPALDO
-        // ============================================
         function usarDatosRespaldo() {
             console.warn('⚠️ Usando datos de respaldo');
-            
             solicitudesData = [
-                {
-                    id: 'SOL-001',
-                    equipo: 'Turbina XT-500',
-                    tipo: 'Mantenimiento Preventivo',
-                    descripcion: 'Revisión completa del sistema de lubricación y cambio de filtros',
-                    estado: 'PENDIENTE',
-                    prioridad: 'ALTA',
-                    asignado: 'Juan Pérez',
-                    fecha: new Date(Date.now() + 86400000).toISOString(),
-                    creadoPor: 'Sistema'
-                },
-                {
-                    id: 'SOL-002',
-                    equipo: 'Motor Conveyor B1',
-                    tipo: 'Reparación Urgente',
-                    descripcion: 'Vibración anormal detectada, requiere inspección inmediata',
-                    estado: 'EN_PROGRESO',
-                    prioridad: 'URGENTE',
-                    asignado: 'María García',
-                    fecha: new Date(Date.now() + 172800000).toISOString(),
-                    creadoPor: 'Sistema'
-                },
-                {
-                    id: 'SOL-003',
-                    equipo: 'Chiller HVAC #2',
-                    tipo: 'Reemplazo de Piezas',
-                    descripcion: 'Cambio de compresor y recarga de refrigerante',
-                    estado: 'COMPLETADO',
-                    prioridad: 'MEDIA',
-                    asignado: 'Carlos López',
-                    fecha: new Date(Date.now() - 86400000).toISOString(),
-                    creadoPor: 'Sistema'
-                },
-                {
-                    id: 'SOL-004',
-                    equipo: 'UPS Servidor Principal',
-                    tipo: 'Mantenimiento Correctivo',
-                    descripcion: 'Batería por debajo del 15%, requiere reemplazo urgente',
-                    estado: 'PENDIENTE',
-                    prioridad: 'URGENTE',
-                    asignado: '',
-                    fecha: new Date(Date.now() + 43200000).toISOString(),
-                    creadoPor: 'Sistema'
-                },
-                {
-                    id: 'SOL-005',
-                    equipo: 'Brazo Robot R7',
-                    tipo: 'Inspección',
-                    descripcion: 'Verificación de calibración y precisión en movimientos',
-                    estado: 'CANCELADO',
-                    prioridad: 'BAJA',
-                    asignado: 'Ana Martínez',
-                    fecha: new Date(Date.now() - 172800000).toISOString(),
-                    creadoPor: 'Sistema'
-                }
+                { id: 'SOL-001', equipo: 'Turbina XT-500', tipo: 'Mantenimiento Preventivo', descripcion: 'Revisión completa del sistema de lubricación', estado: 'PENDIENTE', prioridad: 'ALTA', asignado: 'Juan Pérez', fecha: new Date(Date.now() + 86400000).toISOString(), creadoPor: 'Sistema' },
+                { id: 'SOL-002', equipo: 'Motor Conveyor B1', tipo: 'Reparación Urgente', descripcion: 'Vibración anormal detectada', estado: 'EN_PROGRESO', prioridad: 'URGENTE', asignado: 'María García', fecha: new Date(Date.now() + 172800000).toISOString(), creadoPor: 'Sistema' },
+                { id: 'SOL-003', equipo: 'Chiller HVAC #2', tipo: 'Reemplazo de Piezas', descripcion: 'Cambio de compresor y recarga de refrigerante', estado: 'COMPLETADO', prioridad: 'MEDIA', asignado: 'Carlos López', fecha: new Date(Date.now() - 86400000).toISOString(), creadoPor: 'Sistema' }
             ];
-            
             const filtroActivo = document.querySelector('.filter-btn.active');
             const filtro = filtroActivo ? filtroActivo.dataset.filter : 'todos';
             const busqueda = document.getElementById('searchInput').value;
-            
             filtrarSolicitudes(filtro, busqueda);
         }
 
-        // ============================================
-        // TOAST
-        // ============================================
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = 'toast-notification';
@@ -1278,14 +812,10 @@
             setTimeout(() => toast.remove(), 4000);
         }
 
-        // ============================================
-        // EVENTOS
-        // ============================================
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                
                 const filtro = btn.dataset.filter;
                 const busqueda = document.getElementById('searchInput').value;
                 filtrarSolicitudes(filtro, busqueda);
@@ -1298,28 +828,22 @@
             filtrarSolicitudes(filtro, e.target.value);
         });
 
-        // ============================================
-        // INICIALIZAR
-        // ============================================
         mostrarUsuario();
         cargarSolicitudes();
-
         setInterval(() => {
             api.cache.clear();
             cargarSolicitudes();
         }, 300000);
 
         console.log('🚀 IPE3 Solicitudes v3.0');
-        console.log('👤 Usuario:', user);
-        console.log('📊 API:', API_CONFIG.URL_BASE);
 
-        // ============================================
-        // SERVICE WORKER
-        // ============================================
+        // REGISTRO DEL SERVICE WORKER (RUTA RELATIVA)
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('✅ Service Worker registrado'))
-                .catch(err => console.error('❌ SW Error:', err));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('✅ Service Worker registrado correctamente'))
+                    .catch(err => console.error('❌ SW Error:', err));
+            });
         }
     </script>
 
