@@ -1,704 +1,450 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPE3 Engineering - Dashboard</title>
+    <title>IPE3 Engineering - Acceso</title>
     
-    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="IPE3">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "tertiary": "#e6edff",
-                        "primary-fixed-dim": "#00daf3",
-                        "on-error": "#690005",
-                        "tertiary-container": "#c6d1e9",
-                        "secondary": "#c1c6db",
-                        "on-secondary-container": "#afb4c9",
-                        "on-surface": "#d4e4fa",
-                        "error": "#ffb4ab",
-                        "surface-container-highest": "#273647",
-                        "secondary-container": "#414658",
-                        "surface-container-high": "#1c2b3c",
-                        "surface-container-low": "#0d1c2d",
-                        "on-surface-variant": "#bac9cc",
-                        "background": "#051424",
-                        "on-tertiary": "#263143",
-                        "surface-dim": "#051424",
-                        "primary-container": "#00e5ff",
-                        "on-primary-fixed-variant": "#004f58",
-                        "on-error-container": "#ffdad6",
-                        "surface": "#051424",
-                        "on-secondary": "#2a3040",
-                        "on-tertiary-fixed": "#111c2d",
-                        "tertiary-fixed-dim": "#bcc7de",
-                        "on-secondary-fixed": "#151b2b",
-                        "on-tertiary-fixed-variant": "#3c475a",
-                        "error-container": "#93000a",
-                        "tertiary-fixed": "#d8e3fb",
-                        "on-tertiary-container": "#4f5a6e",
-                        "secondary-fixed-dim": "#c1c6db",
-                        "on-primary-container": "#00626e",
-                        "surface-container-lowest": "#010f1f",
-                        "surface-tint": "#00daf3",
-                        "inverse-primary": "#006875",
-                        "primary": "#c3f5ff",
-                        "outline": "#849396",
-                        "surface-bright": "#2c3a4c",
-                        "on-background": "#d4e4fa",
-                        "inverse-on-surface": "#233143",
-                        "surface-container": "#122131",
-                        "on-primary": "#00363d",
-                        "inverse-surface": "#d4e4fa",
-                        "outline-variant": "#3b494c",
-                        "surface-variant": "#273647",
-                        "primary-fixed": "#9cf0ff",
-                        "on-secondary-fixed-variant": "#414658",
-                        "secondary-fixed": "#dde2f8",
-                        "on-primary-fixed": "#001f24"
-                    },
-                    borderRadius: {
-                        DEFAULT: "0.125rem",
-                        lg: "0.25rem",
-                        xl: "0.5rem",
-                        full: "0.75rem"
-                    },
-                    spacing: {
-                        sm: "8px",
-                        lg: "24px",
-                        xl: "32px",
-                        xs: "4px",
-                        md: "16px",
-                        gutter: "16px",
-                        "margin-mobile": "20px",
-                        base: "4px"
-                    },
-                    fontFamily: {
-                        "body-sm": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "label-caps": ["JetBrains Mono"],
-                        "data-display": ["JetBrains Mono"]
-                    },
-                    fontSize: {
-                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                        "data-display": ["18px", {"lineHeight": "24px", "fontWeight": "500"}]
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #051424;
-            color: #d4e4fa;
-            -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', sans-serif;
+            background: #051424;
             min-height: 100vh;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid #334155;
-            transition: all 0.3s ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(0, 229, 255, 0.2);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        }
-        .status-running { border-left: 4px solid #00e5ff; }
-        .status-critical { border-left: 4px solid #ffb4ab; }
-        .status-warning { border-left: 4px solid #ffde59; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #051424; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        .animate-enter {
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-enter:nth-child(1) { animation-delay: 0.1s; }
-        .animate-enter:nth-child(2) { animation-delay: 0.2s; }
-        .animate-enter:nth-child(3) { animation-delay: 0.3s; }
-        .animate-enter:nth-child(4) { animation-delay: 0.4s; }
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #00e5ff, #00daf3);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #00363d;
-            font-weight: 700;
-            font-size: 14px;
+            overflow: hidden;
         }
-        .user-badge {
-            background: rgba(0, 229, 255, 0.1);
-            border: 1px solid rgba(0, 229, 255, 0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #00e5ff;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .skeleton {
-            background: linear-gradient(90deg, #1c2b3c 25%, #273647 50%, #1c2b3c 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 8px;
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        .modal-overlay {
+        .bg-login {
             position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(0, 229, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(0, 229, 255, 0.03) 0%, transparent 50%),
+                #051424;
         }
-        .modal-overlay.show { display: flex; }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .bg-login .line {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.1), transparent);
+            animation: lineMove 8s infinite linear;
         }
-        .modal-content {
-            background: #122131;
-            border: 1px solid rgba(0, 229, 255, 0.1);
+        @keyframes lineMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .login-card {
+            position: relative;
+            z-index: 1;
+            background: rgba(18, 33, 49, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 229, 255, 0.15);
             border-radius: 24px;
-            padding: 40px;
+            padding: 48px 40px;
+            width: 100%;
             max-width: 400px;
-            width: 90%;
-            animation: slideUp 0.3s ease;
+            animation: slideUp 0.8s ease-out;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
         }
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .login-card .back-btn {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            color: rgba(180, 200, 220, 0.4);
+            text-decoration: none;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s;
+        }
+        .login-card .back-btn:hover { color: #00e5ff; }
+        .login-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .login-logo .icon {
+            font-size: 48px;
+            color: #00e5ff;
+            filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.2));
+        }
+        .login-logo h2 {
+            color: #d4e4fa;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        .login-logo p {
+            color: rgba(180, 200, 220, 0.5);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            color: rgba(180, 200, 220, 0.6);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+        .form-group .input-wrapper {
+            position: relative;
+        }
+        .form-group .input-wrapper .material-symbols-outlined {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(180, 200, 220, 0.3);
+            font-size: 20px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px 14px 46px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 10px;
+            color: #d4e4fa;
+            font-size: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #00e5ff;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.05);
+            background: rgba(0, 0, 0, 0.4);
+        }
+        .form-group input::placeholder {
+            color: rgba(180, 200, 220, 0.2);
+        }
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00e5ff, #00daf3);
+            color: #00363d;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
+        }
+        .btn-login:active { transform: scale(0.98); }
+        .btn-login .material-symbols-outlined { font-size: 22px; }
+        .btn-login.loading { opacity: 0.7; pointer-events: none; }
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 54, 61, 0.2);
+            border-top-color: #00363d;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .btn-login.loading .spinner { display: block; }
+        .btn-login.loading .btn-text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .error-message {
+            background: rgba(147, 0, 10, 0.2);
+            border: 1px solid rgba(255, 180, 171, 0.2);
+            color: #ffb4ab;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            animation: shake 0.4s ease;
+        }
+        .error-message.show { display: flex; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        .error-message .material-symbols-outlined { font-size: 20px; }
+        .login-footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(180, 200, 220, 0.2);
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #00e5ff;
+        }
+        .toast.error {
+            background: rgba(255, 180, 171, 0.1);
+            border: 1px solid rgba(255, 180, 171, 0.3);
+            color: #ffb4ab;
+        }
+        @media (max-width: 480px) {
+            .login-card { padding: 32px 20px; margin: 16px; border-radius: 16px; }
+            .login-logo .icon { font-size: 36px; }
+            .login-logo h2 { font-size: 1.2rem; }
+            .form-group input { padding: 12px 14px 12px 40px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- MODAL USUARIO -->
-    <div class="modal-overlay" id="userModal">
-        <div class="modal-content">
-            <div style="text-align: center; margin-bottom: 24px;">
-                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #00e5ff, #00daf3); display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 36px; color: #00363d; font-weight: 700;">
-                    <span id="modalAvatar">A</span>
+    <div class="bg-login">
+        <div class="line" style="top: 20%;"></div>
+        <div class="line" style="top: 50%; animation-delay: 2s;"></div>
+        <div class="line" style="top: 80%; animation-delay: 4s;"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="login-card" id="loginCard">
+        <a href="index.html" class="back-btn">
+            <span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span>
+            VOLVER
+        </a>
+
+        <div class="login-logo">
+            <span class="material-symbols-outlined icon">precision_manufacturing</span>
+            <h2>IPE3 Engineering</h2>
+            <p>Ingresa tu correo electrónico</p>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            <span class="material-symbols-outlined">error</span>
+            <span id="errorText">Usuario no encontrado</span>
+        </div>
+
+        <form id="loginForm" autocomplete="off">
+            <div class="form-group">
+                <label for="userEmail">📧 Correo Electrónico</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-outlined">mail</span>
+                    <input type="email" id="userEmail" placeholder="ejemplo@ipe3.com" required autofocus>
                 </div>
-                <h3 style="color: #d4e4fa; font-size: 1.3rem; margin-top: 12px;" id="modalName">Usuario</h3>
-                <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace;" id="modalRole">Rol</p>
-                <p style="color: rgba(180,200,220,0.2); font-size: 0.7rem; margin-top: 4px;" id="modalMode">Modo</p>
+                <div style="margin-top: 8px; font-size: 0.7rem; color: rgba(180,200,220,0.3);">
+                    💡 Usa el correo registrado en el sistema
+                </div>
             </div>
-            <button onclick="cerrarModal()" style="width: 100%; padding: 12px; border: 1px solid rgba(255,180,171,0.2); background: rgba(147,0,10,0.1); color: #ffb4ab; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
-                CERRAR SESIÓN
+
+            <button type="submit" class="btn-login" id="loginBtn">
+                <span class="spinner"></span>
+                <span class="btn-text">
+                    <span class="material-symbols-outlined">login</span>
+                    INGRESAR
+                </span>
             </button>
-            <button onclick="cerrarModal()" style="width: 100%; margin-top: 8px; padding: 12px; border: 1px solid rgba(0,229,255,0.1); background: transparent; color: rgba(180,200,220,0.4); border-radius: 10px; cursor: pointer; transition: all 0.3s;">
-                CANCELAR
-            </button>
+        </form>
+
+        <div class="login-footer">
+            ⚙️ SISTEMA SEGURO · v3.0.0
         </div>
     </div>
 
-    <!-- TOP APP BAR -->
-    <header class="fixed top-0 w-full z-50 bg-background border-b border-outline-variant flex items-center justify-between px-margin-mobile h-16">
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary-container">precision_manufacturing</span>
-            <h1 class="font-headline-md text-headline-md font-bold text-primary-container">IPE3 Engineering</h1>
-        </div>
-        <div class="flex items-center gap-4">
-            <button class="hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 duration-150">
-                <span class="material-symbols-outlined text-on-surface-variant">search</span>
-            </button>
-            <button onclick="mostrarModal()" class="flex items-center gap-2 hover:bg-surface-container-highest transition-colors p-2 rounded-full active:scale-95 duration-150">
-                <div class="user-avatar" id="headerAvatar">A</div>
-                <span class="text-on-surface-variant text-sm hidden sm:inline" id="headerName">Usuario</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- MAIN CONTENT -->
-    <main class="pt-20 pb-28 px-margin-mobile max-w-7xl mx-auto">
-
-        <section class="mb-lg animate-enter">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                    <h2 class="font-headline-lg text-headline-lg text-on-surface" id="welcomeText">
-                        👋 Bienvenido, <span id="userNameDisplay">Usuario</span>
-                    </h2>
-                    <p class="text-on-surface-variant text-sm" id="userRoleDisplay">Rol: Administrador</p>
-                </div>
-                <div class="flex items-center gap-3">
-                    <span class="user-badge" id="userModeBadge">🔐 ADMIN</span>
-                    <span class="text-on-surface-variant text-xs font-mono" id="currentTime"></span>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-lg animate-enter">
-            <div class="flex flex-col md:flex-row gap-4">
-                <div class="relative flex-grow">
-                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-3 pl-12 pr-4 text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all font-body-sm text-body-sm" placeholder="Buscar equipos, tareas o registros..." type="text" id="searchInput">
-                </div>
-                <button class="bg-primary-container text-on-primary flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-label-caps text-label-caps active:scale-95 transition-transform shadow-[0_0_20px_rgba(0,229,255,0.3)]" id="scanBtn">
-                    <span class="material-symbols-outlined">qr_code_scanner</span>
-                    ESCANEAR
-                </button>
-            </div>
-        </section>
-
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-lg" id="statsGrid">
-            <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
-            <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
-            <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
-            <div class="glass-card p-4 rounded-xl animate-enter skeleton" style="height: 100px;"></div>
-        </section>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
-            
-            <section class="lg:col-span-1 animate-enter">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="font-headline-md text-headline-md text-on-surface">🚨 Alertas de Equipos</h2>
-                    <span class="text-error font-label-caps text-[10px] bg-error-container px-2 py-0.5 rounded-full" id="alertCount">0</span>
-                </div>
-                <div class="space-y-4" id="alertsContainer">
-                    <div class="glass-card p-6 rounded-xl text-center">
-                        <span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">hourglass_top</span>
-                        <p class="text-on-surface-variant text-sm mt-2">Cargando alertas...</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="lg:col-span-2 animate-enter">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="font-headline-md text-headline-md text-on-surface">🔧 Mantenimientos Próximos</h2>
-                    <button class="text-primary-container font-label-caps text-label-caps flex items-center gap-1 hover:underline" id="refreshBtn">
-                        ACTUALIZAR <span class="material-symbols-outlined text-sm">refresh</span>
-                    </button>
-                </div>
-                <div class="glass-card rounded-2xl overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead class="bg-surface-container-high">
-                                <tr>
-                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">EQUIPO</th>
-                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">TAREA</th>
-                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">FECHA</th>
-                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">ASIGNADO</th>
-                                    <th class="p-4 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">ESTADO</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-outline-variant/30" id="maintenanceTable">
-                                <tr>
-                                    <td colspan="5" class="p-4 text-center text-on-surface-variant opacity-50">
-                                        Cargando mantenimientos...
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <div class="mt-lg text-center text-on-surface-variant text-xs font-mono opacity-30">
-            ⚙️ IPE3 Engineering v3.0 · Datos en tiempo real · Sistema Industrial
-        </div>
-
-    </main>
-
-    <!-- BOTTOM NAV -->
-    <nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-low border-t border-outline-variant shadow-lg flex justify-around items-center h-20 px-4">
-        <a class="flex flex-col items-center justify-center bg-secondary-container text-primary-container rounded-full px-4 py-1 hover:text-on-surface transition-colors active:scale-90 duration-200" href="dashboard.html">
-            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
-            <span class="font-label-caps text-[10px] mt-0.5">Dashboard</span>
-        </a>
-        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="equipos.html">
-            <span class="material-symbols-outlined">settings_input_component</span>
-            <span class="font-label-caps text-[10px] mt-0.5">Equipos</span>
-        </a>
-        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="solicitudes.html">
-            <span class="material-symbols-outlined">build</span>
-            <span class="font-label-caps text-[10px] mt-0.5">Solicitudes</span>
-        </a>
-        <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="#" onclick="mostrarModal()">
-            <span class="material-symbols-outlined">person</span>
-            <span class="font-label-caps text-[10px] mt-0.5">Perfil</span>
-        </a>
-    </nav>
-
     <script>
-        // ============================================
-        // CONFIGURACIÓN
-        // ============================================
-        const API_CONFIG = {
-            URL_BASE: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec',
-            DURACION_CACHE: 300000
+        const CONFIG = {
+            URL_API: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec'
         };
 
-        // ============================================
-        // USUARIO
-        // ============================================
-        function getUserData() {
+        const userEmail = document.getElementById('userEmail');
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const toast = document.getElementById('toast');
+
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.add('show');
+            clearTimeout(window.errorTimeout);
+            window.errorTimeout = setTimeout(hideError, 5000);
+        }
+
+        function hideError() {
+            errorMessage.classList.remove('show');
+        }
+
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        async function obtenerUsuarios() {
             try {
-                const data = localStorage.getItem('ipe3_user');
-                if (!data) return null;
-                return JSON.parse(data);
-            } catch {
+                const url = new URL(CONFIG.URL_API);
+                url.searchParams.append('endpoint', 'usuarios');
+                url.searchParams.append('estado', 'ACTIVO');
+                const response = await fetch(url.toString());
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+                return data;
+            } catch (error) {
+                console.warn('⚠️ Error obteniendo usuarios:', error);
                 return null;
             }
         }
 
-        const user = getUserData();
-        if (!user) window.location.href = 'login.html';
-
-        // ============================================
-        // MOSTRAR USUARIO
-        // ============================================
-        function mostrarUsuario() {
-            if (!user) return;
-            const nombre = user.nombre || user.name || 'Usuario';
-            const rol = user.rol || user.role || 'USER';
-            const modo = user.modo || 'user';
-            const initial = nombre.charAt(0).toUpperCase();
-
-            document.getElementById('userNameDisplay').textContent = nombre;
-            document.getElementById('headerName').textContent = nombre;
-            document.getElementById('headerAvatar').textContent = initial;
-            document.getElementById('userRoleDisplay').textContent = `Rol: ${rol}`;
-            document.getElementById('userModeBadge').textContent = modo === 'admin' ? '🔐 ADMIN' : '👤 USUARIO';
-            document.getElementById('modalAvatar').textContent = initial;
-            document.getElementById('modalName').textContent = nombre;
-            document.getElementById('modalRole').textContent = rol;
-            document.getElementById('modalMode').textContent = `Modo: ${modo === 'admin' ? 'Administrador' : 'Usuario'}`;
-            document.getElementById('welcomeText').innerHTML = `👋 Bienvenido, <span>${nombre}</span>`;
-        }
-
-        function mostrarModal() {
-            document.getElementById('userModal').classList.add('show');
-        }
-
-        function cerrarModal() {
-            document.getElementById('userModal').classList.remove('show');
-            localStorage.removeItem('ipe3_user');
-            setTimeout(() => window.location.href = 'login.html', 300);
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') document.getElementById('userModal').classList.remove('show');
-        });
-        document.getElementById('userModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) document.getElementById('userModal').classList.remove('show');
-        });
-
-        // ============================================
-        // RELOJ
-        // ============================================
-        function actualizarReloj() {
-            const ahora = new Date();
-            document.getElementById('currentTime').textContent = ahora.toLocaleTimeString('es-ES', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-        }
-        setInterval(actualizarReloj, 1000);
-        actualizarReloj();
-
-        // ============================================
-        // API
-        // ============================================
-        class DashboardAPI {
-            constructor() { this.cache = new Map(); }
-
-            async obtenerDatos(endpoint, params = {}) {
-                const claveCache = `${endpoint}_${JSON.stringify(params)}`;
-                if (this.cache.has(claveCache)) {
-                    const cacheado = this.cache.get(claveCache);
-                    if (Date.now() - cacheado.timestamp < API_CONFIG.DURACION_CACHE) return cacheado.datos;
-                }
-                try {
-                    const url = new URL(API_CONFIG.URL_BASE);
-                    url.searchParams.append('endpoint', endpoint);
-                    Object.entries(params).forEach(([key, value]) => {
-                        if (value !== null && value !== undefined) url.searchParams.append(key, value);
-                    });
-                    const response = await fetch(url.toString());
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    const datos = await response.json();
-                    if (datos && datos.error) { console.error(`❌ API Error: ${datos.error}`); return null; }
-                    this.cache.set(claveCache, { datos: datos, timestamp: Date.now() });
-                    return datos;
-                } catch (error) {
-                    console.error(`❌ Error ${endpoint}:`, error);
-                    return null;
-                }
-            }
-
-            async obtenerMetricas() { return this.obtenerDatos('metricas'); }
-            async obtenerAlertas(prioridad = null, estado = null) { return this.obtenerDatos('alertas', { prioridad, estado }); }
-            async obtenerMantenimientos(estado = null, dias = 30) { return this.obtenerDatos('mantenimientos', { estado, dias }); }
-        }
-
-        const api = new DashboardAPI();
-
-        // ============================================
-        // ACTUALIZAR STATS
-        // ============================================
-        function actualizarStats(metricas) {
-            const statsGrid = document.getElementById('statsGrid');
-            if (!metricas || !Array.isArray(metricas) || metricas.length === 0) {
-                statsGrid.innerHTML = `<div class="glass-card p-4 rounded-xl col-span-4 text-center text-on-surface-variant">⚠️ No se pudieron cargar las métricas</div>`;
-                return;
-            }
-            const statsMap = {
-                'Tasa Operacional': { icon: 'trending_up', color: 'text-primary-fixed-dim' },
-                'Unidades Activas': { icon: 'settings_input_component', color: 'text-on-surface' },
-                'Alertas Críticas': { icon: 'error', color: 'text-error' },
-                'Tareas Pendientes': { icon: 'pending_actions', color: 'text-primary-container' }
-            };
-            let html = '';
-            metricas.forEach(metrica => {
-                const stat = statsMap[metrica.nombre];
-                if (stat) {
-                    const isCritical = metrica.nombre === 'Alertas Críticas';
-                    const valor = metrica.valor;
-                    const unidad = metrica.unidad || '';
-                    html += `
-                        <div class="glass-card p-4 rounded-xl flex flex-col justify-between animate-enter ${isCritical ? 'border-l-4 border-l-error' : ''}">
-                            <span class="font-label-caps text-label-caps text-on-surface-variant">${metrica.nombre.toUpperCase()}</span>
-                            <div class="flex items-end justify-between mt-2">
-                                <span class="font-data-display text-3xl ${stat.color}">${valor}${unidad === '%' ? '%' : ''}</span>
-                                <span class="material-symbols-outlined ${stat.color} opacity-50">${stat.icon}</span>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-            statsGrid.innerHTML = html || `<div class="glass-card p-4 rounded-xl col-span-4 text-center text-on-surface-variant">⚠️ No hay métricas disponibles</div>`;
-        }
-
-        // ============================================
-        // ACTUALIZAR ALERTAS
-        // ============================================
-        function actualizarAlertas(alertas) {
-            const container = document.getElementById('alertsContainer');
-            const count = document.getElementById('alertCount');
-            if (!alertas || !Array.isArray(alertas) || alertas.length === 0) {
-                count.textContent = '0';
-                container.innerHTML = `<div class="glass-card p-6 rounded-xl text-center"><span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">check_circle</span><p class="text-on-surface-variant text-sm mt-2">✅ No hay alertas activas</p></div>`;
-                return;
-            }
-            const activas = alertas.filter(a => { const estado = (a.estado || '').toUpperCase(); return estado !== 'RESUELTA' && estado !== 'RESUELTO' && estado !== 'RESOLVED'; });
-            count.textContent = activas.length;
-            if (activas.length === 0) {
-                container.innerHTML = `<div class="glass-card p-6 rounded-xl text-center"><span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">check_circle</span><p class="text-on-surface-variant text-sm mt-2">✅ No hay alertas activas</p></div>`;
-                return;
-            }
-            const mostrar = activas.slice(0, 5);
-            let html = '';
-            mostrar.forEach(alerta => {
-                const isCritical = (alerta.prioridad || '').toUpperCase() === 'CRÍTICA' || (alerta.prioridad || '').toUpperCase() === 'CRÍTICO';
-                const isWarning = (alerta.prioridad || '').toUpperCase() === 'ALTA';
-                const statusClass = isCritical ? 'status-critical' : isWarning ? 'status-warning' : '';
-                html += `
-                    <div class="glass-card p-4 rounded-xl ${statusClass} group hover:bg-surface-container-highest transition-colors">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-body-lg text-on-surface font-bold">${alerta.equipo || 'Sin equipo'}</h3>
-                                <p class="font-body-sm text-on-surface-variant">${alerta.descripcion || 'Sin descripción'}</p>
-                            </div>
-                            <span class="material-symbols-outlined ${isCritical ? 'text-error' : 'text-tertiary'}" style="font-variation-settings: 'FILL' ${isCritical ? 1 : 0};">${isCritical ? 'warning' : 'vibration'}</span>
-                        </div>
-                        <div class="mt-4 flex gap-2 flex-wrap">
-                            <span class="bg-error-container text-error font-label-caps text-[10px] px-2 py-1 rounded">${alerta.prioridad || 'N/A'}</span>
-                            <span class="bg-surface-container text-on-surface-variant font-label-caps text-[10px] px-2 py-1 rounded">${alerta.zona || 'N/A'}</span>
-                            <span class="bg-secondary-container text-on-secondary-container font-label-caps text-[10px] px-2 py-1 rounded">${alerta.estado || 'N/A'}</span>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        // ============================================
-        // ACTUALIZAR MANTENIMIENTOS
-        // ============================================
-        function actualizarMantenimientos(mantenimientos) {
-            const tbody = document.getElementById('maintenanceTable');
-            if (!mantenimientos || !Array.isArray(mantenimientos) || mantenimientos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-on-surface-variant opacity-50">No hay mantenimientos programados</td></tr>`;
-                return;
-            }
-            const mostrar = mantenimientos.slice(0, 5);
-            let html = '';
-            mostrar.forEach(mant => {
-                const fecha = mant.fechaVencimiento ? new Date(mant.fechaVencimiento) : new Date();
-                const fechaStr = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
-                const estado = (mant.estado || '').toUpperCase();
-                const estadoClass = estado === 'COMPLETADO' || estado === 'COMPLETED' ? 'bg-primary-container/20 text-primary-container border border-primary-container' :
-                                   estado === 'EN_PROGRESO' || estado === 'IN_PROGRESS' ? 'bg-secondary-container/30 text-secondary-fixed-dim border border-secondary-container' :
-                                   'bg-surface-container-highest text-on-surface-variant border border-outline-variant';
-                const estadoLabel = estado === 'COMPLETADO' || estado === 'COMPLETED' ? 'COMPLETADO' :
-                                   estado === 'EN_PROGRESO' || estado === 'IN_PROGRESS' ? 'EN PROGRESO' :
-                                   mant.estado || 'ABIERTO';
-                const asignado = mant.asignadoA || mant.asignado || '';
-                html += `
-                    <tr class="hover:bg-surface-container-highest transition-colors">
-                        <td class="p-4 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded bg-surface-container-low flex items-center justify-center">
-                                <span class="material-symbols-outlined text-primary-container">settings</span>
-                            </div>
-                            <span class="font-body-sm font-bold">${mant.equipo || 'N/A'}</span>
-                        </td>
-                        <td class="p-4 font-body-sm text-on-surface-variant">${mant.tipoTarea || mant.taskType || 'N/A'}</td>
-                        <td class="p-4 font-body-sm font-data-display">${fechaStr}</td>
-                        <td class="p-4">
-                            ${asignado ? `<div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full border-2 border-surface-container overflow-hidden bg-secondary-container flex items-center justify-center text-xs">${asignado.charAt(0).toUpperCase()}</div><span class="text-xs text-on-surface-variant">${asignado}</span></div>` : `<span class="text-on-surface-variant font-label-caps text-[10px]">NO ASIGNADO</span>`}
-                        </td>
-                        <td class="p-4">
-                            <span class="${estadoClass} font-label-caps text-[10px] px-2 py-1 rounded">${estadoLabel}</span>
-                        </td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
-        }
-
-        // ============================================
-        // DATOS DE RESPALDO
-        // ============================================
-        function usarDatosRespaldo() {
-            console.warn('⚠️ Usando datos de respaldo');
-            actualizarStats([
-                { nombre: 'Tasa Operacional', valor: 94, unidad: '%' },
-                { nombre: 'Unidades Activas', valor: 128, unidad: '' },
-                { nombre: 'Alertas Críticas', valor: 3, unidad: '' },
-                { nombre: 'Tareas Pendientes', valor: 12, unidad: '' }
-            ]);
-            actualizarAlertas([
-                { equipo: 'Turbina XT-500', descripcion: 'Presión excedida (450 PSI)', prioridad: 'CRÍTICA', zona: 'ZONA A4', estado: 'EN_PROGRESO' },
-                { equipo: 'Motor Conveyor B1', descripcion: 'Vibración anormal detectada', prioridad: 'ALTA', zona: 'ZONA B2', estado: 'ABIERTA' },
-                { equipo: 'UPS Servidor Principal', descripcion: 'Batería por debajo del 15%', prioridad: 'CRÍTICA', zona: 'SALA SERVIDORES', estado: 'ABIERTA' }
-            ]);
-            actualizarMantenimientos([
-                { equipo: 'Bomba Hidráulica P1', tipoTarea: 'Reemplazo de Sellos', fechaVencimiento: new Date(Date.now() + 86400000), asignado: 'Juan Pérez', estado: 'PROGRAMADO' },
-                { equipo: 'Controlador Array', tipoTarea: 'Actualización Firmware', fechaVencimiento: new Date(Date.now() + 172800000), asignado: 'María García', estado: 'EN_PROGRESO' },
-                { equipo: 'Chiller HVAC #2', tipoTarea: 'Limpieza de Filtros', fechaVencimiento: new Date(Date.now() + 259200000), asignado: null, estado: 'ABIERTO' }
-            ]);
-        }
-
-        // ============================================
-        // CARGAR DASHBOARD
-        // ============================================
-        async function cargarDashboard() {
-            console.log('🔄 Cargando dashboard...');
+        async function verificarLogin(email) {
+            email = email.trim().toLowerCase();
             try {
-                const metricas = await api.obtenerMetricas();
-                if (metricas && !metricas.error) actualizarStats(metricas);
-                const alertas = await api.obtenerAlertas(null, null);
-                if (alertas && !alertas.error) actualizarAlertas(alertas);
-                const mantenimientos = await api.obtenerMantenimientos(null, 30);
-                if (mantenimientos && !mantenimientos.error) actualizarMantenimientos(mantenimientos);
-                console.log('✅ Dashboard cargado');
+                const usuarios = await obtenerUsuarios();
+                if (usuarios && Array.isArray(usuarios)) {
+                    const usuario = usuarios.find(u => u.email && u.email.toLowerCase() === email);
+                    if (usuario) {
+                        return {
+                            exito: true,
+                            usuario: {
+                                id: usuario.id || '',
+                                nombre: usuario.nombre || usuario.Nombre_Completo || 'Usuario',
+                                rol: usuario.rol || 'USER',
+                                email: usuario.email,
+                                departamento: usuario.departamento || '',
+                                fotoPerfil: usuario.fotoPerfil || '',
+                                modo: usuario.rol === 'ADMIN' ? 'admin' : 'user'
+                            }
+                        };
+                    }
+                }
             } catch (error) {
-                console.error('❌ Error:', error);
-                usarDatosRespaldo();
+                console.warn('⚠️ Error en API:', error);
             }
+
+            const USERS_LOCAL = [
+                { Email: 'admin@ipe3.com', Nombre_Completo: 'Administrador Sistema', Rol: 'ADMIN' },
+                { Email: 'juan.perez@ipe3.com', Nombre_Completo: 'Juan Pérez', Rol: 'INGENIERO' },
+                { Email: 'maria.garcia@ipe3.com', Nombre_Completo: 'María García', Rol: 'SUPERVISOR' },
+                { Email: 'carlos.lopez@ipe3.com', Nombre_Completo: 'Carlos López', Rol: 'TÉCNICO' },
+                { Email: 'ana.martinez@ipe3.com', Nombre_Completo: 'Ana Martínez', Rol: 'INGENIERO' }
+            ];
+
+            const usuarioLocal = USERS_LOCAL.find(u => u.Email.toLowerCase() === email);
+            if (usuarioLocal) {
+                return {
+                    exito: true,
+                    usuario: {
+                        id: '',
+                        nombre: usuarioLocal.Nombre_Completo,
+                        rol: usuarioLocal.Rol,
+                        email: usuarioLocal.Email,
+                        modo: usuarioLocal.Rol === 'ADMIN' ? 'admin' : 'user'
+                    }
+                };
+            }
+            return { exito: false, error: 'Correo no registrado en el sistema' };
         }
 
-        // ============================================
-        // BOTONES
-        // ============================================
-        document.getElementById('refreshBtn').addEventListener('click', () => {
-            const btn = document.getElementById('refreshBtn');
-            btn.innerHTML = 'ACTUALIZANDO <span class="material-symbols-outlined text-sm">refresh</span>';
-            btn.disabled = true;
-            api.cache.clear();
-            cargarDashboard().then(() => {
-                btn.innerHTML = 'ACTUALIZADO ✓';
-                setTimeout(() => {
-                    btn.innerHTML = 'ACTUALIZAR <span class="material-symbols-outlined text-sm">refresh</span>';
-                    btn.disabled = false;
-                }, 1500);
-            });
-        });
-
-        document.getElementById('scanBtn').addEventListener('click', () => {
-            const btn = document.getElementById('scanBtn');
-            btn.innerHTML = '<span class="material-symbols-outlined">scanning</span> ESCANEANDO...';
-            btn.disabled = true;
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError();
+            const email = userEmail.value.trim();
+            if (!email) {
+                showError('⚠️ Ingresa tu correo electrónico');
+                userEmail.focus();
+                return;
+            }
+            if (!email.includes('@')) {
+                showError('⚠️ Ingresa un correo válido');
+                userEmail.focus();
+                return;
+            }
+            loginBtn.classList.add('loading');
+            try {
+                const resultado = await verificarLogin(email);
+                if (resultado.exito) {
+                    localStorage.setItem('ipe3_user', JSON.stringify(resultado.usuario));
+                    showToast(`✅ Bienvenido ${resultado.usuario.nombre}`, 'success');
+                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 500);
+                } else {
+                    showError(`❌ ${resultado.error || 'Usuario no encontrado'}`);
+                    loginBtn.classList.remove('loading');
+                    userEmail.style.animation = 'shake 0.4s ease';
+                    setTimeout(() => userEmail.style.animation = '', 500);
+                    userEmail.focus();
+                }
+            } catch (error) {
+                showError('❌ Error al conectar con el servidor');
+                loginBtn.classList.remove('loading');
+            }
             setTimeout(() => {
-                btn.innerHTML = '<span class="material-symbols-outlined">qr_code_scanner</span> ESCANEAR';
-                btn.disabled = false;
-                const toast = document.createElement('div');
-                toast.style.cssText = `position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); color: #00e5ff; padding: 12px 24px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; z-index: 1000; animation: fadeIn 0.3s ease; backdrop-filter: blur(10px);`;
-                toast.textContent = '✅ Equipo registrado: SCAN-2026-001';
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
-            }, 2000);
+                if (loginBtn.classList.contains('loading')) loginBtn.classList.remove('loading');
+            }, 5000);
         });
 
-        // ============================================
-        // BÚSQUEDA
-        // ============================================
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase().trim();
-            const rows = document.querySelectorAll('#maintenanceTable tr');
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
-            });
+        userEmail.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') loginForm.dispatchEvent(new Event('submit'));
         });
 
-        // ============================================
-        // INICIALIZAR
-        // ============================================
-        mostrarUsuario();
-        cargarDashboard();
-        setInterval(() => {
-            api.cache.clear();
-            cargarDashboard();
-        }, 300000);
+        const card = document.querySelector('.login-card');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 4;
+            const y = (e.clientY / window.innerHeight - 0.5) * 4;
+            card.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
+        });
+        document.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
+        });
 
-        console.log('🚀 Dashboard IPE3 v3.0');
-        console.log('👤 Usuario:', user);
-
-        // ============================================
         // REGISTRO DEL SERVICE WORKER (RUTA RELATIVA)
-        // ============================================
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
@@ -706,6 +452,20 @@
                     .catch(err => console.error('❌ SW Error:', err));
             });
         }
+
+        console.log('🔐 IPE3 Engineering - Login');
+        window.__IPE3 = {
+            config: CONFIG,
+            login: async (email) => {
+                userEmail.value = email;
+                loginForm.dispatchEvent(new Event('submit'));
+            },
+            testAPI: async () => {
+                const users = await obtenerUsuarios();
+                console.log('🧪 Usuarios:', users);
+                return users;
+            }
+        };
     </script>
 
 </body>
