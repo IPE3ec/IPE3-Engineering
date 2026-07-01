@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPE3 Engineering - Sistema Industrial</title>
+    <link rel="manifest" href="/manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: #051424;
@@ -19,6 +25,10 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* ============================================
+           ANIMACIONES DE FONDO
+           ============================================ */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -28,18 +38,22 @@
             z-index: 0;
             overflow: hidden;
         }
+
         .bg-animation .circle {
             position: absolute;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 70%);
             animation: floatCircle 20s infinite ease-in-out;
         }
+
         .bg-animation .circle:nth-child(1) {
             width: 600px;
             height: 600px;
             top: -200px;
             right: -200px;
+            animation-delay: 0s;
         }
+
         .bg-animation .circle:nth-child(2) {
             width: 400px;
             height: 400px;
@@ -48,6 +62,7 @@
             animation-delay: -5s;
             background: radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 70%);
         }
+
         .bg-animation .circle:nth-child(3) {
             width: 300px;
             height: 300px;
@@ -57,12 +72,17 @@
             animation-delay: -10s;
             background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, transparent 70%);
         }
+
         @keyframes floatCircle {
             0%, 100% { transform: translate(0, 0) scale(1); }
             25% { transform: translate(50px, -50px) scale(1.1); }
             50% { transform: translate(-30px, 30px) scale(0.9); }
             75% { transform: translate(40px, 40px) scale(1.05); }
         }
+
+        /* ============================================
+           PARTÍCULAS
+           ============================================ */
         .particles {
             position: fixed;
             top: 0;
@@ -72,6 +92,7 @@
             z-index: 1;
             pointer-events: none;
         }
+
         .particle {
             position: absolute;
             width: 2px;
@@ -80,12 +101,27 @@
             border-radius: 50%;
             animation: particleFloat 15s infinite linear;
         }
+
         @keyframes particleFloat {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
         }
+
+        /* ============================================
+           CONTENEDOR PRINCIPAL
+           ============================================ */
         .hero-container {
             position: relative;
             z-index: 2;
@@ -93,25 +129,45 @@
             padding: 20px;
             animation: fadeInUp 1.5s ease-out;
         }
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
+        /* ============================================
+           LOGO CON ANIMACIÓN
+           ============================================ */
         .logo-wrapper {
             display: inline-block;
             position: relative;
             margin-bottom: 30px;
         }
+
         .logo-icon {
             font-size: 80px;
             color: #00e5ff;
             animation: pulse 2s infinite;
             filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3));
         }
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 60px rgba(0, 229, 255, 0.6)); }
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3));
+            }
+            50% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 60px rgba(0, 229, 255, 0.6));
+            }
         }
+
         .logo-ring {
             position: absolute;
             top: 50%;
@@ -123,6 +179,7 @@
             border-radius: 50%;
             animation: spin 10s linear infinite;
         }
+
         .logo-ring::before {
             content: '';
             position: absolute;
@@ -135,10 +192,15 @@
             border-radius: 50%;
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
         }
+
         @keyframes spin {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
+
+        /* ============================================
+           TEXTO CON TYPING ANIMATION
+           ============================================ */
         .title {
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 900;
@@ -149,6 +211,7 @@
             margin-bottom: 10px;
             letter-spacing: -2px;
         }
+
         .subtitle {
             font-size: clamp(1rem, 2vw, 1.5rem);
             color: rgba(180, 200, 220, 0.8);
@@ -156,11 +219,20 @@
             margin-bottom: 40px;
             letter-spacing: 4px;
         }
-        .subtitle span { color: #00e5ff; font-weight: 600; }
+
+        .subtitle span {
+            color: #00e5ff;
+            font-weight: 600;
+        }
+
+        /* ============================================
+           TEXTO TYPING
+           ============================================ */
         .typing-container {
             display: inline-block;
             margin-bottom: 40px;
         }
+
         .typing-text {
             font-family: 'JetBrains Mono', monospace;
             font-size: clamp(0.9rem, 1.5vw, 1.2rem);
@@ -171,51 +243,15 @@
             white-space: nowrap;
             overflow: hidden;
         }
+
         @keyframes blink {
             0%, 100% { border-color: #00e5ff; }
             50% { border-color: transparent; }
         }
-        .btn-group {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 16px 40px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #00e5ff, #00daf3);
-            color: #00363d;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 0 50px rgba(0, 229, 255, 0.5);
-        }
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: #c3f5ff;
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-        .btn-secondary:hover {
-            background: rgba(0, 229, 255, 0.1);
-            transform: translateY(-3px);
-            border-color: #00e5ff;
-        }
-        .btn .material-symbols-outlined { font-size: 24px; }
+
+        /* ============================================
+           BADGE DE VERSIÓN
+           ============================================ */
         .version-badge {
             position: fixed;
             bottom: 30px;
@@ -230,6 +266,10 @@
             font-family: 'JetBrains Mono', monospace;
             backdrop-filter: blur(10px);
         }
+
+        /* ============================================
+           STATUS INDICATOR
+           ============================================ */
         .status-indicator {
             position: fixed;
             top: 30px;
@@ -244,6 +284,7 @@
             border: 1px solid rgba(0, 229, 255, 0.1);
             backdrop-filter: blur(10px);
         }
+
         .status-dot {
             width: 8px;
             height: 8px;
@@ -251,70 +292,174 @@
             background: #00e5ff;
             animation: dotPulse 2s infinite;
         }
+
         @keyframes dotPulse {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(0.8); }
         }
+
         .status-text {
             font-size: 0.7rem;
             color: rgba(180, 200, 220, 0.6);
             font-family: 'JetBrains Mono', monospace;
         }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
         @media (max-width: 640px) {
-            .btn { padding: 14px 24px; font-size: 0.9rem; width: 100%; justify-content: center; }
-            .btn-group { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
-            .logo-icon { font-size: 60px; }
-            .logo-ring { width: 100px; height: 100px; }
-            .status-indicator { top: 15px; right: 15px; padding: 6px 12px; }
-            .version-badge { bottom: 15px; right: 15px; font-size: 0.6rem; padding: 6px 12px; }
+            .logo-icon {
+                font-size: 60px;
+            }
+
+            .logo-ring {
+                width: 100px;
+                height: 100px;
+            }
+
+            .status-indicator {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+            }
+
+            .version-badge {
+                bottom: 15px;
+                right: 15px;
+                font-size: 0.6rem;
+                padding: 6px 12px;
+            }
         }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #051424; }
-        ::-webkit-scrollbar-thumb { background: #00e5ff; border-radius: 10px; }
+
+        /* ============================================
+           SCROLLBAR
+           ============================================ */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #051424;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00e5ff;
+            border-radius: 10px;
+        }
+
+        /* ============================================
+           REDIRECCIÓN AUTOMÁTICA - LOADING BAR
+           ============================================ */
+        .redirect-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00e5ff, #00daf3);
+            z-index: 100;
+            animation: loadingBar 5s ease-in-out forwards;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+        }
+
+        @keyframes loadingBar {
+            0% { width: 0%; }
+            20% { width: 15%; }
+            40% { width: 35%; }
+            60% { width: 55%; }
+            80% { width: 80%; }
+            95% { width: 95%; }
+            100% { width: 100%; }
+        }
+
+        .redirect-text {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: rgba(180, 200, 220, 0.2);
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 2px;
+            animation: pulseText 2s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.6; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- ============================================
+    ANIMACIÓN DE FONDO - CÍRCULOS
+    ============================================ -->
     <div class="bg-animation">
         <div class="circle"></div>
         <div class="circle"></div>
         <div class="circle"></div>
     </div>
 
+    <!-- ============================================
+    PARTÍCULAS
+    ============================================ -->
     <div class="particles" id="particles"></div>
 
+    <!-- ============================================
+    STATUS INDICATOR
+    ============================================ -->
     <div class="status-indicator">
         <div class="status-dot"></div>
         <span class="status-text">SISTEMA OPERATIVO</span>
     </div>
 
+    <!-- ============================================
+    VERSION BADGE
+    ============================================ -->
     <div class="version-badge">v3.0.0 · INDUSTRIAL</div>
 
+    <!-- ============================================
+    BARRA DE CARGA PARA REDIRECCIÓN
+    ============================================ -->
+    <div class="redirect-bar"></div>
+    <div class="redirect-text">⏳ CARGANDO SISTEMA...</div>
+
+    <!-- ============================================
+    CONTENIDO PRINCIPAL
+    ============================================ -->
     <div class="hero-container">
+
+        <!-- LOGO -->
         <div class="logo-wrapper">
             <div class="logo-ring"></div>
             <span class="material-symbols-outlined logo-icon">precision_manufacturing</span>
         </div>
+
+        <!-- TÍTULO -->
         <h1 class="title">IPE3 Engineering</h1>
         <p class="subtitle">SISTEMA DE GESTIÓN <span>INDUSTRIAL</span></p>
+
+        <!-- TYPING TEXT -->
         <div class="typing-container">
             <div class="typing-text" id="typingText"></div>
         </div>
-        <div class="btn-group">
-            <a href="login.html" class="btn btn-primary">
-                <span class="material-symbols-outlined">login</span>
-                INGRESAR AL SISTEMA
-            </a>
-        </div>
+
+        <!-- INFO ADICIONAL -->
         <p style="margin-top: 40px; font-size: 0.8rem; color: rgba(180,200,220,0.3); font-family: 'JetBrains Mono', monospace;">
             ⚙️ MONITOREO EN TIEMPO REAL · 4.2K SENSORES · IA PREDICTIVA
         </p>
     </div>
 
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
     <script>
+        // ============================================
+        // GENERAR PARTÍCULAS
+        // ============================================
         function createParticles() {
             const container = document.getElementById('particles');
             const count = 50;
+
             for (let i = 0; i < count; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -329,6 +474,9 @@
         }
         createParticles();
 
+        // ============================================
+        // TYPING ANIMATION
+        // ============================================
         const texts = [
             'MONITOREO EN TIEMPO REAL',
             '4.200+ SENSORES CONECTADOS',
@@ -337,11 +485,14 @@
             'SEGURIDAD INDUSTRIAL 24/7'
         ];
 
-        let textIndex = 0, charIndex = 0, isDeleting = false;
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
         const typingElement = document.getElementById('typingText');
 
         function typeEffect() {
             const currentText = texts[textIndex];
+
             if (isDeleting) {
                 typingElement.textContent = currentText.substring(0, charIndex - 1);
                 charIndex--;
@@ -349,7 +500,9 @@
                 typingElement.textContent = currentText.substring(0, charIndex + 1);
                 charIndex++;
             }
+
             let speed = isDeleting ? 50 : 100;
+
             if (!isDeleting && charIndex === currentText.length) {
                 speed = 2000;
                 isDeleting = true;
@@ -358,31 +511,54 @@
                 textIndex = (textIndex + 1) % texts.length;
                 speed = 500;
             }
+
             setTimeout(typeEffect, speed);
         }
+
+        // Iniciar typing después de 1 segundo
         setTimeout(typeEffect, 1000);
 
+        // ============================================
+        // EFECTO DE PARALLAX EN CÍRCULOS
+        // ============================================
         document.addEventListener('mousemove', (e) => {
             const circles = document.querySelectorAll('.bg-animation .circle');
             const x = (e.clientX / window.innerWidth - 0.5) * 20;
             const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
             circles.forEach((circle, index) => {
                 const factor = (index + 1) * 0.5;
                 circle.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
             });
         });
 
+        // ============================================
+        // ANIMACIÓN DE ENTRADA
+        // ============================================
         const hero = document.querySelector('.hero-container');
         hero.style.opacity = '0';
         hero.style.transform = 'translateY(30px)';
+
         setTimeout(() => {
             hero.style.transition = 'all 1s ease-out';
             hero.style.opacity = '1';
             hero.style.transform = 'translateY(0)';
         }, 100);
 
+        // ============================================
+        // REDIRECCIÓN AUTOMÁTICA A LOGIN
+        // ============================================
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 5000);
+
+        // ============================================
+        // LOG
+        // ============================================
         console.log('🚀 IPE3 Engineering - Sistema Industrial v3.0');
-        console.log('🔐 Acceso unificado con clave');
+        console.log('📊 Monitoreo en tiempo real activado');
+        console.log('🔐 Redirigiendo al login en 5 segundos...');
+        console.log('💡 Acceso rápido: Abre login.html directamente');
     </script>
 
 </body>
