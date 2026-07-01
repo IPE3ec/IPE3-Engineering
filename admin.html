@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPE3 Engineering - Administración</title>
-    <link rel="manifest" href="/manifest.json">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="IPE3">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -102,45 +108,37 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             background-color: #051424;
             color: #d4e4fa;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
         }
-
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-
         .glass-card {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid #334155;
             transition: all 0.3s ease;
         }
-
         .glass-card:hover {
             transform: translateY(-2px);
             border-color: rgba(0, 229, 255, 0.2);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
-
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #051424; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-
         .animate-enter {
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
         }
-
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .user-avatar {
             width: 36px;
             height: 36px;
@@ -153,7 +151,6 @@
             font-weight: 700;
             font-size: 14px;
         }
-
         .user-badge {
             background: rgba(0, 229, 255, 0.1);
             border: 1px solid rgba(0, 229, 255, 0.2);
@@ -163,7 +160,6 @@
             color: #00e5ff;
             font-family: 'JetBrains Mono', monospace;
         }
-
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -175,14 +171,11 @@
             justify-content: center;
             animation: fadeIn 0.3s ease;
         }
-
         .modal-overlay.show { display: flex; }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
         .modal-content {
             background: #122131;
             border: 1px solid rgba(0, 229, 255, 0.1);
@@ -194,12 +187,10 @@
             overflow-y: auto;
             animation: slideUp 0.3s ease;
         }
-
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-
         .toast-notification {
             position: fixed;
             bottom: 100px;
@@ -216,13 +207,11 @@
             animation: fadeIn 0.3s ease;
             backdrop-filter: blur(10px);
         }
-
         .toast-notification.error {
             color: #ffb4ab;
             border-color: rgba(255, 180, 171, 0.3);
             background: rgba(147, 0, 10, 0.1);
         }
-
         .form-input {
             width: 100%;
             padding: 12px 16px;
@@ -235,17 +224,12 @@
             outline: none;
             font-family: 'Inter', sans-serif;
         }
-
         .form-input:focus {
             border-color: #00e5ff;
             box-shadow: 0 0 30px rgba(0, 229, 255, 0.05);
             background: rgba(0, 0, 0, 0.4);
         }
-
-        .form-input::placeholder {
-            color: rgba(180, 200, 220, 0.2);
-        }
-
+        .form-input::placeholder { color: rgba(180, 200, 220, 0.2); }
         .form-label {
             display: block;
             color: rgba(180, 200, 220, 0.6);
@@ -255,7 +239,6 @@
             letter-spacing: 0.05em;
             margin-bottom: 6px;
         }
-
         .form-select {
             width: 100%;
             padding: 12px 16px;
@@ -272,18 +255,12 @@
             background-repeat: no-repeat;
             background-position: right 16px center;
         }
-
         .form-select:focus {
             border-color: #00e5ff;
             box-shadow: 0 0 30px rgba(0, 229, 255, 0.05);
             background: rgba(0, 0, 0, 0.4);
         }
-
-        .form-select option {
-            background: #122131;
-            color: #d4e4fa;
-        }
-
+        .form-select option { background: #122131; color: #d4e4fa; }
         .btn-primary {
             padding: 12px 24px;
             border: none;
@@ -298,12 +275,10 @@
             align-items: center;
             gap: 8px;
         }
-
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
         }
-
         .btn-secondary {
             padding: 12px 24px;
             border: 1px solid rgba(0, 229, 255, 0.2);
@@ -318,13 +293,11 @@
             align-items: center;
             gap: 8px;
         }
-
         .btn-secondary:hover {
             background: rgba(0, 229, 255, 0.05);
             border-color: rgba(0, 229, 255, 0.3);
             color: #d4e4fa;
         }
-
         .btn-danger {
             padding: 12px 24px;
             border: 1px solid rgba(255, 180, 171, 0.2);
@@ -339,12 +312,10 @@
             align-items: center;
             gap: 8px;
         }
-
         .btn-danger:hover {
             background: rgba(147, 0, 10, 0.2);
             border-color: rgba(255, 180, 171, 0.3);
         }
-
         .tab-btn {
             padding: 12px 20px;
             border: none;
@@ -360,34 +331,27 @@
             align-items: center;
             gap: 8px;
         }
-
-        .tab-btn:hover {
-            color: rgba(180, 200, 220, 0.7);
-        }
-
-        .tab-btn.active {
-            color: #00e5ff;
-            border-bottom-color: #00e5ff;
-        }
-
-        .admin-card {
-            background: rgba(0, 0, 0, 0.2);
+        .tab-btn:hover { color: rgba(180, 200, 220, 0.7); }
+        .tab-btn.active { color: #00e5ff; border-bottom-color: #00e5ff; }
+        .chip {
+            padding: 2px 10px;
             border-radius: 12px;
-            padding: 16px;
-            border: 1px solid rgba(0, 229, 255, 0.05);
-            transition: all 0.3s ease;
+            font-size: 0.65rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
-
-        .admin-card:hover {
-            border-color: rgba(0, 229, 255, 0.1);
-        }
+        .chip-operativo { background: rgba(0, 229, 255, 0.15); color: #00e5ff; border: 1px solid rgba(0, 229, 255, 0.2); }
+        .chip-mantenimiento { background: rgba(255, 222, 89, 0.15); color: #ffde59; border: 1px solid rgba(255, 222, 89, 0.2); }
+        .chip-falla { background: rgba(255, 180, 171, 0.15); color: #ffb4ab; border: 1px solid rgba(255, 180, 171, 0.2); }
+        .chip-fuera { background: rgba(105, 0, 5, 0.3); color: #ffb4ab; border: 1px solid rgba(105, 0, 5, 0.3); }
+        .chip-progreso { background: rgba(79, 195, 247, 0.15); color: #4fc3f7; border: 1px solid rgba(79, 195, 247, 0.2); }
     </style>
 </head>
 <body>
 
-    <!-- ============================================
-    MODAL DE USUARIO
-    ============================================ -->
+    <!-- MODAL USUARIO -->
     <div class="modal-overlay" id="userModal">
         <div class="modal-content">
             <div style="text-align: center; margin-bottom: 24px;">
@@ -407,18 +371,14 @@
         </div>
     </div>
 
-    <!-- ============================================
-    MODAL DE FORMULARIO (genérico)
-    ============================================ -->
+    <!-- MODAL FORMULARIO -->
     <div class="modal-overlay" id="formModal">
         <div class="modal-content" id="formModalContent">
             <!-- Se llena dinámicamente -->
         </div>
     </div>
 
-    <!-- ============================================
-    TOP APP BAR
-    ============================================ -->
+    <!-- TOP APP BAR -->
     <header class="fixed top-0 w-full z-50 bg-background border-b border-outline-variant flex items-center justify-between px-margin-mobile h-16">
         <div class="flex items-center gap-3">
             <span class="material-symbols-outlined text-primary-container">precision_manufacturing</span>
@@ -432,20 +392,13 @@
         </div>
     </header>
 
-    <!-- ============================================
-    MAIN CONTENT
-    ============================================ -->
+    <!-- MAIN CONTENT -->
     <main class="pt-20 pb-28 px-margin-mobile max-w-7xl mx-auto">
 
-        <!-- ============================================
-        HEADER
-        ============================================ -->
         <section class="mb-lg animate-enter">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                    <h2 class="font-headline-lg text-headline-lg text-on-surface">
-                        ⚙️ Administración del Sistema
-                    </h2>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface">⚙️ Administración del Sistema</h2>
                     <p class="text-on-surface-variant text-sm">Gestión de clientes, equipos, técnicos y más</p>
                 </div>
                 <div class="flex items-center gap-3">
@@ -455,9 +408,6 @@
             </div>
         </section>
 
-        <!-- ============================================
-        TABS DE ADMINISTRACIÓN
-        ============================================ -->
         <section class="mb-lg animate-enter border-b border-outline-variant flex flex-wrap gap-2 overflow-x-auto">
             <button class="tab-btn active" data-tab="clientes">
                 <span class="material-symbols-outlined">business</span>
@@ -485,9 +435,6 @@
             </button>
         </section>
 
-        <!-- ============================================
-        BOTÓN DE NUEVO (dinámico)
-        ============================================ -->
         <section class="mb-lg animate-enter">
             <button id="btnNuevo" class="btn-primary">
                 <span class="material-symbols-outlined">add</span>
@@ -495,25 +442,17 @@
             </button>
         </section>
 
-        <!-- ============================================
-        CONTENEDOR DE LISTA (dinámico)
-        ============================================ -->
         <section id="listContainer" class="space-y-3">
             <!-- Se llena dinámicamente -->
         </section>
 
-        <!-- ============================================
-        FOOTER
-        ============================================ -->
         <div class="mt-lg text-center text-on-surface-variant text-xs font-mono opacity-30">
             ⚙️ IPE3 Engineering v3.0 · Panel de Administración
         </div>
 
     </main>
 
-    <!-- ============================================
-    BOTTOM NAV BAR
-    ============================================ -->
+    <!-- BOTTOM NAV -->
     <nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container-low border-t border-outline-variant shadow-lg flex justify-around items-center h-20 px-4">
         <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors active:scale-90 duration-200" href="dashboard.html">
             <span class="material-symbols-outlined">dashboard</span>
@@ -533,67 +472,42 @@
         </a>
     </nav>
 
-    <!-- ============================================
-    SCRIPTS
-    ============================================ -->
     <script>
-        // ============================================
-        // CONFIGURACIÓN
-        // ============================================
         const API_CONFIG = {
-            URL_BASE: 'https://script.google.com/macros/s/AKfycbxScHGy4ArjjRq7tgrUQ2-4sr3a8s6-D9RAdwgi3JvjlnxYc-tPxWBroPM6WBFFGzf4/exec',
+            URL_BASE: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec',
             DURACION_CACHE: 300000
         };
 
-        // ============================================
-        // USUARIO
-        // ============================================
         function getUserData() {
             try {
                 const data = localStorage.getItem('ipe3_user');
                 if (!data) return null;
                 return JSON.parse(data);
-            } catch {
-                return null;
-            }
+            } catch { return null; }
         }
 
         const user = getUserData();
+        if (!user) window.location.href = 'login.html';
 
-        if (!user) {
-            window.location.href = 'login.html';
-        }
-
-        // Verificar que sea administrador
         if (user.rol !== 'ADMIN' && user.modo !== 'admin') {
-            // Redirigir al dashboard si no es admin
             window.location.href = 'dashboard.html';
         }
 
-        // ============================================
-        // MOSTRAR USUARIO
-        // ============================================
         function mostrarUsuario() {
             if (!user) return;
-            
             const nombre = user.nombre || user.name || 'Usuario';
             const rol = user.rol || user.role || 'USER';
             const modo = user.modo || 'user';
             const initial = nombre.charAt(0).toUpperCase();
-
             document.getElementById('headerName').textContent = nombre;
             document.getElementById('headerAvatar').textContent = initial;
             document.getElementById('userModeBadge').textContent = modo === 'admin' ? '🔐 ADMIN' : '👤 USUARIO';
-            
             document.getElementById('modalAvatar').textContent = initial;
             document.getElementById('modalName').textContent = nombre;
             document.getElementById('modalRole').textContent = rol;
             document.getElementById('modalMode').textContent = `Modo: ${modo === 'admin' ? 'Administrador' : 'Usuario'}`;
         }
 
-        // ============================================
-        // MODAL USUARIO
-        // ============================================
         function mostrarModal() {
             document.getElementById('userModal').classList.add('show');
         }
@@ -610,18 +524,13 @@
                 document.getElementById('formModal').classList.remove('show');
             }
         });
-
         document.getElementById('userModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) document.getElementById('userModal').classList.remove('show');
         });
-
         document.getElementById('formModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) document.getElementById('formModal').classList.remove('show');
         });
 
-        // ============================================
-        // RELOJ
-        // ============================================
         function actualizarReloj() {
             const ahora = new Date();
             document.getElementById('currentTime').textContent = ahora.toLocaleTimeString('es-ES', {
@@ -633,9 +542,6 @@
         setInterval(actualizarReloj, 1000);
         actualizarReloj();
 
-        // ============================================
-        // TOAST
-        // ============================================
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = `toast-notification ${type === 'error' ? 'error' : ''}`;
@@ -644,23 +550,9 @@
             setTimeout(() => toast.remove(), 4000);
         }
 
-        // ============================================
-        // DATOS DE ADMINISTRACIÓN
-        // ============================================
-        let adminData = {
-            clientes: [],
-            equipos: [],
-            tecnicos: [],
-            usuarios: [],
-            ubicaciones: [],
-            categorias: []
-        };
-
+        let adminData = { clientes: [], equipos: [], tecnicos: [], usuarios: [], ubicaciones: [], categorias: [] };
         let currentTab = 'clientes';
 
-        // ============================================
-        // DATOS DE RESPALDO
-        // ============================================
         function getDefaultData() {
             return {
                 clientes: [
@@ -669,10 +561,10 @@
                     { id: 'CLI-003', nombre: 'Ingeniería Martínez S.A.', ruc: '20666666666', contacto: 'Ana Martínez', telefono: '+51 954 321 098', email: 'ana@ingenieriamartinez.com', direccion: 'Av. Tecnología 123' }
                 ],
                 equipos: [
-                    { id: 'TURBINA-001', nombre: 'Turbina XT-500', tipo: 'Turbina', modelo: 'XT-500', fabricante: 'Siemens', ubicacion: 'ZONA A4', estado: 'OPERATIVO' },
-                    { id: 'MOTOR-B1', nombre: 'Motor Conveyor B1', tipo: 'Motor', modelo: 'M-2000', fabricante: 'ABB', ubicacion: 'ZONA B2', estado: 'OPERATIVO' },
-                    { id: 'BOMBA-P1', nombre: 'Bomba Hidráulica P1', tipo: 'Bomba', modelo: 'HP-500', fabricante: 'Grundfos', ubicacion: 'ZONA C3', estado: 'OPERATIVO' },
-                    { id: 'CHILLER-2', nombre: 'Chiller HVAC #2', tipo: 'Chiller', modelo: 'CH-1000', fabricante: 'Carrier', ubicacion: 'SALA B', estado: 'MANTENIMIENTO' }
+                    { id: 'EQ-001', nombre: 'Turbina XT-500', tipo: 'Turbina', modelo: 'XT-500', fabricante: 'Siemens', ubicacion: 'ZONA A4', estado: 'OPERATIVO' },
+                    { id: 'EQ-002', nombre: 'Motor Conveyor B1', tipo: 'Motor', modelo: 'M-2000', fabricante: 'ABB', ubicacion: 'ZONA B2', estado: 'OPERATIVO' },
+                    { id: 'EQ-003', nombre: 'Bomba Hidráulica P1', tipo: 'Bomba', modelo: 'HP-500', fabricante: 'Grundfos', ubicacion: 'ZONA C3', estado: 'OPERATIVO' },
+                    { id: 'EQ-004', nombre: 'Chiller HVAC #2', tipo: 'Chiller', modelo: 'CH-1000', fabricante: 'Carrier', ubicacion: 'SALA B', estado: 'MANTENIMIENTO' }
                 ],
                 tecnicos: [
                     { id: 'TEC-001', nombre: 'Juan Pérez', especialidad: 'Mecánica', telefono: '+51 987 654 321', email: 'juan.perez@ipe3.com', disponible: true },
@@ -702,13 +594,9 @@
             };
         }
 
-        // ============================================
-        // RENDERIZAR LISTA SEGÚN TAB
-        // ============================================
         function renderList(tab) {
             const container = document.getElementById('listContainer');
             const data = adminData[tab] || [];
-            
             if (!data || data.length === 0) {
                 container.innerHTML = `
                     <div class="glass-card p-8 rounded-xl text-center">
@@ -722,11 +610,8 @@
                 `;
                 return;
             }
-
-            // Definir columnas según tab
             let headers = [];
             let rowTemplate = (item) => '';
-            
             switch(tab) {
                 case 'clientes':
                     headers = ['ID', 'Nombre', 'RUC', 'Contacto', 'Teléfono', 'Email'];
@@ -741,7 +626,6 @@
                         </tr>
                     `;
                     break;
-                    
                 case 'equipos':
                     headers = ['ID', 'Nombre', 'Tipo', 'Modelo', 'Ubicación', 'Estado'];
                     rowTemplate = (item) => `
@@ -751,13 +635,10 @@
                             <td class="p-3 text-on-surface-variant">${item.tipo || '-'}</td>
                             <td class="p-3 text-on-surface-variant">${item.modelo || '-'}</td>
                             <td class="p-3 text-on-surface-variant">${item.ubicacion || '-'}</td>
-                            <td class="p-3">
-                                <span class="chip ${item.estado === 'OPERATIVO' ? 'chip-operativo' : item.estado === 'MANTENIMIENTO' ? 'chip-mantenimiento' : item.estado === 'FALLA' ? 'chip-falla' : 'chip-fuera'}">${item.estado || 'N/A'}</span>
-                            </td>
+                            <td class="p-3"><span class="chip ${item.estado === 'OPERATIVO' ? 'chip-operativo' : item.estado === 'MANTENIMIENTO' ? 'chip-mantenimiento' : item.estado === 'FALLA' ? 'chip-falla' : 'chip-fuera'}">${item.estado || 'N/A'}</span></td>
                         </tr>
                     `;
                     break;
-                    
                 case 'tecnicos':
                     headers = ['ID', 'Nombre', 'Especialidad', 'Teléfono', 'Email', 'Disponible'];
                     rowTemplate = (item) => `
@@ -767,13 +648,10 @@
                             <td class="p-3 text-on-surface-variant">${item.especialidad || '-'}</td>
                             <td class="p-3 text-on-surface-variant">${item.telefono || '-'}</td>
                             <td class="p-3 text-on-surface-variant text-sm">${item.email || '-'}</td>
-                            <td class="p-3">
-                                <span class="chip ${item.disponible ? 'chip-operativo' : 'chip-fuera'}">${item.disponible ? 'DISPONIBLE' : 'NO DISPONIBLE'}</span>
-                            </td>
+                            <td class="p-3"><span class="chip ${item.disponible ? 'chip-operativo' : 'chip-fuera'}">${item.disponible ? 'DISPONIBLE' : 'NO DISPONIBLE'}</span></td>
                         </tr>
                     `;
                     break;
-                    
                 case 'usuarios':
                     headers = ['ID', 'Nombre', 'Email', 'Rol', 'Estado'];
                     rowTemplate = (item) => `
@@ -781,16 +659,11 @@
                             <td class="p-3 font-mono text-xs text-on-surface-variant">${item.id}</td>
                             <td class="p-3 font-medium">${item.nombre}</td>
                             <td class="p-3 text-on-surface-variant">${item.email}</td>
-                            <td class="p-3">
-                                <span class="chip ${item.rol === 'ADMIN' ? 'chip-progreso' : 'chip-operativo'}">${item.rol}</span>
-                            </td>
-                            <td class="p-3">
-                                <span class="chip ${item.estado === 'ACTIVO' ? 'chip-operativo' : 'chip-fuera'}">${item.estado}</span>
-                            </td>
+                            <td class="p-3"><span class="chip ${item.rol === 'ADMIN' ? 'chip-progreso' : 'chip-operativo'}">${item.rol}</span></td>
+                            <td class="p-3"><span class="chip ${item.estado === 'ACTIVO' ? 'chip-operativo' : 'chip-fuera'}">${item.estado}</span></td>
                         </tr>
                     `;
                     break;
-                    
                 case 'ubicaciones':
                     headers = ['ID', 'Nombre', 'Descripción'];
                     rowTemplate = (item) => `
@@ -801,7 +674,6 @@
                         </tr>
                     `;
                     break;
-                    
                 case 'categorias':
                     headers = ['ID', 'Nombre', 'Descripción'];
                     rowTemplate = (item) => `
@@ -813,15 +685,12 @@
                     `;
                     break;
             }
-
             container.innerHTML = `
                 <div class="glass-card rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead class="bg-surface-container-high">
-                                <tr>
-                                    ${headers.map(h => `<th class="p-3 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">${h}</th>`).join('')}
-                                </tr>
+                                <tr>${headers.map(h => `<th class="p-3 font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">${h}</th>`).join('')}</tr>
                             </thead>
                             <tbody class="divide-y divide-outline-variant/30">
                                 ${data.map(rowTemplate).join('')}
@@ -830,502 +699,241 @@
                     </div>
                 </div>
             `;
-
-            // Agregar estilos de chips si no existen
-            if (!document.getElementById('chipStyles')) {
-                const style = document.createElement('style');
-                style.id = 'chipStyles';
-                style.textContent = `
-                    .chip {
-                        padding: 2px 10px;
-                        border-radius: 12px;
-                        font-size: 0.65rem;
-                        font-weight: 600;
-                        font-family: 'JetBrains Mono', monospace;
-                        text-transform: uppercase;
-                        letter-spacing: 0.05em;
-                    }
-                    .chip-operativo { background: rgba(0, 229, 255, 0.15); color: #00e5ff; border: 1px solid rgba(0, 229, 255, 0.2); }
-                    .chip-mantenimiento { background: rgba(255, 222, 89, 0.15); color: #ffde59; border: 1px solid rgba(255, 222, 89, 0.2); }
-                    .chip-falla { background: rgba(255, 180, 171, 0.15); color: #ffb4ab; border: 1px solid rgba(255, 180, 171, 0.2); }
-                    .chip-fuera { background: rgba(105, 0, 5, 0.3); color: #ffb4ab; border: 1px solid rgba(105, 0, 5, 0.3); }
-                    .chip-progreso { background: rgba(79, 195, 247, 0.15); color: #4fc3f7; border: 1px solid rgba(79, 195, 247, 0.2); }
-                `;
-                document.head.appendChild(style);
-            }
         }
 
-        // ============================================
-        // VER DETALLE
-        // ============================================
         function verDetalle(tab, id) {
             const item = adminData[tab].find(i => i.id === id);
-            if (!item) {
-                showToast('❌ Elemento no encontrado', 'error');
-                return;
-            }
-
+            if (!item) { showToast('❌ Elemento no encontrado', 'error'); return; }
             const modal = document.getElementById('formModal');
             const content = document.getElementById('formModalContent');
-
-            // Generar campos de detalle según tab
             let fields = '';
             Object.entries(item).forEach(([key, value]) => {
                 if (key === 'id') return;
                 const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
-                fields += `
-                    <div class="mb-3">
-                        <label class="form-label">${label}</label>
-                        <div class="form-input" style="background:rgba(0,0,0,0.2);cursor:default;">${value || '-'}</div>
-                    </div>
-                `;
+                fields += `<div class="mb-3"><label class="form-label">${label}</label><div class="form-input" style="background:rgba(0,0,0,0.2);cursor:default;">${value || '-'}</div></div>`;
             });
-
             content.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
-                    <div>
-                        <h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">${item.nombre || item.id}</h2>
-                        <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">${tab.toUpperCase()} · ${item.id}</p>
-                    </div>
+                    <div><h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">${item.nombre || item.id}</h2><p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">${tab.toUpperCase()} · ${item.id}</p></div>
                     <button onclick="document.getElementById('formModal').classList.remove('show')" style="background: none; border: none; color: rgba(180,200,220,0.3); cursor: pointer; font-size: 24px;">✕</button>
                 </div>
-
                 ${fields}
-
                 <div style="display: flex; gap: 12px; margin-top: 20px;">
-                    <button onclick="editarElemento('${tab}', '${item.id}')" class="btn-primary" style="flex:1;justify-content:center;">
-                        <span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
-                        EDITAR
-                    </button>
-                    <button onclick="eliminarElemento('${tab}', '${item.id}')" class="btn-danger" style="flex:1;justify-content:center;">
-                        <span class="material-symbols-outlined" style="font-size: 20px;">delete</span>
-                        ELIMINAR
-                    </button>
+                    <button onclick="editarElemento('${tab}', '${item.id}')" class="btn-primary" style="flex:1;justify-content:center;"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span>EDITAR</button>
+                    <button onclick="eliminarElemento('${tab}', '${item.id}')" class="btn-danger" style="flex:1;justify-content:center;"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span>ELIMINAR</button>
                 </div>
             `;
-
             modal.classList.add('show');
         }
 
-        // ============================================
-        // ABRIR FORMULARIO NUEVO
-        // ============================================
         function abrirFormularioNuevo() {
             const modal = document.getElementById('formModal');
             const content = document.getElementById('formModalContent');
-
             const tab = currentTab;
-            let fields = '';
-            let idPrefix = '';
-            
+            let fields = '', idPrefix = '';
             switch(tab) {
                 case 'clientes':
                     idPrefix = 'CLI-';
                     fields = `
-                        <div class="mb-3">
-                            <label class="form-label">Nombre del Cliente *</label>
-                            <input class="form-input" id="f_nombre" placeholder="Ej: Industrias López SAC" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">RUC</label>
-                            <input class="form-input" id="f_ruc" placeholder="20123456789" maxlength="13">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Contacto</label>
-                            <input class="form-input" id="f_contacto" placeholder="Nombre del contacto">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Teléfono</label>
-                            <input class="form-input" id="f_telefono" placeholder="+51 999 999 999">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input class="form-input" id="f_email" type="email" placeholder="contacto@empresa.com">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Dirección</label>
-                            <input class="form-input" id="f_direccion" placeholder="Av. Principal 123">
-                        </div>
+                        <div class="mb-3"><label class="form-label">Nombre del Cliente *</label><input class="form-input" id="f_nombre" placeholder="Ej: Industrias López SAC" required></div>
+                        <div class="mb-3"><label class="form-label">RUC</label><input class="form-input" id="f_ruc" placeholder="20123456789" maxlength="13"></div>
+                        <div class="mb-3"><label class="form-label">Contacto</label><input class="form-input" id="f_contacto" placeholder="Nombre del contacto"></div>
+                        <div class="mb-3"><label class="form-label">Teléfono</label><input class="form-input" id="f_telefono" placeholder="+51 999 999 999"></div>
+                        <div class="mb-3"><label class="form-label">Email</label><input class="form-input" id="f_email" type="email" placeholder="contacto@empresa.com"></div>
+                        <div class="mb-3"><label class="form-label">Dirección</label><input class="form-input" id="f_direccion" placeholder="Av. Principal 123"></div>
                     `;
                     break;
-                    
                 case 'equipos':
                     idPrefix = 'EQ-';
                     fields = `
-                        <div class="mb-3">
-                            <label class="form-label">Nombre del Equipo *</label>
-                            <input class="form-input" id="f_nombre" placeholder="Ej: Turbina XT-500" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tipo</label>
-                            <input class="form-input" id="f_tipo" placeholder="Turbina, Motor, Bomba...">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Modelo</label>
-                            <input class="form-input" id="f_modelo" placeholder="XT-500">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Fabricante</label>
-                            <input class="form-input" id="f_fabricante" placeholder="Siemens, ABB...">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Ubicación</label>
-                            <input class="form-input" id="f_ubicacion" placeholder="ZONA A4">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Estado</label>
-                            <select class="form-select" id="f_estado">
-                                <option value="OPERATIVO">🟢 OPERATIVO</option>
-                                <option value="MANTENIMIENTO">🟡 MANTENIMIENTO</option>
-                                <option value="FALLA">🔴 FALLA</option>
-                                <option value="FUERA_DE_SERVICIO">⚫ FUERA DE SERVICIO</option>
-                            </select>
-                        </div>
+                        <div class="mb-3"><label class="form-label">Nombre del Equipo *</label><input class="form-input" id="f_nombre" placeholder="Ej: Turbina XT-500" required></div>
+                        <div class="mb-3"><label class="form-label">Tipo</label><input class="form-input" id="f_tipo" placeholder="Turbina, Motor, Bomba..."></div>
+                        <div class="mb-3"><label class="form-label">Modelo</label><input class="form-input" id="f_modelo" placeholder="XT-500"></div>
+                        <div class="mb-3"><label class="form-label">Fabricante</label><input class="form-input" id="f_fabricante" placeholder="Siemens, ABB..."></div>
+                        <div class="mb-3"><label class="form-label">Ubicación</label><input class="form-input" id="f_ubicacion" placeholder="ZONA A4"></div>
+                        <div class="mb-3"><label class="form-label">Estado</label><select class="form-select" id="f_estado"><option value="OPERATIVO">🟢 OPERATIVO</option><option value="MANTENIMIENTO">🟡 MANTENIMIENTO</option><option value="FALLA">🔴 FALLA</option><option value="FUERA_DE_SERVICIO">⚫ FUERA DE SERVICIO</option></select></div>
                     `;
                     break;
-                    
                 case 'tecnicos':
                     idPrefix = 'TEC-';
                     fields = `
-                        <div class="mb-3">
-                            <label class="form-label">Nombre del Técnico *</label>
-                            <input class="form-input" id="f_nombre" placeholder="Juan Pérez" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Especialidad</label>
-                            <input class="form-input" id="f_especialidad" placeholder="Mecánica, Eléctrica...">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Teléfono</label>
-                            <input class="form-input" id="f_telefono" placeholder="+51 999 999 999">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input class="form-input" id="f_email" type="email" placeholder="tecnico@ipe3.com">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Disponible</label>
-                            <select class="form-select" id="f_disponible">
-                                <option value="true">✅ DISPONIBLE</option>
-                                <option value="false">❌ NO DISPONIBLE</option>
-                            </select>
-                        </div>
+                        <div class="mb-3"><label class="form-label">Nombre del Técnico *</label><input class="form-input" id="f_nombre" placeholder="Juan Pérez" required></div>
+                        <div class="mb-3"><label class="form-label">Especialidad</label><input class="form-input" id="f_especialidad" placeholder="Mecánica, Eléctrica..."></div>
+                        <div class="mb-3"><label class="form-label">Teléfono</label><input class="form-input" id="f_telefono" placeholder="+51 999 999 999"></div>
+                        <div class="mb-3"><label class="form-label">Email</label><input class="form-input" id="f_email" type="email" placeholder="tecnico@ipe3.com"></div>
+                        <div class="mb-3"><label class="form-label">Disponible</label><select class="form-select" id="f_disponible"><option value="true">✅ DISPONIBLE</option><option value="false">❌ NO DISPONIBLE</option></select></div>
                     `;
                     break;
-                    
                 case 'usuarios':
                     idPrefix = 'U';
                     fields = `
-                        <div class="mb-3">
-                            <label class="form-label">Nombre *</label>
-                            <input class="form-input" id="f_nombre" placeholder="Nombre completo" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email *</label>
-                            <input class="form-input" id="f_email" type="email" placeholder="usuario@ipe3.com" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Rol</label>
-                            <select class="form-select" id="f_rol">
-                                <option value="ADMIN">ADMIN</option>
-                                <option value="SUPERVISOR">SUPERVISOR</option>
-                                <option value="INGENIERO">INGENIERO</option>
-                                <option value="TÉCNICO">TÉCNICO</option>
-                                <option value="CONSULTOR">CONSULTOR</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Estado</label>
-                            <select class="form-select" id="f_estado">
-                                <option value="ACTIVO">ACTIVO</option>
-                                <option value="INACTIVO">INACTIVO</option>
-                                <option value="SUSPENDIDO">SUSPENDIDO</option>
-                            </select>
-                        </div>
+                        <div class="mb-3"><label class="form-label">Nombre *</label><input class="form-input" id="f_nombre" placeholder="Nombre completo" required></div>
+                        <div class="mb-3"><label class="form-label">Email *</label><input class="form-input" id="f_email" type="email" placeholder="usuario@ipe3.com" required></div>
+                        <div class="mb-3"><label class="form-label">Rol</label><select class="form-select" id="f_rol"><option value="ADMIN">ADMIN</option><option value="SUPERVISOR">SUPERVISOR</option><option value="INGENIERO">INGENIERO</option><option value="TÉCNICO">TÉCNICO</option><option value="CONSULTOR">CONSULTOR</option></select></div>
+                        <div class="mb-3"><label class="form-label">Estado</label><select class="form-select" id="f_estado"><option value="ACTIVO">ACTIVO</option><option value="INACTIVO">INACTIVO</option><option value="SUSPENDIDO">SUSPENDIDO</option></select></div>
                     `;
                     break;
-                    
                 case 'ubicaciones':
                     idPrefix = 'UBI-';
-                    fields = `
-                        <div class="mb-3">
-                            <label class="form-label">Nombre *</label>
-                            <input class="form-input" id="f_nombre" placeholder="ZONA A4" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descripción</label>
-                            <input class="form-input" id="f_descripcion" placeholder="Planta principal - Sector A">
-                        </div>
-                    `;
+                    fields = `<div class="mb-3"><label class="form-label">Nombre *</label><input class="form-input" id="f_nombre" placeholder="ZONA A4" required></div><div class="mb-3"><label class="form-label">Descripción</label><input class="form-input" id="f_descripcion" placeholder="Planta principal - Sector A"></div>`;
                     break;
-                    
                 case 'categorias':
                     idPrefix = 'CAT-';
-                    fields = `
-                        <div class="mb-3">
-                            <label class="form-label">Nombre *</label>
-                            <input class="form-input" id="f_nombre" placeholder="Mecánica" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descripción</label>
-                            <input class="form-input" id="f_descripcion" placeholder="Equipos y componentes mecánicos">
-                        </div>
-                    `;
+                    fields = `<div class="mb-3"><label class="form-label">Nombre *</label><input class="form-input" id="f_nombre" placeholder="Mecánica" required></div><div class="mb-3"><label class="form-label">Descripción</label><input class="form-input" id="f_descripcion" placeholder="Equipos y componentes mecánicos"></div>`;
                     break;
             }
-
             content.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
-                    <div>
-                        <h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">📝 Nuevo ${tab.slice(0, -1).toUpperCase()}</h2>
-                        <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">Completa los campos para agregar un nuevo registro</p>
-                    </div>
+                    <div><h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">📝 Nuevo ${tab.slice(0, -1).toUpperCase()}</h2><p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">Completa los campos para agregar un nuevo registro</p></div>
                     <button onclick="document.getElementById('formModal').classList.remove('show')" style="background: none; border: none; color: rgba(180,200,220,0.3); cursor: pointer; font-size: 24px;">✕</button>
                 </div>
-
                 <form id="adminForm" onsubmit="guardarNuevo(event, '${tab}', '${idPrefix}')">
                     ${fields}
                     <div style="display: flex; gap: 12px; margin-top: 20px;">
-                        <button type="submit" class="btn-primary" style="flex:1;justify-content:center;">
-                            <span class="material-symbols-outlined" style="font-size: 20px;">save</span>
-                            GUARDAR
-                        </button>
-                        <button type="button" onclick="document.getElementById('formModal').classList.remove('show')" class="btn-secondary">
-                            CANCELAR
-                        </button>
+                        <button type="submit" class="btn-primary" style="flex:1;justify-content:center;"><span class="material-symbols-outlined" style="font-size: 20px;">save</span>GUARDAR</button>
+                        <button type="button" onclick="document.getElementById('formModal').classList.remove('show')" class="btn-secondary">CANCELAR</button>
                     </div>
                 </form>
             `;
-
             modal.classList.add('show');
         }
 
-        // ============================================
-        // GUARDAR NUEVO ELEMENTO
-        // ============================================
-        function guardarNuevo(event, tab, idPrefix) {
+        async function guardarNuevo(event, tab, idPrefix) {
             event.preventDefault();
-            
             const form = document.getElementById('adminForm');
-            const formData = new FormData(form);
-            
-            const nuevo = {
-                id: `${idPrefix}${String(adminData[tab].length + 1).padStart(3, '0')}`
-            };
-            
-            // Recoger datos del formulario
+            const nuevo = { id: `${idPrefix}${String(adminData[tab].length + 1).padStart(3, '0')}` };
             const fields = ['nombre', 'ruc', 'contacto', 'telefono', 'email', 'direccion', 'tipo', 'modelo', 'fabricante', 'ubicacion', 'estado', 'especialidad', 'disponible', 'descripcion', 'rol'];
-            
             fields.forEach(f => {
                 const value = document.getElementById(`f_${f}`);
-                if (value) {
-                    if (f === 'disponible') {
-                        nuevo[f] = value.value === 'true';
-                    } else {
-                        nuevo[f] = value.value;
-                    }
-                }
+                if (value) { nuevo[f] = f === 'disponible' ? value.value === 'true' : value.value; }
             });
             
-            // Agregar a los datos
-            adminData[tab].push(nuevo);
-            
-            // Cerrar modal y refrescar
-            document.getElementById('formModal').classList.remove('show');
-            renderList(tab);
-            showToast(`✅ ${tab.slice(0, -1)} agregado exitosamente`);
-            
-            // Aquí se enviaría a la API en producción
-            console.log('📝 Nuevo registro:', { tab, data: nuevo });
+            try {
+                const response = await fetch(API_CONFIG.URL_BASE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ accion: `crear_${tab.slice(0, -1)}`, ...nuevo })
+                });
+                const result = await response.json();
+                if (result.exito) {
+                    adminData[tab].push(nuevo);
+                    document.getElementById('formModal').classList.remove('show');
+                    renderList(tab);
+                    showToast(`✅ ${tab.slice(0, -1)} agregado exitosamente`);
+                } else {
+                    showToast(`❌ Error: ${result.error || 'No se pudo guardar'}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error guardando:', error);
+                adminData[tab].push(nuevo);
+                document.getElementById('formModal').classList.remove('show');
+                renderList(tab);
+                showToast(`✅ ${tab.slice(0, -1)} agregado (solo local)`, 'success');
+            }
         }
 
-        // ============================================
-        // EDITAR ELEMENTO
-        // ============================================
         function editarElemento(tab, id) {
             const item = adminData[tab].find(i => i.id === id);
-            if (!item) {
-                showToast('❌ Elemento no encontrado', 'error');
-                return;
-            }
-
+            if (!item) { showToast('❌ Elemento no encontrado', 'error'); return; }
             document.getElementById('formModal').classList.remove('show');
-            
-            // Abrir formulario de edición (similar a nuevo pero con datos)
             abrirFormularioEdicion(tab, item);
         }
 
         function abrirFormularioEdicion(tab, item) {
             const modal = document.getElementById('formModal');
             const content = document.getElementById('formModalContent');
-
             const fields = ['nombre', 'ruc', 'contacto', 'telefono', 'email', 'direccion', 'tipo', 'modelo', 'fabricante', 'ubicacion', 'estado', 'especialidad', 'disponible', 'descripcion', 'rol'];
-            
             let inputs = '';
             fields.forEach(f => {
                 if (item[f] !== undefined) {
                     const value = item[f] !== null ? item[f] : '';
                     const label = f.charAt(0).toUpperCase() + f.slice(1).replace(/_/g, ' ');
                     if (f === 'estado' || f === 'disponible' || f === 'rol') {
-                        // Select fields
                         let options = '';
                         if (f === 'estado') {
-                            options = `
-                                <option value="OPERATIVO" ${value === 'OPERATIVO' ? 'selected' : ''}>🟢 OPERATIVO</option>
-                                <option value="MANTENIMIENTO" ${value === 'MANTENIMIENTO' ? 'selected' : ''}>🟡 MANTENIMIENTO</option>
-                                <option value="FALLA" ${value === 'FALLA' ? 'selected' : ''}>🔴 FALLA</option>
-                                <option value="FUERA_DE_SERVICIO" ${value === 'FUERA_DE_SERVICIO' ? 'selected' : ''}>⚫ FUERA DE SERVICIO</option>
-                            `;
+                            options = `<option value="OPERATIVO" ${value === 'OPERATIVO' ? 'selected' : ''}>🟢 OPERATIVO</option><option value="MANTENIMIENTO" ${value === 'MANTENIMIENTO' ? 'selected' : ''}>🟡 MANTENIMIENTO</option><option value="FALLA" ${value === 'FALLA' ? 'selected' : ''}>🔴 FALLA</option><option value="FUERA_DE_SERVICIO" ${value === 'FUERA_DE_SERVICIO' ? 'selected' : ''}>⚫ FUERA DE SERVICIO</option>`;
                         } else if (f === 'disponible') {
-                            options = `
-                                <option value="true" ${value === true ? 'selected' : ''}>✅ DISPONIBLE</option>
-                                <option value="false" ${value === false ? 'selected' : ''}>❌ NO DISPONIBLE</option>
-                            `;
+                            options = `<option value="true" ${value === true ? 'selected' : ''}>✅ DISPONIBLE</option><option value="false" ${value === false ? 'selected' : ''}>❌ NO DISPONIBLE</option>`;
                         } else if (f === 'rol') {
-                            options = `
-                                <option value="ADMIN" ${value === 'ADMIN' ? 'selected' : ''}>ADMIN</option>
-                                <option value="SUPERVISOR" ${value === 'SUPERVISOR' ? 'selected' : ''}>SUPERVISOR</option>
-                                <option value="INGENIERO" ${value === 'INGENIERO' ? 'selected' : ''}>INGENIERO</option>
-                                <option value="TÉCNICO" ${value === 'TÉCNICO' ? 'selected' : ''}>TÉCNICO</option>
-                                <option value="CONSULTOR" ${value === 'CONSULTOR' ? 'selected' : ''}>CONSULTOR</option>
-                            `;
+                            options = `<option value="ADMIN" ${value === 'ADMIN' ? 'selected' : ''}>ADMIN</option><option value="SUPERVISOR" ${value === 'SUPERVISOR' ? 'selected' : ''}>SUPERVISOR</option><option value="INGENIERO" ${value === 'INGENIERO' ? 'selected' : ''}>INGENIERO</option><option value="TÉCNICO" ${value === 'TÉCNICO' ? 'selected' : ''}>TÉCNICO</option><option value="CONSULTOR" ${value === 'CONSULTOR' ? 'selected' : ''}>CONSULTOR</option>`;
                         }
-                        inputs += `
-                            <div class="mb-3">
-                                <label class="form-label">${label}</label>
-                                <select class="form-select" id="f_${f}">${options}</select>
-                            </div>
-                        `;
+                        inputs += `<div class="mb-3"><label class="form-label">${label}</label><select class="form-select" id="f_${f}">${options}</select></div>`;
                     } else {
-                        inputs += `
-                            <div class="mb-3">
-                                <label class="form-label">${label}</label>
-                                <input class="form-input" id="f_${f}" value="${value}" placeholder="Ingresa ${label.toLowerCase()}">
-                            </div>
-                        `;
+                        inputs += `<div class="mb-3"><label class="form-label">${label}</label><input class="form-input" id="f_${f}" value="${value}" placeholder="Ingresa ${label.toLowerCase()}"></div>`;
                     }
                 }
             });
-
             content.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
-                    <div>
-                        <h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">✏️ Editar ${item.nombre || item.id}</h2>
-                        <p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">${tab.toUpperCase()} · ${item.id}</p>
-                    </div>
+                    <div><h2 style="color: #d4e4fa; font-size: 1.3rem; font-weight: 700;">✏️ Editar ${item.nombre || item.id}</h2><p style="color: rgba(180,200,220,0.4); font-size: 0.85rem;">${tab.toUpperCase()} · ${item.id}</p></div>
                     <button onclick="document.getElementById('formModal').classList.remove('show')" style="background: none; border: none; color: rgba(180,200,220,0.3); cursor: pointer; font-size: 24px;">✕</button>
                 </div>
-
                 <form id="editForm" onsubmit="guardarEdicion(event, '${tab}', '${item.id}')">
                     ${inputs}
                     <div style="display: flex; gap: 12px; margin-top: 20px;">
-                        <button type="submit" class="btn-primary" style="flex:1;justify-content:center;">
-                            <span class="material-symbols-outlined" style="font-size: 20px;">save</span>
-                            ACTUALIZAR
-                        </button>
-                        <button type="button" onclick="document.getElementById('formModal').classList.remove('show')" class="btn-secondary">
-                            CANCELAR
-                        </button>
+                        <button type="submit" class="btn-primary" style="flex:1;justify-content:center;"><span class="material-symbols-outlined" style="font-size: 20px;">save</span>ACTUALIZAR</button>
+                        <button type="button" onclick="document.getElementById('formModal').classList.remove('show')" class="btn-secondary">CANCELAR</button>
                     </div>
                 </form>
             `;
-
             modal.classList.add('show');
         }
 
         function guardarEdicion(event, tab, id) {
             event.preventDefault();
-            
             const item = adminData[tab].find(i => i.id === id);
-            if (!item) {
-                showToast('❌ Elemento no encontrado', 'error');
-                return;
-            }
-
+            if (!item) { showToast('❌ Elemento no encontrado', 'error'); return; }
             const fields = ['nombre', 'ruc', 'contacto', 'telefono', 'email', 'direccion', 'tipo', 'modelo', 'fabricante', 'ubicacion', 'estado', 'especialidad', 'disponible', 'descripcion', 'rol'];
-            
             fields.forEach(f => {
                 const input = document.getElementById(`f_${f}`);
-                if (input) {
-                    if (f === 'disponible') {
-                        item[f] = input.value === 'true';
-                    } else {
-                        item[f] = input.value;
-                    }
-                }
+                if (input) { item[f] = f === 'disponible' ? input.value === 'true' : input.value; }
             });
-            
             document.getElementById('formModal').classList.remove('show');
             renderList(tab);
             showToast(`✅ ${tab.slice(0, -1)} actualizado exitosamente`);
-            
-            console.log('✏️ Registro actualizado:', { tab, id, data: item });
         }
 
-        // ============================================
-        // ELIMINAR ELEMENTO
-        // ============================================
         function eliminarElemento(tab, id) {
             if (!confirm(`¿Estás seguro de eliminar este registro de ${tab}?`)) return;
-            
             adminData[tab] = adminData[tab].filter(i => i.id !== id);
             document.getElementById('formModal').classList.remove('show');
             renderList(tab);
             showToast(`✅ ${tab.slice(0, -1)} eliminado`);
-            
-            console.log('🗑️ Registro eliminado:', { tab, id });
         }
 
-        // ============================================
-        // CAMBIO DE TAB
-        // ============================================
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentTab = btn.dataset.tab;
-                
-                // Actualizar botón "NUEVO"
                 const btnNuevo = document.getElementById('btnNuevo');
                 btnNuevo.innerHTML = `<span class="material-symbols-outlined">add</span> NUEVO ${currentTab.slice(0, -1).toUpperCase()}`;
                 btnNuevo.onclick = abrirFormularioNuevo;
-                
                 renderList(currentTab);
             });
         });
 
-        // ============================================
-        // INICIALIZAR
-        // ============================================
         function init() {
             mostrarUsuario();
-            
-            // Cargar datos (por ahora usar respaldo)
             const defaultData = getDefaultData();
             adminData = defaultData;
-            
-            // Renderizar tab inicial
             renderList('clientes');
-            
-            // Configurar botón nuevo
             const btnNuevo = document.getElementById('btnNuevo');
             btnNuevo.innerHTML = `<span class="material-symbols-outlined">add</span> NUEVO CLIENTE`;
             btnNuevo.onclick = abrirFormularioNuevo;
-            
             console.log('🚀 IPE3 Admin v3.0');
             console.log('👤 Usuario:', user);
-            console.log('📊 Datos cargados:', Object.keys(adminData).length, 'tablas');
         }
 
         init();
 
-        // ============================================
-        // SERVICE WORKER
-        // ============================================
+        // REGISTRO DEL SERVICE WORKER (RUTA RELATIVA)
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('✅ Service Worker registrado'))
-                .catch(err => console.error('❌ SW Error:', err));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('✅ Service Worker registrado correctamente'))
+                    .catch(err => console.error('❌ SW Error:', err));
+            });
         }
     </script>
 
