@@ -5,14 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPE3 Engineering - Sistema Industrial</title>
     
-    <!-- ============================================ -->
     <!-- PWA - MANIFEST (RUTA RELATIVA) -->
-    <!-- ============================================ -->
     <link rel="manifest" href="manifest.json">
     
-    <!-- ============================================ -->
     <!-- METADATOS PARA iOS -->
-    <!-- ============================================ -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="IPE3">
@@ -23,12 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: #051424;
@@ -38,7 +29,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .bg-animation {
             position: fixed;
             top: 0;
@@ -48,14 +38,12 @@
             z-index: 0;
             overflow: hidden;
         }
-
         .bg-animation .circle {
             position: absolute;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 70%);
             animation: floatCircle 20s infinite ease-in-out;
         }
-
         .bg-animation .circle:nth-child(1) {
             width: 600px;
             height: 600px;
@@ -63,7 +51,6 @@
             right: -200px;
             animation-delay: 0s;
         }
-
         .bg-animation .circle:nth-child(2) {
             width: 400px;
             height: 400px;
@@ -72,7 +59,6 @@
             animation-delay: -5s;
             background: radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 70%);
         }
-
         .bg-animation .circle:nth-child(3) {
             width: 300px;
             height: 300px;
@@ -82,14 +68,12 @@
             animation-delay: -10s;
             background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, transparent 70%);
         }
-
         @keyframes floatCircle {
             0%, 100% { transform: translate(0, 0) scale(1); }
             25% { transform: translate(50px, -50px) scale(1.1); }
             50% { transform: translate(-30px, 30px) scale(0.9); }
             75% { transform: translate(40px, 40px) scale(1.05); }
         }
-
         .particles {
             position: fixed;
             top: 0;
@@ -99,7 +83,6 @@
             z-index: 1;
             pointer-events: none;
         }
-
         .particle {
             position: absolute;
             width: 2px;
@@ -108,24 +91,12 @@
             border-radius: 50%;
             animation: particleFloat 15s infinite linear;
         }
-
         @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
         }
-
         .hero-container {
             position: relative;
             z-index: 2;
@@ -133,42 +104,25 @@
             padding: 20px;
             animation: fadeInUp 1.5s ease-out;
         }
-
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         .logo-wrapper {
             display: inline-block;
             position: relative;
             margin-bottom: 30px;
         }
-
         .logo-icon {
             font-size: 80px;
             color: #00e5ff;
             animation: pulse 2s infinite;
             filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3));
         }
-
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3));
-            }
-            50% {
-                transform: scale(1.05);
-                filter: drop-shadow(0 0 60px rgba(0, 229, 255, 0.6));
-            }
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 60px rgba(0, 229, 255, 0.6)); }
         }
-
         .logo-ring {
             position: absolute;
             top: 50%;
@@ -180,7 +134,6 @@
             border-radius: 50%;
             animation: spin 10s linear infinite;
         }
-
         .logo-ring::before {
             content: '';
             position: absolute;
@@ -193,12 +146,10 @@
             border-radius: 50%;
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
         }
-
         @keyframes spin {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
-
         .title {
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 900;
@@ -209,7 +160,6 @@
             margin-bottom: 10px;
             letter-spacing: -2px;
         }
-
         .subtitle {
             font-size: clamp(1rem, 2vw, 1.5rem);
             color: rgba(180, 200, 220, 0.8);
@@ -217,17 +167,11 @@
             margin-bottom: 40px;
             letter-spacing: 4px;
         }
-
-        .subtitle span {
-            color: #00e5ff;
-            font-weight: 600;
-        }
-
+        .subtitle span { color: #00e5ff; font-weight: 600; }
         .typing-container {
             display: inline-block;
             margin-bottom: 40px;
         }
-
         .typing-text {
             font-family: 'JetBrains Mono', monospace;
             font-size: clamp(0.9rem, 1.5vw, 1.2rem);
@@ -238,12 +182,10 @@
             white-space: nowrap;
             overflow: hidden;
         }
-
         @keyframes blink {
             0%, 100% { border-color: #00e5ff; }
             50% { border-color: transparent; }
         }
-
         .version-badge {
             position: fixed;
             bottom: 30px;
@@ -258,7 +200,6 @@
             font-family: 'JetBrains Mono', monospace;
             backdrop-filter: blur(10px);
         }
-
         .status-indicator {
             position: fixed;
             top: 30px;
@@ -273,7 +214,6 @@
             border: 1px solid rgba(0, 229, 255, 0.1);
             backdrop-filter: blur(10px);
         }
-
         .status-dot {
             width: 8px;
             height: 8px;
@@ -281,18 +221,15 @@
             background: #00e5ff;
             animation: dotPulse 2s infinite;
         }
-
         @keyframes dotPulse {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(0.8); }
         }
-
         .status-text {
             font-size: 0.7rem;
             color: rgba(180, 200, 220, 0.6);
             font-family: 'JetBrains Mono', monospace;
         }
-
         .redirect-bar {
             position: fixed;
             bottom: 0;
@@ -303,7 +240,6 @@
             animation: loadingBar 5s ease-in-out forwards;
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
         }
-
         @keyframes loadingBar {
             0% { width: 0%; }
             20% { width: 15%; }
@@ -313,7 +249,6 @@
             95% { width: 95%; }
             100% { width: 100%; }
         }
-
         .redirect-text {
             position: fixed;
             bottom: 20px;
@@ -326,19 +261,16 @@
             letter-spacing: 2px;
             animation: pulseText 2s infinite;
         }
-
         @keyframes pulseText {
             0%, 100% { opacity: 0.2; }
             50% { opacity: 0.6; }
         }
-
         @media (max-width: 640px) {
             .logo-icon { font-size: 60px; }
             .logo-ring { width: 100px; height: 100px; }
             .status-indicator { top: 15px; right: 15px; padding: 6px 12px; }
             .version-badge { bottom: 15px; right: 15px; font-size: 0.6rem; padding: 6px 12px; }
         }
-
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #051424; }
         ::-webkit-scrollbar-thumb { background: #00e5ff; border-radius: 10px; }
@@ -454,8 +386,6 @@
         }, 5000);
 
         console.log('🚀 IPE3 Engineering - Sistema Industrial v3.0');
-        console.log('📊 Monitoreo en tiempo real activado');
-        console.log('🔐 Redirigiendo al login en 5 segundos...');
 
         // ============================================
         // REGISTRO DEL SERVICE WORKER (RUTA RELATIVA)
