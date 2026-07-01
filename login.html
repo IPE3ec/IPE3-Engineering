@@ -255,20 +255,23 @@
         <div class="login-logo">
             <span class="material-symbols-outlined icon">precision_manufacturing</span>
             <h2>IPE3 Engineering</h2>
-            <p>Ingresa tu clave de acceso</p>
+            <p>Ingresa tu correo electrónico</p>
         </div>
 
         <div class="error-message" id="errorMessage">
             <span class="material-symbols-outlined">error</span>
-            <span id="errorText">Credencial incorrecta</span>
+            <span id="errorText">Usuario no encontrado</span>
         </div>
 
         <form id="loginForm" autocomplete="off">
             <div class="form-group">
-                <label for="accessKey">🔑 Clave de Acceso</label>
+                <label for="userEmail">📧 Correo Electrónico</label>
                 <div class="input-wrapper">
-                    <span class="material-symbols-outlined">key</span>
-                    <input type="password" id="accessKey" placeholder="Ingresa tu clave" required autofocus>
+                    <span class="material-symbols-outlined">mail</span>
+                    <input type="email" id="userEmail" placeholder="ejemplo@ipe3.com" required autofocus>
+                </div>
+                <div style="margin-top: 8px; font-size: 0.7rem; color: rgba(180,200,220,0.3);">
+                    💡 Usa el correo registrado en el sistema
                 </div>
             </div>
 
@@ -292,30 +295,13 @@
         // ============================================
         const CONFIG = {
             // 🔴 Tu URL de Web App
-            URL_API: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec',
-            // Usuarios locales (fallback)
-            USERS: [
-                { ruc: '20123456789', name: 'Juan Pérez', role: 'Ingeniero' },
-                { ruc: '20987654321', name: 'María García', role: 'Supervisor' },
-                { ruc: '20555555555', name: 'Carlos López', role: 'Técnico' },
-                { ruc: '20666666666', name: 'Ana Martínez', role: 'Ingeniero' },
-                { ruc: '20777777777', name: 'Admin Usuario', role: 'Administrador' }
-            ],
-            // Mapeo de claves a roles (clave → {nombre, rol})
-            CLAVES: {
-                'IPE3@2026': { nombre: 'Administrador', rol: 'ADMIN', email: 'admin@ipe3.com', modo: 'admin' },
-                '20123456789': { nombre: 'Juan Pérez', rol: 'INGENIERO', email: 'juan.perez@ipe3.com', modo: 'user' },
-                '20987654321': { nombre: 'María García', rol: 'SUPERVISOR', email: 'maria.garcia@ipe3.com', modo: 'user' },
-                '20555555555': { nombre: 'Carlos López', rol: 'TÉCNICO', email: 'carlos.lopez@ipe3.com', modo: 'user' },
-                '20666666666': { nombre: 'Ana Martínez', rol: 'INGENIERO', email: 'ana.martinez@ipe3.com', modo: 'user' },
-                '20777777777': { nombre: 'Admin Usuario', rol: 'ADMINISTRADOR', email: 'admin.user@ipe3.com', modo: 'user' }
-            }
+            URL_API: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec'
         };
 
         // ============================================
         // DOM ELEMENTS
         // ============================================
-        const accessKey = document.getElementById('accessKey');
+        const userEmail = document.getElementById('userEmail');
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
         const errorMessage = document.getElementById('errorMessage');
@@ -346,15 +332,13 @@
         }
 
         // ============================================
-        // FUNCIÓN: LLAMAR A LA API
+        // FUNCIÓN: OBTENER USUARIOS DESDE LA API
         // ============================================
-        async function verificarLoginAPI(credencial) {
+        async function obtenerUsuarios() {
             try {
-                // Primero probamos con el endpoint de login
                 const url = new URL(CONFIG.URL_API);
-                url.searchParams.append('endpoint', 'login');
-                url.searchParams.append('credencial', credencial);
-                url.searchParams.append('tipo', 'admin'); // Usamos admin para validar clave
+                url.searchParams.append('endpoint', 'usuarios');
+                url.searchParams.append('estado', 'ACTIVO');
 
                 const response = await fetch(url.toString());
                 
@@ -363,55 +347,81 @@
                 }
 
                 const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
                 return data;
 
             } catch (error) {
-                console.warn('⚠️ API no disponible, usando datos locales:', error);
+                console.warn('⚠️ Error obteniendo usuarios desde API:', error);
                 return null;
             }
         }
 
         // ============================================
-        // FUNCIÓN: VERIFICAR LOGIN (LOCAL + API)
+        // FUNCIÓN: VERIFICAR LOGIN
         // ============================================
-        async function verificarLogin(credencial) {
+        async function verificarLogin(email) {
+            // Limpiar email
+            email = email.trim().toLowerCase();
+
             // 1. Intentar con la API
             try {
-                const resultadoAPI = await verificarLoginAPI(credencial);
-                if (resultadoAPI && resultadoAPI.exito && resultadoAPI.usuario) {
-                    return {
-                        exito: true,
-                        usuario: resultadoAPI.usuario
-                    };
+                const usuarios = await obtenerUsuarios();
+                
+                if (usuarios && Array.isArray(usuarios)) {
+                    // Buscar usuario por email
+                    const usuario = usuarios.find(u => 
+                        u.email && u.email.toLowerCase() === email
+                    );
+
+                    if (usuario) {
+                        return {
+                            exito: true,
+                            usuario: {
+                                id: usuario.id || '',
+                                nombre: usuario.nombre || usuario.Nombre_Completo || 'Usuario',
+                                rol: usuario.rol || 'USER',
+                                email: usuario.email,
+                                departamento: usuario.departamento || '',
+                                fotoPerfil: usuario.fotoPerfil || '',
+                                modo: usuario.rol === 'ADMIN' ? 'admin' : 'user'
+                            }
+                        };
+                    }
                 }
             } catch (error) {
                 console.warn('⚠️ Error en API:', error);
             }
 
-            // 2. Fallback: Validar localmente
-            const usuarioLocal = CONFIG.CLAVES[credencial];
+            // 2. Fallback: Usuarios locales (por si la API falla)
+            const USERS_LOCAL = [
+                { Email: 'admin@ipe3.com', Nombre_Completo: 'Administrador Sistema', Rol: 'ADMIN', Departamento: 'Gerencia', Foto_Perfil: 'https://i.pravatar.cc/150?img=1' },
+                { Email: 'juan.perez@ipe3.com', Nombre_Completo: 'Juan Pérez', Rol: 'INGENIERO', Departamento: 'Ingeniería', Foto_Perfil: 'https://i.pravatar.cc/150?img=2' },
+                { Email: 'maria.garcia@ipe3.com', Nombre_Completo: 'María García', Rol: 'SUPERVISOR', Departamento: 'Operaciones', Foto_Perfil: 'https://i.pravatar.cc/150?img=3' },
+                { Email: 'carlos.lopez@ipe3.com', Nombre_Completo: 'Carlos López', Rol: 'TÉCNICO', Departamento: 'Mantenimiento', Foto_Perfil: 'https://i.pravatar.cc/150?img=4' },
+                { Email: 'ana.martinez@ipe3.com', Nombre_Completo: 'Ana Martínez', Rol: 'INGENIERO', Departamento: 'Control Calidad', Foto_Perfil: 'https://i.pravatar.cc/150?img=5' }
+            ];
+
+            const usuarioLocal = USERS_LOCAL.find(u => u.Email.toLowerCase() === email);
             if (usuarioLocal) {
                 return {
                     exito: true,
-                    usuario: usuarioLocal
-                };
-            }
-
-            // 3. Verificar si es un RUC de usuario (fallback adicional)
-            const userByRUC = CONFIG.USERS.find(u => u.ruc === credencial);
-            if (userByRUC) {
-                return {
-                    exito: true,
                     usuario: {
-                        nombre: userByRUC.name,
-                        rol: userByRUC.role,
-                        email: `${userByRUC.ruc}@ipe3.com`,
-                        modo: 'user'
+                        id: '',
+                        nombre: usuarioLocal.Nombre_Completo,
+                        rol: usuarioLocal.Rol,
+                        email: usuarioLocal.Email,
+                        departamento: usuarioLocal.Departamento,
+                        fotoPerfil: usuarioLocal.Foto_Perfil,
+                        modo: usuarioLocal.Rol === 'ADMIN' ? 'admin' : 'user'
                     }
                 };
             }
 
-            return { exito: false, error: 'Clave incorrecta' };
+            return { exito: false, error: 'Correo no registrado en el sistema' };
         }
 
         // ============================================
@@ -421,11 +431,17 @@
             e.preventDefault();
             hideError();
 
-            const credencial = accessKey.value.trim();
+            const email = userEmail.value.trim();
 
-            if (!credencial) {
-                showError('⚠️ Ingresa tu clave de acceso');
-                accessKey.focus();
+            if (!email) {
+                showError('⚠️ Ingresa tu correo electrónico');
+                userEmail.focus();
+                return;
+            }
+
+            if (!email.includes('@')) {
+                showError('⚠️ Ingresa un correo válido (ejemplo@dominio.com)');
+                userEmail.focus();
                 return;
             }
 
@@ -433,7 +449,7 @@
             loginBtn.classList.add('loading');
 
             try {
-                const resultado = await verificarLogin(credencial);
+                const resultado = await verificarLogin(email);
 
                 if (resultado.exito) {
                     // Guardar usuario en localStorage
@@ -446,12 +462,12 @@
                         window.location.href = 'dashboard.html';
                     }, 500);
                 } else {
-                    showError(`❌ ${resultado.error || 'Clave incorrecta'}`);
+                    showError(`❌ ${resultado.error || 'Usuario no encontrado'}`);
                     loginBtn.classList.remove('loading');
-                    accessKey.style.animation = 'shake 0.4s ease';
-                    setTimeout(() => accessKey.style.animation = '', 500);
-                    accessKey.value = '';
-                    accessKey.focus();
+                    userEmail.style.animation = 'shake 0.4s ease';
+                    setTimeout(() => userEmail.style.animation = '', 500);
+                    userEmail.value = '';
+                    userEmail.focus();
                 }
             } catch (error) {
                 showError('❌ Error al conectar con el servidor');
@@ -469,7 +485,7 @@
         // ============================================
         // ENTER KEY
         // ============================================
-        accessKey.addEventListener('keydown', (e) => {
+        userEmail.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 loginForm.dispatchEvent(new Event('submit'));
             }
@@ -492,26 +508,26 @@
         // ============================================
         // LOG Y ACCESO RÁPIDO
         // ============================================
-        console.log('🔐 IPE3 Engineering - Login Unificado');
+        console.log('🔐 IPE3 Engineering - Login con Email');
         console.log('🌐 API URL:', CONFIG.URL_API);
-        console.log('📋 Claves registradas:', Object.keys(CONFIG.CLAVES));
+        console.log('📧 Usa tu correo registrado para ingresar');
 
         // Acceso rápido desde consola
         window.__IPE3 = {
             config: CONFIG,
-            login: async (clave) => {
-                accessKey.value = clave;
+            login: async (email) => {
+                userEmail.value = email;
                 loginForm.dispatchEvent(new Event('submit'));
             },
             testAPI: async () => {
-                const result = await verificarLoginAPI('IPE3@2026');
-                console.log('🧪 Test API:', result);
-                return result;
+                const users = await obtenerUsuarios();
+                console.log('🧪 Usuarios desde API:', users);
+                return users;
             }
         };
         
-        console.log('💡 Acceso rápido: __IPE3.login("IPE3@2026")');
-        console.log('💡 Acceso rápido: __IPE3.login("20123456789")');
+        console.log('💡 Acceso rápido: __IPE3.login("admin@ipe3.com")');
+        console.log('💡 Acceso rápido: __IPE3.login("juan.perez@ipe3.com")');
         console.log('🧪 Probar API: __IPE3.testAPI()');
     </script>
 
