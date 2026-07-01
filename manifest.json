@@ -2,14 +2,11 @@
   "name": "IPE3 Engineering - Sistema Industrial",
   "short_name": "IPE3",
   "description": "Sistema de gestión industrial con monitoreo en tiempo real",
-  "start_url": "/index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#051424",
   "theme_color": "#00e5ff",
   "orientation": "portrait-primary",
-  "categories": ["business", "productivity"],
-  "lang": "es",
-  "dir": "ltr",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -65,21 +62,21 @@
       "name": "Dashboard",
       "short_name": "Dashboard",
       "description": "Ver panel de control",
-      "url": "/dashboard.html",
+      "url": "dashboard.html",
       "icons": [{ "src": "icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Equipos",
       "short_name": "Equipos",
       "description": "Gestionar equipos",
-      "url": "/equipos.html",
+      "url": "equipos.html",
       "icons": [{ "src": "icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Solicitudes",
       "short_name": "Solicitudes",
       "description": "Ver solicitudes",
-      "url": "/solicitudes.html",
+      "url": "solicitudes.html",
       "icons": [{ "src": "icons/icon-96x96.png", "sizes": "96x96" }]
     }
   ],
