@@ -15,10 +15,98 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     
-    <!-- [AQUÍ VA TODO EL CSS DE EQUIPOS - IGUAL QUE ANTES] -->
-    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#e6edff",
+                        "primary-fixed-dim": "#00daf3",
+                        "on-error": "#690005",
+                        "tertiary-container": "#c6d1e9",
+                        "secondary": "#c1c6db",
+                        "on-secondary-container": "#afb4c9",
+                        "on-surface": "#d4e4fa",
+                        "error": "#ffb4ab",
+                        "surface-container-highest": "#273647",
+                        "secondary-container": "#414658",
+                        "surface-container-high": "#1c2b3c",
+                        "surface-container-low": "#0d1c2d",
+                        "on-surface-variant": "#bac9cc",
+                        "background": "#051424",
+                        "on-tertiary": "#263143",
+                        "surface-dim": "#051424",
+                        "primary-container": "#00e5ff",
+                        "on-primary-fixed-variant": "#004f58",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#051424",
+                        "on-secondary": "#2a3040",
+                        "on-tertiary-fixed": "#111c2d",
+                        "tertiary-fixed-dim": "#bcc7de",
+                        "on-secondary-fixed": "#151b2b",
+                        "on-tertiary-fixed-variant": "#3c475a",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#d8e3fb",
+                        "on-tertiary-container": "#4f5a6e",
+                        "secondary-fixed-dim": "#c1c6db",
+                        "on-primary-container": "#00626e",
+                        "surface-container-lowest": "#010f1f",
+                        "surface-tint": "#00daf3",
+                        "inverse-primary": "#006875",
+                        "primary": "#c3f5ff",
+                        "outline": "#849396",
+                        "surface-bright": "#2c3a4c",
+                        "on-background": "#d4e4fa",
+                        "inverse-on-surface": "#233143",
+                        "surface-container": "#122131",
+                        "on-primary": "#00363d",
+                        "inverse-surface": "#d4e4fa",
+                        "outline-variant": "#3b494c",
+                        "surface-variant": "#273647",
+                        "primary-fixed": "#9cf0ff",
+                        "on-secondary-fixed-variant": "#414658",
+                        "secondary-fixed": "#dde2f8",
+                        "on-primary-fixed": "#001f24"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    spacing: {
+                        sm: "8px",
+                        lg: "24px",
+                        xl: "32px",
+                        xs: "4px",
+                        md: "16px",
+                        gutter: "16px",
+                        "margin-mobile": "20px",
+                        base: "4px"
+                    },
+                    fontFamily: {
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-display": ["JetBrains Mono"]
+                    },
+                    fontSize: {
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "data-display": ["18px", {"lineHeight": "24px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* [TODO EL CSS DE equipos.html - IGUAL QUE ANTES] */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #051424;
@@ -166,7 +254,7 @@
 </head>
 <body>
 
-    <!-- MODAL USUARIO (IGUAL QUE EN DASHBOARD) -->
+    <!-- MODAL USUARIO -->
     <div class="modal-overlay" id="userModal">
         <div class="modal-content">
             <div style="text-align: center; margin-bottom: 24px;">
@@ -272,17 +360,11 @@
     </nav>
 
     <script>
-        // ============================================
-        // CONFIGURACIÓN
-        // ============================================
         const API_CONFIG = {
             URL_BASE: 'https://script.google.com/macros/s/AKfycbxORCqvSBlO5RuKHBSk9a5V0vcJ_pY5MDB-QBZ93X1psNZC4CyzRUI17Rh9rIYLQ8EV/exec',
             DURACION_CACHE: 300000
         };
 
-        // ============================================
-        // USUARIO
-        // ============================================
         function getUserData() {
             try {
                 const data = localStorage.getItem('ipe3_user');
@@ -312,11 +394,13 @@
         function mostrarModal() {
             document.getElementById('userModal').classList.add('show');
         }
+
         function cerrarModal() {
             document.getElementById('userModal').classList.remove('show');
             localStorage.removeItem('ipe3_user');
             setTimeout(() => window.location.href = 'login.html', 300);
         }
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') document.getElementById('userModal').classList.remove('show');
         });
@@ -324,9 +408,6 @@
             if (e.target === e.currentTarget) document.getElementById('userModal').classList.remove('show');
         });
 
-        // ============================================
-        // RELOJ
-        // ============================================
         function actualizarReloj() {
             const ahora = new Date();
             document.getElementById('currentTime').textContent = ahora.toLocaleTimeString('es-ES', {
@@ -338,11 +419,9 @@
         setInterval(actualizarReloj, 1000);
         actualizarReloj();
 
-        // ============================================
-        // API
-        // ============================================
         class DashboardAPI {
             constructor() { this.cache = new Map(); }
+
             async obtenerDatos(endpoint, params = {}) {
                 const claveCache = `${endpoint}_${JSON.stringify(params)}`;
                 if (this.cache.has(claveCache)) {
@@ -366,6 +445,7 @@
                     return null;
                 }
             }
+
             async obtenerHistorial(idEquipo = null, dias = 7, limite = 100) {
                 return this.obtenerDatos('historial', { equipo: idEquipo, dias, limite });
             }
@@ -373,9 +453,6 @@
 
         const api = new DashboardAPI();
 
-        // ============================================
-        // DATOS DE EQUIPOS
-        // ============================================
         let equiposData = [];
         let filteredEquipos = [];
 
@@ -507,9 +584,6 @@
             filtrarEquipos(filtro, busqueda);
         }
 
-        // ============================================
-        // EVENTOS
-        // ============================================
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -526,9 +600,6 @@
             filtrarEquipos(filtro, e.target.value);
         });
 
-        // ============================================
-        // INICIALIZAR
-        // ============================================
         mostrarUsuario();
         cargarEquipos();
         setInterval(() => {
@@ -538,9 +609,7 @@
 
         console.log('🚀 IPE3 Equipos v3.0');
 
-        // ============================================
         // REGISTRO DEL SERVICE WORKER (RUTA RELATIVA)
-        // ============================================
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
