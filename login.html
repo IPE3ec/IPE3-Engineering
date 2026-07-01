@@ -1,1 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPE3 Engineering - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #051424;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* ============================================
+           FONDO ANIMADO
+           ============================================ */
+        .bg-login {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(0, 229, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(0, 229, 255, 0.03) 0%, transparent 50%),
+                #051424;
+        }
+
+        .bg-login .line {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.1), transparent);
+            animation: lineMove 8s infinite linear;
+        }
+
+        @keyframes lineMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* ============================================
+           CARD DE LOGIN
+           ============================================ */
+        .login-card {
+            position: relative;
+            z-index: 1;
+            background: rgba(18, 33, 49, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 229, 255, 0.15);
+            border-radius: 24px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 440px;
+            animation: slideUp 0.8s ease-out;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .login-card .back-btn {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            color: rgba(180, 200, 220, 0.4);
+            text-decoration: none;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s;
+        }
+
+        .login-card .back-btn:hover {
+            color: #00e5ff;
+        }
+
+        /* ============================================
+           LOGO EN LOGIN
+           ============================================ */
+        .login-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-logo .icon {
+            font-size: 48px;
+            color: #00e5ff;
+            filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.2));
+        }
+
+        .login-logo h2 {
+            color: #d4e4fa;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .login-logo p {
+            color: rgba(180, 200, 220, 0.5);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        /* ============================================
+           TABS
+           ============================================ */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 32px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: rgba(180, 200, 220, 0.5);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab.active {
+            background: rgba(0, 229, 255, 0.1);
+            color: #00e5ff;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.05);
+        }
+
+        .tab:hover:not(.active) {
+            color: rgba(180, 200, 220, 0.8);
+        }
+
+        .tab .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* ============================================
+           FORM
+           ============================================ */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(180, 200, 220, 0.6);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .form-group .input-wrapper {
+            position: relative;
+        }
+
+        .form-group .input-wrapper .material-symbols-outlined {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(180, 200, 220, 0.3);
+            font-size: 20px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px 14px 46px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 10px;
+            color: #d4e4fa;
+            font-size: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #00e5ff;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.05);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(180, 200, 220, 0.2);
+        }
+
+        .form-group input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ============================================
+           BOTÓN DE LOGIN
+           ============================================ */
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00e5ff, #00daf3);
+            color: #00363d;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+
+        .btn-login .material-symbols-outlined {
+            font-size: 22px;
+        }
+
+        .btn-login.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           LOADER
+           ============================================ */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 54, 61, 0.2);
+            border-top-color: #00363d;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .btn-login.loading .spinner {
+            display: block;
+        }
+
+        .btn-login.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============================================
+           ERROR MESSAGE
+           ============================================ */
+        .error-message {
+            background: rgba(147, 0, 10, 0.2);
+            border: 1px solid rgba(255, 180, 171, 0.2);
+            color: #ffb4ab;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            animation: shake 0.4s ease;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .error-message .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        /* ============================================
+           INFO ADICIONAL
+           ============================================ */
+        .login-footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(180, 200, 220, 0.2);
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 32px 20px;
+                margin: 16px;
+                border-radius: 16px;
+            }
+
+            .login-logo .icon {
+                font-size: 36px;
+            }
+
+            .login-logo h2 {
+                font-size: 1.2rem;
+            }
+
+            .tab {
+                font-size: 0.75rem;
+                padding: 8px;
+            }
+
+            .tab .material-symbols-outlined {
+                font-size: 16px;
+            }
+
+            .form-group input {
+                padding: 12px 14px 12px 40px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ============================================
+           TOAST NOTIFICATIONS
+           ============================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #00e5ff;
+        }
+
+        .toast.error {
+            background: rgba(255, 180, 171, 0.1);
+            border: 1px solid rgba(255, 180, 171, 0.3);
+            color: #ffb4ab;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    FONDO
+    ============================================ -->
+    <div class="bg-login">
+        <div class="line" style="top: 20%;"></div>
+        <div class="line" style="top: 50%; animation-delay: 2s;"></div>
+        <div class="line" style="top: 80%; animation-delay: 4s;"></div>
+    </div>
+
+    <!-- ============================================
+    TOAST
+    ============================================ -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ============================================
+    CARD DE LOGIN
+    ============================================ -->
+    <div class="login-card" id="loginCard">
+
+        <!-- Botón Volver -->
+        <a href="index.html" class="back-btn">
+            <span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span>
+            VOLVER
+        </a>
+
+        <!-- Logo -->
+        <div class="login-logo">
+            <span class="material-symbols-outlined icon">precision_manufacturing</span>
+            <h2>IPE3 Engineering</h2>
+            <p id="modeText">Acceso Administrador</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs" id="tabs">
+            <button class="tab active" data-mode="admin">
+                <span class="material-symbols-outlined">admin_panel_settings</span>
+                ADMIN
+            </button>
+            <button class="tab" data-mode="user">
+                <span class="material-symbols-outlined">badge</span>
+                USUARIO
+            </button>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" id="errorMessage">
+            <span class="material-symbols-outlined">error</span>
+            <span id="errorText">Credenciales incorrectas</span>
+        </div>
+
+        <!-- Form -->
+        <form id="loginForm" autocomplete="off">
+            <!-- Campo oculto para modo -->
+            <input type="hidden" id="modeInput" value="admin">
+
+            <!-- Campo Admin - Clave -->
+            <div class="form-group" id="adminField">
+                <label for="adminKey">🔑 Clave de Administrador</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-outlined">key</span>
+                    <input type="password" id="adminKey" placeholder="Ingresa la clave de administrador" required>
+                </div>
+            </div>
+
+            <!-- Campo Usuario - RUC -->
+            <div class="form-group" id="userField" style="display: none;">
+                <label for="userRUC">📋 RUC del Usuario</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-outlined">badge</span>
+                    <input type="text" id="userRUC" placeholder="Ingresa tu número de RUC" maxlength="13" pattern="[0-9]{11,13}">
+                </div>
+                <div style="margin-top: 8px; font-size: 0.7rem; color: rgba(180,200,220,0.3);">
+                    💡 Ejemplo: 20123456789
+                </div>
+            </div>
+
+            <!-- Botón Login -->
+            <button type="submit" class="btn-login" id="loginBtn">
+                <span class="spinner"></span>
+                <span class="btn-text">
+                    <span class="material-symbols-outlined">login</span>
+                    INGRESAR
+                </span>
+            </button>
+        </form>
+
+        <!-- Footer -->
+        <div class="login-footer">
+            ⚙️ SISTEMA SEGURO · v3.0.0
+        </div>
+    </div>
+
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
+    <script>
+        // ============================================
+        // CONFIGURACIÓN
+        // ============================================
+        const CONFIG = {
+            ADMIN_KEY: 'IPE3@2026', // Clave de administrador
+            USERS: [
+                { ruc: '20123456789', name: 'Juan Pérez', role: 'Ingeniero' },
+                { ruc: '20987654321', name: 'María García', role: 'Supervisor' },
+                { ruc: '20555555555', name: 'Carlos López', role: 'Técnico' },
+                { ruc: '20666666666', name: 'Ana Martínez', role: 'Ingeniero' },
+                { ruc: '20777777777', name: 'Admin Usuario', role: 'Administrador' }
+            ]
+        };
+
+        // ============================================
+        // DOM ELEMENTS
+        // ============================================
+        const tabs = document.querySelectorAll('.tab');
+        const modeInput = document.getElementById('modeInput');
+        const modeText = document.getElementById('modeText');
+        const adminField = document.getElementById('adminField');
+        const userField = document.getElementById('userField');
+        const adminKey = document.getElementById('adminKey');
+        const userRUC = document.getElementById('userRUC');
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const toast = document.getElementById('toast');
+
+        // ============================================
+        // DETECTAR MODO DESDE URL
+        // ============================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialMode = urlParams.get('mode') || 'admin';
+        setMode(initialMode);
+
+        // ============================================
+        // FUNCIÓN: CAMBIAR MODO
+        // ============================================
+        function setMode(mode) {
+            // Actualizar tabs
+            tabs.forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.mode === mode);
+            });
+
+            // Actualizar campos
+            if (mode === 'admin') {
+                adminField.style.display = 'block';
+                userField.style.display = 'none';
+                modeText.textContent = 'Acceso Administrador';
+                modeInput.value = 'admin';
+                adminKey.required = true;
+                userRUC.required = false;
+                // Limpiar errores
+                hideError();
+            } else {
+                adminField.style.display = 'none';
+                userField.style.display = 'block';
+                modeText.textContent = 'Acceso Usuario por RUC';
+                modeInput.value = 'user';
+                adminKey.required = false;
+                userRUC.required = true;
+                // Limpiar errores
+                hideError();
+            }
+        }
+
+        // ============================================
+        // FUNCIÓN: MOSTRAR ERROR
+        // ============================================
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.add('show');
+            // Ocultar después de 5 segundos
+            clearTimeout(window.errorTimeout);
+            window.errorTimeout = setTimeout(hideError, 5000);
+        }
+
+        function hideError() {
+            errorMessage.classList.remove('show');
+        }
+
+        // ============================================
+        // FUNCIÓN: MOSTRAR TOAST
+        // ============================================
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ============================================
+        // EVENTO: CAMBIO DE TAB
+        // ============================================
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const mode = tab.dataset.mode;
+                setMode(mode);
+                // Actualizar URL
+                const url = new URL(window.location);
+                url.searchParams.set('mode', mode);
+                window.history.pushState({}, '', url);
+            });
+        });
+
+        // ============================================
+        // EVENTO: ENVÍO DEL FORMULARIO
+        // ============================================
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError();
+
+            const mode = modeInput.value;
+
+            // Mostrar loading
+            loginBtn.classList.add('loading');
+
+            // Simular proceso (para mostrar animación)
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            try {
+                if (mode === 'admin') {
+                    // Validar clave de admin
+                    const key = adminKey.value.trim();
+                    if (key === CONFIG.ADMIN_KEY) {
+                        // Login exitoso - Admin
+                        const userData = {
+                            name: 'Administrador',
+                            role: 'Admin',
+                            email: 'admin@ipe3.com',
+                            mode: 'admin'
+                        };
+                        localStorage.setItem('ipe3_user', JSON.stringify(userData));
+                        showToast('✅ Bienvenido Administrador', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 500);
+                    } else {
+                        showError('❌ Clave de administrador incorrecta');
+                        loginBtn.classList.remove('loading');
+                        // Shake animation
+                        adminKey.style.animation = 'shake 0.4s ease';
+                        setTimeout(() => adminKey.style.animation = '', 500);
+                    }
+                } else {
+                    // Validar RUC de usuario
+                    const ruc = userRUC.value.trim();
+                    const user = CONFIG.USERS.find(u => u.ruc === ruc);
+                    
+                    if (user) {
+                        // Login exitoso - Usuario
+                        const userData = {
+                            name: user.name,
+                            role: user.role,
+                            ruc: user.ruc,
+                            mode: 'user'
+                        };
+                        localStorage.setItem('ipe3_user', JSON.stringify(userData));
+                        showToast(`✅ Bienvenido ${user.name}`, 'success');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 500);
+                    } else {
+                        showError('❌ RUC no registrado en el sistema');
+                        loginBtn.classList.remove('loading');
+                        // Shake animation
+                        userRUC.style.animation = 'shake 0.4s ease';
+                        setTimeout(() => userRUC.style.animation = '', 500);
+                    }
+                }
+            } catch (error) {
+                showError('❌ Error en el servidor. Intenta de nuevo.');
+                loginBtn.classList.remove('loading');
+            }
+
+            // Si no hubo éxito, remover loading después de 3 segundos
+            setTimeout(() => {
+                if (loginBtn.classList.contains('loading')) {
+                    loginBtn.classList.remove('loading');
+                }
+            }, 3000);
+        });
+
+        // ============================================
+        // ENTER KEY EN CAMPOS
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const activeElement = document.activeElement;
+                if (activeElement === adminKey || activeElement === userRUC) {
+                    loginForm.dispatchEvent(new Event('submit'));
+                }
+            }
+        });
+
+        // ============================================
+        // VALIDACIÓN DE RUC EN TIEMPO REAL
+        // ============================================
+        userRUC.addEventListener('input', () => {
+            // Solo números
+            userRUC.value = userRUC.value.replace(/\D/g, '');
+            // Limitar a 13 dígitos
+            if (userRUC.value.length > 13) {
+                userRUC.value = userRUC.value.slice(0, 13);
+            }
+        });
+
+        // ============================================
+        // EFECTO DE PARALLAX EN CARD
+        // ============================================
+        const card = document.querySelector('.login-card');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 4;
+            const y = (e.clientY / window.innerHeight - 0.5) * 4;
+            card.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
+        });
+
+        // ============================================
+        // LOG
+        // ============================================
+        console.log('🔐 IPE3 Engineering - Sistema de Login');
+        console.log('📋 Modos: Admin (clave) | Usuario (RUC)');
+        console.log('👤 Usuarios registrados:', CONFIG.USERS);
+        console.log('🔑 Clave Admin:', CONFIG.ADMIN_KEY);
+
+        // ============================================
+        // ACCESO RÁPIDO POR CONSOLA (SOLO DESARROLLO)
+        // ============================================
+        window.__IPE3 = {
+            config: CONFIG,
+            login: (mode, credential) => {
+                if (mode === 'admin') {
+                    adminKey.value = credential;
+                    loginForm.dispatchEvent(new Event('submit'));
+                } else {
+                    userRUC.value = credential;
+                    loginForm.dispatchEvent(new Event('submit'));
+                }
+            }
+        };
+        console.log('💡 Acceso rápido: __IPE3.login("admin", "IPE3@2026")');
+        console.log('💡 Acceso rápido: __IPE3.login("user", "20123456789")');
+    </script>
+
+</body>
+</html>
