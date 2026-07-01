@@ -44,22 +44,9 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .icon {
-            font-size: 72px;
-            color: #ffb4ab;
-            margin-bottom: 16px;
-        }
-        .title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #d4e4fa;
-            margin-bottom: 8px;
-        }
-        .subtitle {
-            color: rgba(180, 200, 220, 0.5);
-            font-size: 0.9rem;
-            margin-bottom: 24px;
-        }
+        .icon { font-size: 72px; color: #ffb4ab; margin-bottom: 16px; }
+        .title { font-size: 1.5rem; font-weight: 700; color: #d4e4fa; margin-bottom: 8px; }
+        .subtitle { color: rgba(180, 200, 220, 0.5); font-size: 0.9rem; margin-bottom: 24px; }
         .btn {
             padding: 14px 32px;
             border-radius: 12px;
@@ -95,7 +82,6 @@
 </head>
 <body>
     <div class="bg-animation"></div>
-    
     <div class="offline-card">
         <span class="material-symbols-outlined icon">wifi_off</span>
         <h1 class="title">Sin Conexión</h1>
@@ -118,15 +104,8 @@
     </div>
 
     <script>
-        // Intentar reconectar automáticamente
-        setInterval(() => {
-            if (navigator.onLine) {
-                location.reload();
-            }
-        }, 30000);
-
+        setInterval(() => { if (navigator.onLine) location.reload(); }, 30000);
         console.log('📴 IPE3 - Modo offline');
-        console.log('🔄 Reconectando automáticamente cada 30 segundos');
     </script>
 </body>
 </html>
