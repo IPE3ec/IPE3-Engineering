@@ -528,3 +528,371 @@
                 second: '2-digit'
             });
         }
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
+
+        // ============================================
+        // API PARA DATOS DEL DASHBOARD
+        // ============================================
+        class DashboardAPI {
+            constructor() {
+                this.cache = new Map();
+            }
+
+            async obtenerDatos(endpoint, params = {}) {
+                const claveCache = `${endpoint}_${JSON.stringify(params)}`;
+                
+                if (this.cache.has(claveCache)) {
+                    const cacheado = this.cache.get(claveCache);
+                    if (Date.now() - cacheado.timestamp < API_CONFIG.DURACION_CACHE) {
+                        return cacheado.datos;
+                    }
+                }
+
+                try {
+                    const url = new URL(API_CONFIG.URL_BASE);
+                    url.searchParams.append('endpoint', endpoint);
+                    
+                    Object.entries(params).forEach(([key, value]) => {
+                        if (value !== null && value !== undefined) {
+                            url.searchParams.append(key, value);
+                        }
+                    });
+
+                    const response = await fetch(url.toString());
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status}`);
+                    }
+
+                    const datos = await response.json();
+                    
+                    this.cache.set(claveCache, {
+                        datos: datos,
+                        timestamp: Date.now()
+                    });
+
+                    return datos;
+
+                } catch (error) {
+                    console.error(`Error obteniendo ${endpoint}:`, error);
+                    return null;
+                }
+            }
+
+            async obtenerMetricas() {
+                return this.obtenerDatos('metricas');
+            }
+
+            async obtenerAlertas(prioridad = null, estado = null) {
+                return this.obtenerDatos('alertas', { prioridad, estado });
+            }
+
+            async obtenerMantenimientos(estado = null, dias = 30) {
+                return this.obtenerDatos('mantenimientos', { estado, dias });
+            }
+        }
+
+        const api = new DashboardAPI();
+
+        // ============================================
+        // CARGAR DATOS DEL DASHBOARD
+        // ============================================
+        async function cargarDashboard() {
+            try {
+                // 1. Cargar métricas
+                const metricas = await api.obtenerMetricas();
+                if (metricas && !metricas.error) {
+                    actualizarStats(metricas);
+                }
+
+                // 2. Cargar alertas
+                const alertas = await api.obtenerAlertas(null, null);
+                if (alertas && !alertas.error) {
+                    actualizarAlertas(alertas);
+                }
+
+                // 3. Cargar mantenimientos
+                const mantenimientos = await api.obtenerMantenimientos(null, 30);
+                if (mantenimientos && !mantenimientos.error) {
+                    actualizarMantenimientos(mantenimientos);
+                }
+
+            } catch (error) {
+                console.error('❌ Error cargando dashboard:', error);
+                // Usar datos de respaldo
+                usarDatosRespaldo();
+            }
+        }
+
+        // ============================================
+        // ACTUALIZAR STATS
+        // ============================================
+        function actualizarStats(metricas) {
+            const statsGrid = document.getElementById('statsGrid');
+            
+            // Mapeo de métricas a stats
+            const statsMap = {
+                'Tasa Operacional': { icon: 'trending_up', color: 'text-primary-fixed-dim' },
+                'Unidades Activas': { icon: 'settings_input_component', color: 'text-on-surface' },
+                'Alertas Críticas': { icon: 'error', color: 'text-error' },
+                'Tareas Pendientes': { icon: 'pending_actions', color: 'text-primary-container' }
+            };
+
+            let html = '';
+            metricas.forEach(metrica => {
+                const stat = statsMap[metrica.nombre];
+                if (stat) {
+                    const isCritical = metrica.nombre === 'Alertas Críticas';
+                    const valor = metrica.valor;
+                    const unidad = metrica.unidad || '';
+                    
+                    html += `
+                        <div class="glass-card p-4 rounded-xl flex flex-col justify-between animate-enter ${isCritical ? 'border-l-4 border-l-error' : ''}">
+                            <span class="font-label-caps text-label-caps text-on-surface-variant">${metrica.nombre.toUpperCase()}</span>
+                            <div class="flex items-end justify-between mt-2">
+                                <span class="font-data-display text-3xl ${stat.color}">${valor}${unidad === '%' ? '%' : ''}</span>
+                                <span class="material-symbols-outlined ${stat.color} opacity-50">${stat.icon}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            statsGrid.innerHTML = html;
+        }
+
+        // ============================================
+        // ACTUALIZAR ALERTAS
+        // ============================================
+        function actualizarAlertas(alertas) {
+            const container = document.getElementById('alertsContainer');
+            const count = document.getElementById('alertCount');
+            
+            // Filtrar alertas activas (no resueltas)
+            const activas = alertas.filter(a => a.estado !== 'RESUELTA' && a.estado !== 'RESUELTO');
+            count.textContent = activas.length;
+
+            if (activas.length === 0) {
+                container.innerHTML = `
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <span class="material-symbols-outlined text-on-surface-variant opacity-30" style="font-size: 48px;">check_circle</span>
+                        <p class="text-on-surface-variant text-sm mt-2">✅ No hay alertas activas</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Mostrar hasta 5 alertas
+            const mostrar = activas.slice(0, 5);
+            let html = '';
+            mostrar.forEach(alerta => {
+                const isCritical = alerta.prioridad === 'CRÍTICA' || alerta.prioridad === 'CRÍTICO';
+                const isWarning = alerta.prioridad === 'ALTA';
+                const statusClass = isCritical ? 'status-critical' : isWarning ? 'status-warning' : '';
+
+                html += `
+                    <div class="glass-card p-4 rounded-xl ${statusClass} group hover:bg-surface-container-highest transition-colors">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-body-lg text-on-surface font-bold">${alerta.equipo}</h3>
+                                <p class="font-body-sm text-on-surface-variant">${alerta.descripcion}</p>
+                            </div>
+                            <span class="material-symbols-outlined ${isCritical ? 'text-error' : 'text-tertiary'}" style="font-variation-settings: 'FILL' ${isCritical ? 1 : 0};">
+                                ${isCritical ? 'warning' : 'vibration'}
+                            </span>
+                        </div>
+                        <div class="mt-4 flex gap-2 flex-wrap">
+                            <span class="bg-error-container text-error font-label-caps text-[10px] px-2 py-1 rounded">${alerta.prioridad}</span>
+                            <span class="bg-surface-container text-on-surface-variant font-label-caps text-[10px] px-2 py-1 rounded">${alerta.zona || 'N/A'}</span>
+                            <span class="bg-secondary-container text-on-secondary-container font-label-caps text-[10px] px-2 py-1 rounded">${alerta.estado}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ============================================
+        // ACTUALIZAR MANTENIMIENTOS
+        // ============================================
+        function actualizarMantenimientos(mantenimientos) {
+            const tbody = document.getElementById('maintenanceTable');
+            
+            if (!mantenimientos || mantenimientos.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="p-4 text-center text-on-surface-variant opacity-50">
+                            No hay mantenimientos programados
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Mostrar hasta 5
+            const mostrar = mantenimientos.slice(0, 5);
+            let html = '';
+            mostrar.forEach(mant => {
+                const fecha = new Date(mant.fechaVencimiento);
+                const fechaStr = fecha.toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+
+                const estadoClass = mant.estado === 'COMPLETADO' || mant.estado === 'COMPLETED' 
+                    ? 'bg-primary-container/20 text-primary-container border border-primary-container'
+                    : mant.estado === 'EN_PROGRESO' || mant.estado === 'IN_PROGRESS'
+                    ? 'bg-secondary-container/30 text-secondary-fixed-dim border border-secondary-container'
+                    : 'bg-surface-container-highest text-on-surface-variant border border-outline-variant';
+
+                const estadoLabel = mant.estado === 'COMPLETADO' || mant.estado === 'COMPLETED' 
+                    ? 'COMPLETADO'
+                    : mant.estado === 'EN_PROGRESO' || mant.estado === 'IN_PROGRESS'
+                    ? 'EN PROGRESO'
+                    : mant.estado;
+
+                html += `
+                    <tr class="hover:bg-surface-container-highest transition-colors">
+                        <td class="p-4 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded bg-surface-container-low flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary-container">settings</span>
+                            </div>
+                            <span class="font-body-sm font-bold">${mant.equipo}</span>
+                        </td>
+                        <td class="p-4 font-body-sm text-on-surface-variant">${mant.tipoTarea || mant.taskType || 'N/A'}</td>
+                        <td class="p-4 font-body-sm font-data-display">${fechaStr}</td>
+                        <td class="p-4">
+                            ${mant.asignadoA ? `
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full border-2 border-surface-container overflow-hidden bg-secondary-container flex items-center justify-center text-xs">
+                                        ${mant.asignadoA.charAt(0).toUpperCase()}
+                                    </div>
+                                    <span class="text-xs text-on-surface-variant">${mant.asignadoA}</span>
+                                </div>
+                            ` : `
+                                <span class="text-on-surface-variant font-label-caps text-[10px]">NO ASIGNADO</span>
+                            `}
+                        </td>
+                        <td class="p-4">
+                            <span class="${estadoClass} font-label-caps text-[10px] px-2 py-1 rounded">${estadoLabel}</span>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // ============================================
+        // DATOS DE RESPALDO (SI LA API FALLA)
+        // ============================================
+        function usarDatosRespaldo() {
+            // Métricas de respaldo
+            const metricasRespaldo = [
+                { nombre: 'Tasa Operacional', valor: 94, unidad: '%', color: 'text-primary-fixed-dim', icon: 'trending_up' },
+                { nombre: 'Unidades Activas', valor: 128, unidad: '', color: 'text-on-surface', icon: 'settings_input_component' },
+                { nombre: 'Alertas Críticas', valor: 3, unidad: '', color: 'text-error', icon: 'error' },
+                { nombre: 'Tareas Pendientes', valor: 12, unidad: '', color: 'text-primary-container', icon: 'pending_actions' }
+            ];
+            actualizarStats(metricasRespaldo);
+
+            // Alertas de respaldo
+            const alertasRespaldo = [
+                { equipo: 'Turbina XT-500', descripcion: 'Presión excedida (450 PSI)', prioridad: 'CRÍTICA', zona: 'ZONA A4', estado: 'EN_PROGRESO' },
+                { equipo: 'Motor Conveyor B1', descripcion: 'Vibración anormal detectada', prioridad: 'ALTA', zona: 'ZONA B2', estado: 'ABIERTA' },
+                { equipo: 'UPS Servidor Principal', descripcion: 'Batería por debajo del 15%', prioridad: 'CRÍTICA', zona: 'SALA SERVIDORES', estado: 'ABIERTA' }
+            ];
+            actualizarAlertas(alertasRespaldo);
+
+            // Mantenimientos de respaldo
+            const mantRespaldo = [
+                { equipo: 'Bomba Hidráulica P1', tipoTarea: 'Reemplazo de Sellos', fechaVencimiento: new Date(Date.now() + 86400000), asignadoA: 'Juan Pérez', estado: 'PROGRAMADO' },
+                { equipo: 'Controlador Array', tipoTarea: 'Actualización Firmware', fechaVencimiento: new Date(Date.now() + 172800000), asignadoA: 'María García', estado: 'EN_PROGRESO' },
+                { equipo: 'Chiller HVAC #2', tipoTarea: 'Limpieza de Filtros', fechaVencimiento: new Date(Date.now() + 259200000), asignadoA: null, estado: 'ABIERTO' }
+            ];
+            actualizarMantenimientos(mantRespaldo);
+
+            console.warn('⚠️ Usando datos de respaldo (sin conexión a API)');
+        }
+
+        // ============================================
+        // BOTÓN DE ACTUALIZAR
+        // ============================================
+        document.getElementById('refreshBtn').addEventListener('click', () => {
+            const btn = document.getElementById('refreshBtn');
+            btn.innerHTML = 'ACTUALIZANDO <span class="material-symbols-outlined text-sm">refresh</span>';
+            btn.disabled = true;
+            
+            // Limpiar caché
+            api.cache.clear();
+            
+            cargarDashboard().then(() => {
+                btn.innerHTML = 'ACTUALIZADO ✓';
+                setTimeout(() => {
+                    btn.innerHTML = 'ACTUALIZAR <span class="material-symbols-outlined text-sm">refresh</span>';
+                    btn.disabled = false;
+                }, 1500);
+            });
+        });
+
+        // ============================================
+        // BOTÓN DE ESCANEO
+        // ============================================
+        document.getElementById('scanBtn').addEventListener('click', () => {
+            const btn = document.getElementById('scanBtn');
+            btn.innerHTML = '<span class="material-symbols-outlined">scanning</span> ESCANEANDO...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">qr_code_scanner</span> ESCANEAR';
+                btn.disabled = false;
+                
+                // Mostrar notificación
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+                    background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3);
+                    color: #00e5ff; padding: 12px 24px; border-radius: 12px;
+                    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+                    z-index: 1000; animation: fadeIn 0.3s ease;
+                `;
+                toast.textContent = '✅ Equipo registrado: SCAN-2026-001';
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }, 2000);
+        });
+
+        // ============================================
+        // BÚSQUEDA EN TIEMPO REAL
+        // ============================================
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            // Filtrar filas de la tabla
+            const rows = document.querySelectorAll('#maintenanceTable tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+
+        // ============================================
+        // INICIALIZAR
+        // ============================================
+        mostrarUsuario();
+        cargarDashboard();
+
+        // Actualizar cada 5 minutos
+        setInterval(() => {
+            api.cache.clear();
+            cargarDashboard();
+        }, 300000);
+
+        console.log('🚀 Dashboard IPE3 Engineering v3.0');
+        console.log('👤 Usuario:', user);
+        console.log('📊 Sistema listo para monitoreo industrial');
+    </script>
+
+</body>
+</html>
